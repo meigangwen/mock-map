@@ -9,8 +9,7 @@ export default function App() {
     return (
         <Canvas 
             frameloop="demand" 
-            orthographic 
-            camera={{ position: [0, 0, 50], 
+            camera={{ position: [0, 0, 100], 
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 10000 }}
