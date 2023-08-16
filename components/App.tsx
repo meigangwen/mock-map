@@ -18,7 +18,7 @@ export default function App() {
             <Suspense fallback={null}>
                 <Svg url="./svg/map.svg" />
             </Suspense>
-            <MapControls enableRotate={false} />
+            <MapControls enableRotate={true} />
         </Canvas>
     )
 }

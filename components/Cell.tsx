@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-//import * as THREE from 'three'
 
 export default function Cell({ color, shape, fillOpacity }) {
 
