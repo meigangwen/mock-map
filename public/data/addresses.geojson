@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "addresses",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "osm_id": 8419773591, "amenity": "kindergarten", "addr:housenumber": "351", "name": "PCF Sparkletots", "shop": null, "brand": null, "phone": "+65 6242 6837", "addr:postcode": "540351", "addr:city": "Singapore", "preschool": "yes", "addr:street": "Anchorvale Road", "brand:wikidata": null, "opening_hours": null, "name:zh": null, "website": null, "level": null, "air_conditioning": null }, "geometry": { "type": "Point", "coordinates": [ 103.8864878, 1.3934614 ] } },
+{ "type": "Feature", "properties": { "osm_id": 6817854870, "amenity": null, "addr:housenumber": "351", "name": "Sheng Siong", "shop": "supermarket", "brand": "Sheng Siong", "phone": null, "addr:postcode": "540351", "addr:city": "Singapore", "preschool": null, "addr:street": "Anchorvale Road", "brand:wikidata": "Q3481878", "opening_hours": "24\/7", "name:zh": "昇菘超市", "website": null, "level": null, "air_conditioning": null }, "geometry": { "type": "Point", "coordinates": [ 103.8870307, 1.393146 ] } },
+{ "type": "Feature", "properties": { "osm_id": 8419773589, "amenity": null, "addr:housenumber": "351", "name": "Prima Deli", "shop": "bakery", "brand": null, "phone": null, "addr:postcode": "540351", "addr:city": "Singapore", "preschool": null, "addr:street": "Anchorvale Road", "brand:wikidata": null, "opening_hours": null, "name:zh": null, "website": null, "level": null, "air_conditioning": null }, "geometry": { "type": "Point", "coordinates": [ 103.88704, 1.3932068 ] } },
+{ "type": "Feature", "properties": { "osm_id": 8254154696, "amenity": "restaurant", "addr:housenumber": "326", "name": "Lepak One Corner by Yassin Kampung", "shop": null, "brand": null, "phone": "+65 6920 8808", "addr:postcode": "540326", "addr:city": "Singapore", "preschool": null, "addr:street": "Anchorvale Road", "brand:wikidata": null, "opening_hours": "Mo-Su 10:00-23:00", "name:zh": null, "website": "http:\/\/yassin.com.sg\/menu-sengkang", "level": "0", "air_conditioning": "yes" }, "geometry": { "type": "Point", "coordinates": [ 103.8884548, 1.3947869 ] } }
+]
+}
