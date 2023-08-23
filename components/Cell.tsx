@@ -10,6 +10,7 @@ export default function Cell({ color, shape, fillOpacity }) {
         const [hovered, hover] = useState(false)
     
     useEffect(() => void (document.body.style.cursor = hovered ? `url('${hoveredCursor}'), pointer` : `url('${defaultCursor}'), auto`), [hovered])
+    console.log(shape)
     return (
       <mesh onPointerOver={(e) => hover(true)} onPointerOut={() => hover(false)}>
         <meshBasicMaterial color={hovered ? 'hotpink' : color} opacity={fillOpacity} depthWrite={false} transparent />

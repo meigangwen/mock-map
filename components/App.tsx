@@ -3,9 +3,11 @@
 import { Canvas } from '@react-three/fiber'
 import { MapControls } from '@react-three/drei'
 import { Suspense, useEffect } from 'react'
-//import Svg from '@/components/Svg'
+import Svg from '@/components/Svg'
 import Buildings from '@/components/Buildings'
 import maplibregl from 'maplibre-gl'
+import * as THREE from 'three'
+
 
 export default function App() {
     
@@ -13,32 +15,16 @@ export default function App() {
     const mapOrigin = [103.88544,1.39232]
     const mapOriginMercator = maplibregl.MercatorCoordinate.fromLngLat( mapOrigin , 0 )
 
-    //console.log(mapOriginMercator)
+    // <Buildings url='data/buildings.geojson'/>
+    // <Svg url='svg/map.svg' />
+    //  <shapeGeometry args={[[0,0,0],[1,1,0],[1,2,0]]} />
 
-    
-    /*
-    function fetchJSON(url) {
-        return fetch(url)
-          .then(function(response) {
-            return response.json();
-          })
-    }
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 0.5);
+    shape.lineTo(-0.5, -0.5);
+    shape.lineTo(0.5, -0.5);
+    shape.lineTo(0, 0.5);
 
-    useEffect(() => {
-        var geoData = fetchJSON('data/addresses.geojson')
-            .then(function(data) { 
-
-        data.features.forEach(function(feature) {
-                console.log(feature)
-                var symbol = feature.properties['icon']
-                console.log(symbol)
-        })
-
-    })
-
-    },[])
-    */
-    
     return (
         <Canvas 
             frameloop="demand" 
@@ -48,7 +34,11 @@ export default function App() {
                       far: 10000 }}
         >
             <Suspense fallback={null}>
-                <Buildings url='data/buildings.geojson'/>
+                <mesh >
+                    <meshBasicMaterial color='red' side={THREE.DoubleSide} />
+                    <shapeGeometry args={[shape]} />
+                </mesh>
+              
             </Suspense>
             <MapControls enableRotate={true} />
         </Canvas>

@@ -1,5 +1,7 @@
 
 import { useRef, useLayoutEffect, useEffect, useMemo } from 'react'
+import Building from '@/components/Building'
+import maplibregl from 'maplibre-gl'
 
 export default function Buildings({url}) {
     function fetchJSON(url) {
@@ -9,28 +11,30 @@ export default function Buildings({url}) {
           })
     }
 
-    /*
+    var buildings = [] 
+
     useEffect(() => {
-        var geoData = fetchJSON(url)
+        var buildingsData = fetchJSON(url)
             .then(function(data) { 
 
-            data.features.forEach(function(feature) {
-                console.log(feature)
-                var symbol = feature.properties['icon']
-                console.log(symbol)
+            data.features.forEach(function(feature:any) {
+
+                buildings.push(feature.geometry.coordinates)
             })
         })
     },[])
-    */
 
-    const buildingsData = useMemo(() => {
-
-
-    }, [])
+    //console.log(buildings)
+    // replace the above code using useMemo()
+    // replace the above code using the filtering functions of javascript arrays, such as map, flatMap
 
     return (
-        <>
-        </>
+        <group>
+            {
+                buildings.map((building, index) => (
+                    <Building key={index} coordinates={building} />
+                ))}
+        </group>
     )
 }
 
