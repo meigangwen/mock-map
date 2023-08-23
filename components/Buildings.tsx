@@ -1,18 +1,10 @@
-
 import { useState, useEffect } from 'react'
-import Building from '@/components/Building'
 import maplibregl from 'maplibre-gl'
-import * as THREE from 'three'
-
-//{
-//    buildingList.map((building, index) => {
-//        return <Building key={index} coordinates={building} />
-//    })
-//}
+import Building from '@/components/Building'
 
 export default function Buildings({url, scale, origin}) {
 
-    const [data, setData] = useState([])
+    const [buildingsData, setBuildingsData] = useState([])
 
     useEffect(() => {
         fetch(url)                  // loading geo json file 
@@ -24,17 +16,18 @@ export default function Buildings({url, scale, origin}) {
             // load the json string into an object
             let buildingList:any[] = []
             data.features.forEach(function(feature:any) {
-                // conver the coordinates from lat lon to 3D
-                var building = feature.geometry.coordinates[0].map((lonlat) => {
-                    return maplibregl.MercatorCoordinate.fromLngLat( lonlat , 0 )
                 
+                const building = feature.geometry.coordinates[0].map((lonlat) => {
+                    var coordinate = maplibregl.MercatorCoordinate.fromLngLat( lonlat , 0 )
+                    // convert the coordinates to world scale 
+                    coordinate.x = coordinate.x * scale - origin[0]
+                    coordinate.y = coordinate.y * scale - origin[1]
+                    return coordinate
                 })
                 buildingList.push(building)
             })
-            //console.log(buildingList)
-            //console.log(buildingList.length)
-
-            setData(buildingList)        
+           
+            setBuildingsData(buildingList)        
         })
         .catch(error => {
             console.log(error)
@@ -44,12 +37,10 @@ export default function Buildings({url, scale, origin}) {
     return (
         <group>
             {
-                data.map((building, index) => {
+                buildingsData.map((buildingData, index) => {
                     return <Building 
                                 key={index} 
-                                coordinates={building} 
-                                scale={scale} 
-                                origin={origin} />
+                                coordinates={buildingData} />
                 })
             }
         </group>

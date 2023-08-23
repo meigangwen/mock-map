@@ -2,25 +2,24 @@
 
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls } from '@react-three/drei'
-import { Suspense, useEffect } from 'react'
-import Svg from '@/components/Svg'
-import Buildings from '@/components/Buildings'
+import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
-import * as THREE from 'three'
-
+import Buildings from '@/components/Buildings'
 
 export default function App() {
     
     // calculate the map origin point
-    const mapOrigin = [103.88544,1.39232]
-    const mapOriginMercator = maplibregl.MercatorCoordinate.fromLngLat( mapOrigin , 0 )
+    const mapOriginLngLat = [103.88544,1.39232]
+    const mapOriginMercator = maplibregl.MercatorCoordinate.fromLngLat( mapOriginLngLat , 0 )
+    
+    // calculate scale so that we can use meters as unit
     const scale = 1 / mapOriginMercator.meterInMercatorCoordinateUnits()
-    const origin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
+    const mapOrigin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
     
     return (
         <Canvas 
             frameloop="demand" 
-            camera={{ position: [0, 0, 100], 
+            camera={{ position: [0, 0, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 10000 }}
@@ -29,7 +28,7 @@ export default function App() {
                 <Buildings 
                     url='data/buildings.geojson'
                     scale={scale}
-                    origin={origin} 
+                    origin={mapOrigin} 
                 />
             </Suspense>
             <MapControls enableRotate={true} />
