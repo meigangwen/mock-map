@@ -19,6 +19,12 @@ export default function App() {
     // <Svg url='svg/map.svg' />
     //  <shapeGeometry args={[[0,0,0],[1,1,0],[1,2,0]]} />
 
+    // <mesh >
+    //     <meshBasicMaterial color='red' side={THREE.DoubleSide} />
+    //     <shapeGeometry args={[shape]} />
+    // </mesh>
+
+
     const shape = new THREE.Shape();
     shape.moveTo(0, 0.5);
     shape.lineTo(-0.5, -0.5);
@@ -34,11 +40,7 @@ export default function App() {
                       far: 10000 }}
         >
             <Suspense fallback={null}>
-                <mesh >
-                    <meshBasicMaterial color='red' side={THREE.DoubleSide} />
-                    <shapeGeometry args={[shape]} />
-                </mesh>
-              
+                <Buildings url='data/buildings.geojson'/>
             </Suspense>
             <MapControls enableRotate={true} />
         </Canvas>
