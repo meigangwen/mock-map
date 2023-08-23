@@ -13,7 +13,7 @@ export default function Building( { coordinates } ) {
     }
     shape.lineTo(coordinates[0].x, coordinates[0].y)
 
-    
+    console.log(coordinates)
 
     return (
         <mesh >
