@@ -25,17 +25,17 @@ export default function App() {
     // </mesh>
 
 
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0.5);
-    shape.lineTo(-0.5, -0.5);
-    shape.lineTo(0.5, -0.5);
-    shape.lineTo(0, 0.5);
+    const shape = new THREE.Shape()
+    shape.moveTo(0, 0.5)
+    shape.lineTo(-0.5, -0.5)
+    shape.lineTo(0.5, -0.5)
+    shape.lineTo(0, 0.5)
 
     return (
         <Canvas 
             frameloop="demand" 
             camera={{ position: [mapOriginMercator.x, mapOriginMercator.y, 100], 
-                      zoom: 2, 
+                      zoom: 18, 
                       up: [0, 0, 1], 
                       far: 10000 }}
         >
