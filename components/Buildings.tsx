@@ -10,7 +10,7 @@ import * as THREE from 'three'
 //    })
 //}
 
-export default function Buildings({url}) {
+export default function Buildings({url, scale, origin}) {
 
     const [data, setData] = useState([])
 
@@ -41,21 +41,15 @@ export default function Buildings({url}) {
         }) 
     }, [])
 
-    //console.log(data)
-    //console.log(data.length)
-    
-    
-    const shape = new THREE.Shape()
-    shape.moveTo(0, 0.5)
-    shape.lineTo(-0.5, -0.5)
-    shape.lineTo(0.5, -0.5)
-    shape.lineTo(0, 0.5)
-
     return (
         <group>
             {
                 data.map((building, index) => {
-                    return <Building key={index} coordinates={building} />
+                    return <Building 
+                                key={index} 
+                                coordinates={building} 
+                                scale={scale} 
+                                origin={origin} />
                 })
             }
         </group>
