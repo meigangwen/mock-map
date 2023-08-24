@@ -24,6 +24,8 @@ export default function Landcover({url, scale, origin}) {
                     // convert the coordinates to world scale 
                     coordinate.x = coordinate.x * scale - origin[0]
                     coordinate.y = coordinate.y * scale - origin[1]
+                    coordinate.y *= -1
+
                     return coordinate
                 })
 

@@ -27,7 +27,7 @@ export default function Building( { buildingData } ) {
          const street = buildingData.properties["addr:street"]
          const levels = buildingData.properties["building:levels"]
          
-         console.log(housenumber, street, postcode, parking, residential, levels, amenity, building, name, power)
+         //console.log(housenumber, street, postcode, parking, residential, levels, amenity, building, name, power)
  
          const shape = new THREE.Shape()
         // move to the first point
