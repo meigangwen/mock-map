@@ -1,7 +1,7 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { Stats, MapControls } from '@react-three/drei'
+import { Stats, MapControls, Environment} from '@react-three/drei'
 import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
 import Buildings from '@/components/Buildings'
@@ -18,7 +18,8 @@ export default function App() {
     
     return (
         <Canvas 
-            frameloop="demand" 
+            frameloop="demand"
+            shadows
             camera={{ position: [0, 0, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
@@ -30,7 +31,9 @@ export default function App() {
                     scale={scale}
                     origin={mapOrigin} 
                 />
+                <Environment preset="city" />
             </Suspense>
+            <directionalLight position={[500, 150, 300]} intensity={1} castShadow />
             <MapControls enableRotate={true} />
             <axesHelper args={[5]} />
             <gridHelper rotation-x={Math.PI / 2} />
