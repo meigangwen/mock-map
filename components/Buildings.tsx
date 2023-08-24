@@ -17,17 +17,21 @@ export default function Buildings({url, scale, origin}) {
             let buildingList:any[] = []
             data.features.forEach(function(feature:any) {
                 
-                const building = feature.geometry.coordinates[0].map((lonlat) => {
+                let building = feature
+
+                building.geometry.coordinates[0] = feature.geometry.coordinates[0].map((lonlat) => {
                     var coordinate = maplibregl.MercatorCoordinate.fromLngLat( lonlat , 0 )
                     // convert the coordinates to world scale 
                     coordinate.x = coordinate.x * scale - origin[0]
                     coordinate.y = coordinate.y * scale - origin[1]
                     return coordinate
                 })
+
                 buildingList.push(building)
             })
            
-            setBuildingsData(buildingList)        
+            setBuildingsData(buildingList)
+            //console.log(buildingList)        
         })
         .catch(error => {
             console.log(error)
@@ -40,7 +44,8 @@ export default function Buildings({url, scale, origin}) {
                 buildingsData.map((buildingData, index) => {
                     return <Building 
                                 key={index} 
-                                coordinates={buildingData} />
+                                buildingData = { buildingData }
+                            />
                 })
             }
         </group>
