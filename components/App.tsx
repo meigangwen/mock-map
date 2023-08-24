@@ -5,6 +5,7 @@ import { Stats, MapControls, Environment} from '@react-three/drei'
 import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
 import Buildings from '@/components/Buildings'
+import Landcover from '@/components/Landcover'
 
 export default function App() {
     
@@ -15,28 +16,46 @@ export default function App() {
     // calculate scale so that we can use meters as unit
     const scale = 1 / mapOriginMercator.meterInMercatorCoordinateUnits()
     const mapOrigin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
+
+    //<Environment preset="city" />
     
     return (
         <Canvas 
-            frameloop="demand"
             shadows
+            frameloop="demand"
             camera={{ position: [0, 0, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 10000 }}
         >
-            <Suspense fallback={null}>
+           <Suspense fallback={null}>
+                <Landcover 
+                    url='data/landcover.geojson'
+                    scale={scale}
+                    origin={mapOrigin} 
+                />
                 <Buildings 
                     url='data/buildings.geojson'
                     scale={scale}
                     origin={mapOrigin} 
                 />
+                <directionalLight
+                    visible 
+                    position={[500, 500, 500]} 
+                    intensity={1} 
+                    castShadow 
+                    shadow-mapSize-width={1024} 
+                    shadow-mapSize-height={1024}
+                    shadow-camera-near={1}
+                    shadow-camera-far={10000}
+                    shadow-camera-left={-1000}
+                    shadow-camera-right={1000}
+                    shadow-camera-top={1000}
+                    shadow-camera-bottom={-1000}
+                    />
                 <Environment preset="city" />
             </Suspense>
-            <directionalLight position={[500, 150, 300]} intensity={1} castShadow />
             <MapControls enableRotate={true} />
-            <axesHelper args={[5]} />
-            <gridHelper rotation-x={Math.PI / 2} />
             <Stats />
         </Canvas>
     )
