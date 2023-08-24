@@ -1,11 +1,13 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { Stats, MapControls, Environment} from '@react-three/drei'
+import { Stats, MapControls, Environment } from '@react-three/drei'
 import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
+import { useControls } from 'leva'
 import Buildings from '@/components/Buildings'
 import Landcover from '@/components/Landcover'
+import Water_areas from '@/components/Water_areas'
 
 export default function App() {
     
@@ -18,6 +20,10 @@ export default function App() {
     const mapOrigin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
 
     //<Environment preset="city" />
+    //declare the UI parameters
+    const { castShadow } = useControls("Shadow", {
+        castShadow: true,
+    })
     
     return (
         <Canvas 
@@ -34,6 +40,11 @@ export default function App() {
                     scale={scale}
                     origin={mapOrigin} 
                 />
+                <Water_areas 
+                    url='data/water_areas.geojson'
+                    scale={scale}
+                    origin={mapOrigin} 
+                />
                 <Buildings 
                     url='data/buildings.geojson'
                     scale={scale}
@@ -43,7 +54,7 @@ export default function App() {
                     visible 
                     position={[500, 500, 500]} 
                     intensity={1} 
-                    castShadow 
+                    castShadow={castShadow}
                     shadow-mapSize-width={1024} 
                     shadow-mapSize-height={1024}
                     shadow-camera-near={1}
