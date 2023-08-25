@@ -11,11 +11,21 @@ export default function Water_area( { waterData } ) {
 
     //declare the UI parameters
     
-    const { color } = useControls("Water", {
+    const { depth, color } = useControls("Water", {
+        depth: { value:5, min:0, max:20, step: 0.1},
         color: {value:"#1eb4ff"}
     })
-    
 
+    const extrudeSettings = {
+        steps: 1,
+        depth: -depth,
+        bevelEnabled: false,
+        bevelThickness: 1,
+        bevelSize: 1,
+        bevelOffset: 0,
+        bevelSegments: 1
+    }
+    
     useEffect(() => {
          // get the land data
          const coordinates = waterData.geometry.coordinates[0]
@@ -40,19 +50,6 @@ export default function Water_area( { waterData } ) {
          }
          shape.lineTo(coordinates[0].x, coordinates[0].y)
 
-        /*
-        // extrudeSettings
-        const extrudeSettings = {
-            steps: 1,
-            depth: height,
-            bevelEnabled: false,
-            bevelThickness: 1,
-            bevelSize: 1,
-            bevelOffset: 0,
-            bevelSegments: 1
-        }
-        */
-
          // maybe we need to useMemo to not let these shapes keep on redrawing 
          setShape(shape)
          //setExtrudeSettings(extrudeSettings)
@@ -70,7 +67,8 @@ export default function Water_area( { waterData } ) {
                 color={hovered? 'red':color} 
                 side={THREE.FrontSide} 
                 roughness={0.1} />
-            <shapeGeometry args={[shape]} />
+           
+            <extrudeGeometry args={[shape, extrudeSettings]} />
         </mesh>
     )
 }

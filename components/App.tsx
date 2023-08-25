@@ -5,6 +5,7 @@ import { Stats, MapControls, Environment } from '@react-three/drei'
 import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
 import { useControls } from 'leva'
+import gsap from 'gsap'
 import Buildings from '@/components/Buildings'
 import Landcover from '@/components/Landcover'
 import Water_areas from '@/components/Water_areas'
@@ -21,10 +22,15 @@ export default function App() {
     const mapOrigin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
 
     //<Environment preset="city" />
+    
     //declare the UI parameters
     const { castShadow } = useControls("Shadow", {
         castShadow: true,
     })
+
+    // access the UI popup
+    //const popUp = document.querySelector('#popUp')
+    //console.log(popUp)
     
     return (
         <Canvas 
@@ -34,6 +40,16 @@ export default function App() {
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 10000 }}
+            /*
+            onPointerMove={(e) => {
+                //mouse.x = ((e.clientX - innerWidth / 2) / (innerWidth / 2)) * 2 - 1
+                //mouse.y = - (e.clientY / innerHeight) * 2 + 1
+                gsap.set(popUp, {
+                    x: e.clientX,
+                    y: e.clientY
+                })
+                //console.log('hello')
+            }}*/
         >
            <Suspense fallback={null}>
                 <Landcover 
