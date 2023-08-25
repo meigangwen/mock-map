@@ -1,48 +1,49 @@
-const THREE = require('three');
+import * as THREE from 'three'
+import { useState, useEffect } from 'react'
+//import { useControls } from 'leva'
 
-// Step 1: Define the path of the road
-let points = [
-    new THREE.Vector3(-10, 0, 0),
-    new THREE.Vector3(0, 0, 10),
-    new THREE.Vector3(10, 0, 0)
-];
-let curve = new THREE.CatmullRomCurve3(points);
+export default function Road( { roadData } ) {
 
-let roadWidth = 2;
+    //declare the state hooks
+    //const [hovered, setHovered] = useState(false)
+    //const [points,setPoints] = useState([])
+    const [geometry,setGeometry] = useState(new THREE.BufferGeometry())
 
-// Step 2: Compute the width of the road
-let segments = 50;
-let pathPoints = curve.getPoints(segments);
-let roadShape = new THREE.Shape();
+    //const [extrudeSettings,setExtrudeSettings] = useState({})
 
-for (let i = 0; i < pathPoints.length - 1; i++) {
-    let start = pathPoints[i];
-    let end = pathPoints[i + 1];
+    //declare the UI parameters
 
-    let direction = new THREE.Vector3().subVectors(end, start).normalize();
-    let perpendicular = new THREE.Vector3(direction.z, 0, -direction.x).multiplyScalar(roadWidth * 0.5);
+    // const { wireframe, color } = useControls("Buildings", {
+    //     wireframe: false,
+    //     color: {value:"#ffffff"}
+    // })
 
-    if (i === 0) {
-        roadShape.moveTo(start.x + perpendicular.x, start.z + perpendicular.z);
-    }
+    useEffect(() => {
+         // get the road points
+        const coordinates = roadData.geometry.coordinates
+        const length = coordinates.length
+        const resolution = 3
+         // get the road properties
+         
 
-    roadShape.lineTo(end.x + perpendicular.x, end.z + perpendicular.z);
+         // construct the curve object
+        const curvePoints = coordinates.map((coordinate) => {
+                return new THREE.Vector3( coordinate.x, coordinate.y, 0.5 )
+        })
+        
+        const curve = new THREE.CatmullRomCurve3(curvePoints)
+        const points = curve.getPoints(length * resolution)
+        const geometry = new THREE.BufferGeometry().setFromPoints(points)
+        setGeometry(geometry)
+        //setPoints(points)
+         // maybe we need to useMemo to not let these shapes keep on redrawing 
+         //set(shape)
+         //setExtrudeSettings(extrudeSettings)
+    },[])
+    
+    return (
+        <line geometry={geometry}>
+            <lineBasicMaterial attach="material" color="white" />
+        </line>
+    )
 }
-
-for (let i = pathPoints.length - 2; i >= 0; i--) {
-    let start = pathPoints[i + 1];
-    let end = pathPoints[i];
-
-    let direction = new THREE.Vector3().subVectors(end, start).normalize();
-    let perpendicular = new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(roadWidth * 0.5);
-
-    roadShape.lineTo(end.x + perpendicular.x, end.z + perpendicular.z);
-}
-
-// Step 3: Generate the ShapeGeometry
-let roadGeometry = new THREE.ShapeBufferGeometry(roadShape);
-let roadMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-let roadMesh = new THREE.Mesh(roadGeometry, roadMaterial);
-
-// Adding roadMesh to the scene
-scene.add(roadMesh);

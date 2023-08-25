@@ -8,6 +8,7 @@ import { useControls } from 'leva'
 import Buildings from '@/components/Buildings'
 import Landcover from '@/components/Landcover'
 import Water_areas from '@/components/Water_areas'
+import Roads from '@/components/Roads'
 
 export default function App() {
     
@@ -47,6 +48,11 @@ export default function App() {
                 />
                 <Buildings 
                     url='data/buildings.geojson'
+                    scale={scale}
+                    origin={mapOrigin} 
+                />
+                <Roads 
+                    url='data/roads.geojson'
                     scale={scale}
                     origin={mapOrigin} 
                 />

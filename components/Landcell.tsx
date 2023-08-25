@@ -26,7 +26,7 @@ export default function Landcell( { landData } ) {
          
          // get the land properties
          const { leisure } = landData.properties
-         console.log( leisure ) 
+         //console.log( leisure ) 
          /*
          const { amenity, building, name, power, parking, residential } = buildingData.properties
          const housenumber = buildingData.properties["addr:housenumber"]
