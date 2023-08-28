@@ -11,7 +11,8 @@ export default function Water_area( { waterData } ) {
 
     //declare the UI parameters
     
-    const { depth, color } = useControls("Water", {
+    const { visible, depth, color } = useControls("Water", {
+        visible: true,
         depth: { value:5, min:0, max:20, step: 0.1},
         color: {value:"#1eb4ff"}
     })
@@ -56,7 +57,9 @@ export default function Water_area( { waterData } ) {
     },[])
     
     return (
-        <mesh 
+        <mesh
+            visible={visible}
+            renderOrder={1} 
             receiveShadow 
             onPointerOver={(e) => {
                 setHovered(true)
@@ -66,7 +69,8 @@ export default function Water_area( { waterData } ) {
             <meshStandardMaterial 
                 color={hovered? 'red':color} 
                 side={THREE.FrontSide} 
-                roughness={0.1} />
+                roughness={0.1} 
+                depthTest={false} />
            
             <extrudeGeometry args={[shape, extrudeSettings]} />
         </mesh>

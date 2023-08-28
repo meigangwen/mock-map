@@ -10,7 +10,8 @@ export default function Building( { buildingData } ) {
     const [extrudeSettings,setExtrudeSettings] = useState({})
 
     //declare the UI parameters
-    const { wireframe, color } = useControls("Buildings", {
+    const { visible, wireframe, color } = useControls("Buildings", {
+        visible: true,
         wireframe: false,
         color: {value:"#ffffff"}
     })
@@ -82,6 +83,7 @@ export default function Building( { buildingData } ) {
     
     return (
         <mesh 
+            visible={visible}
             receiveShadow
             castShadow
             onPointerOver={(e) => {

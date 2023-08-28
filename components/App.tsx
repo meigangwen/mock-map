@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import maplibregl from 'maplibre-gl'
 import { useControls } from 'leva'
 import gsap from 'gsap'
+import Floor from '@/components/Floor'
 import Buildings from '@/components/Buildings'
 import Landcover from '@/components/Landcover'
 import Water_areas from '@/components/Water_areas'
@@ -24,7 +25,7 @@ export default function App() {
     //<Environment preset="city" />
     
     //declare the UI parameters
-    const { castShadow } = useControls("Shadow", {
+    const { castShadow } = useControls("Scene", {
         castShadow: true,
     })
 
@@ -52,6 +53,7 @@ export default function App() {
             }}*/
         >
            <Suspense fallback={null}>
+                <Floor />
                 <Landcover 
                     url='data/landcover.geojson'
                     scale={scale}

@@ -13,9 +13,8 @@ export default function Road( { roadData } ) {
 
     //declare the UI parameters
 
-    // const { wireframe, color } = useControls("Buildings", {
-    //     wireframe: false,
-    //     color: {value:"#ffffff"}
+    // const { visible } = useControls("Road", {
+    //     visible: true
     // })
 
     useEffect(() => {
@@ -42,7 +41,8 @@ export default function Road( { roadData } ) {
     },[])
     
     return (
-        <line geometry={geometry}>
+        <line
+            geometry={geometry}>
             <lineBasicMaterial attach="material" color="white" />
         </line>
     )

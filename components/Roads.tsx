@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import maplibregl from 'maplibre-gl'
 import Road from '@/components/Road'
+import { useControls } from 'leva'
 
 export default function Roads({url, scale, origin}) {
 
     const [roadsData, setRoadsData] = useState([])
+
+    const { visible } = useControls("Road", {
+        visible: true
+    })
 
     useEffect(() => {
         fetch(url)                  // loading geo json file 
@@ -40,7 +45,10 @@ export default function Roads({url, scale, origin}) {
     }, [])
 
     return (
-        <group>
+        <group 
+            visible={visible}
+            renderOrder={5}    
+        >
             {
                 roadsData.map((roadData, index) => {
                     return <Road 

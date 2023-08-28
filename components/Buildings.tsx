@@ -40,7 +40,7 @@ export default function Buildings({url, scale, origin}) {
     }, [])
 
     return (
-        <group>
+        <group renderOrder={10} >
             {
                 buildingsData.map((buildingData, index) => {
                     return <Building 

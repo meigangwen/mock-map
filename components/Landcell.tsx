@@ -8,6 +8,7 @@ export default function Landcell( { landData } ) {
     const [hovered, setHovered] = useState(false)
     const [shape,setShape] = useState(new THREE.Shape())
     const [height, setHeight] = useState(0)
+    const [renderOrder, setRenderOrder] = useState(2)
     const [color, setColor] = useState(new THREE.Color('#808080'))
     //const [extrudeSettings,setExtrudeSettings] = useState({})
 
@@ -59,17 +60,20 @@ export default function Landcell( { landData } ) {
         */
         if (leisure === 'park') {
             setColor(new THREE.Color("#00ff00"))
+            setHeight(0.1)
         } else {
             if (leisure === 'swimming_pool') {
                 setColor(new THREE.Color("#1eb4ff"))
-                setHeight(1)
+                setHeight(0.1)
+                setRenderOrder(3)
             }
             if (leisure === 'sports_centre') {
-                setColor(new THREE.Color('yellow'))
+                setColor(new THREE.Color('#00ff00'))
             }
             if (leisure === 'pitch') {
                 setColor(new THREE.Color('#00ff00'))
-                setHeight(1)
+                setHeight(0.1)
+                setRenderOrder(3)
             }
         }
 
@@ -80,7 +84,8 @@ export default function Landcell( { landData } ) {
     
     return (
         <mesh
-            position = {[0,0,height]} 
+            position = {[0,0,height]}
+            renderOrder={renderOrder}
             receiveShadow
             onPointerOver={(e) => {
                 setHovered(true)
@@ -90,7 +95,8 @@ export default function Landcell( { landData } ) {
             <meshStandardMaterial 
                 color={hovered? 'red':color} 
                 side={THREE.FrontSide} 
-                roughness={1.0} />
+                depthTest={false} />
+            
             <shapeGeometry args={[shape]} />
         </mesh>
     )
