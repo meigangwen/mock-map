@@ -2,7 +2,7 @@
 
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls, Environment } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import maplibregl from 'maplibre-gl'
 import { useControls } from 'leva'
 import gsap from 'gsap'
@@ -14,6 +14,9 @@ import Roads from '@/components/Roads'
 
 export default function App() {
     
+    // set the state variable
+    const [popUp, setPopUp] = useState(null)
+    
     // calculate the map origin point
     const mapOriginLngLat = [103.88544,1.39232]
     const mapOriginMercator = maplibregl.MercatorCoordinate.fromLngLat( mapOriginLngLat , 0 )
@@ -22,16 +25,17 @@ export default function App() {
     const scale = 1 / mapOriginMercator.meterInMercatorCoordinateUnits()
     const mapOrigin = [mapOriginMercator.x * scale, mapOriginMercator.y * scale]
 
-    //<Environment preset="city" />
-    
     //declare the UI parameters
-    const { castShadow } = useControls("Scene", {
+    const { sunLightIntensity,castShadow } = useControls("Scene", {
+        sunLightIntensity: { value:1, min:0, max:3, step: 0.05},
         castShadow: true,
     })
 
-    // access the UI popup
-    //const popUp = document.querySelector('#popUp')
-    //console.log(popUp)
+    // access the UI popup  
+    useEffect(() => {
+        const popUp = document.querySelector('#popUp')
+        setPopUp(popUp)
+    },[])
     
     return (
         <Canvas 
@@ -41,16 +45,13 @@ export default function App() {
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 10000 }}
-            /*
+            
             onPointerMove={(e) => {
-                //mouse.x = ((e.clientX - innerWidth / 2) / (innerWidth / 2)) * 2 - 1
-                //mouse.y = - (e.clientY / innerHeight) * 2 + 1
                 gsap.set(popUp, {
                     x: e.clientX,
                     y: e.clientY
                 })
-                //console.log('hello')
-            }}*/
+            }}
         >
            <Suspense fallback={null}>
                 <Floor />
@@ -77,7 +78,7 @@ export default function App() {
                 <directionalLight
                     visible 
                     position={[500, 500, 500]} 
-                    intensity={1} 
+                    intensity={sunLightIntensity} 
                     castShadow={castShadow}
                     shadow-mapSize-width={1024} 
                     shadow-mapSize-height={1024}
@@ -87,9 +88,8 @@ export default function App() {
                     shadow-camera-right={1000}
                     shadow-camera-top={1000}
                     shadow-camera-bottom={-1000}
-                    />
-                
-                <Environment preset="city" />
+                />
+                <Environment preset='city' />
             </Suspense>
             <MapControls enableRotate={true} />
             <Stats />

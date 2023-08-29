@@ -39,6 +39,7 @@ export default function Buildings({url, scale, origin}) {
         }) 
     }, [])
 
+  
     return (
         <group renderOrder={10} >
             {
