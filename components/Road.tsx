@@ -23,7 +23,9 @@ export default function Road( { roadData } ) {
         const length = coordinates.length
         const resolution = 3
          // get the road properties
-         
+        const {highway, footway, lanes, maxspeed, name, oneway, surface} = roadData.properties
+        //console.log(roadData)
+        console.log(highway)
 
          // construct the curve object
         const curvePoints = coordinates.map((coordinate) => {
