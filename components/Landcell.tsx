@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
+import gsap from 'gsap'
 //import { useControls } from 'leva'
 
-export default function Landcell( { landData } ) {
+export default function Landcell( { landData, popUp } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
@@ -11,6 +12,9 @@ export default function Landcell( { landData } ) {
     const [renderOrder, setRenderOrder] = useState(2)
     const [color, setColor] = useState(new THREE.Color("#909090"))
     //const [extrudeSettings,setExtrudeSettings] = useState({})
+    
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
 
     //declare the UI parameters
     
@@ -20,17 +24,15 @@ export default function Landcell( { landData } ) {
          const length = coordinates.length
          
          // get the land properties
-         const { leisure } = landData.properties
-         //console.log( leisure ) 
-         /*
-         const { amenity, building, name, power, parking, residential } = buildingData.properties
-         const housenumber = buildingData.properties["addr:housenumber"]
-         const postcode = buildingData.properties["addr:postcode"]
-         const street = buildingData.properties["addr:street"]
-         const levels = buildingData.properties["building:levels"]
+         const { name, landuse, leisure, amenity, barrier } = landData.properties
          
-         console.log(housenumber, street, postcode, parking, residential, levels, amenity, building, name, power)
-        */
+         let content = ("<p> Landuse: " + landuse + "</p>")
+         content += ("<p> Leisure: " + leisure + "</p>")
+         content += ("<p> Amenity: " + amenity + "</p>")
+         content += ("<p> Barrier: " + barrier + "</p>")
+         //content += ("<p> Name: " + name + "</p>")
+         //content += ("<p> Amenity: " + amenity + "</p>")
+ 
         
         const shape = new THREE.Shape()
         // move to the first point
@@ -74,6 +76,8 @@ export default function Landcell( { landData } ) {
          // maybe we need to useMemo to not let these shapes keep on redrawing 
          setShape(shape)
          //setExtrudeSettings(extrudeSettings)
+         setTitle(name)
+         setContent(content)
     },[])
     
     return (
@@ -84,8 +88,19 @@ export default function Landcell( { landData } ) {
             onPointerOver={(e) => {
                 setHovered(true)
                 e.stopPropagation()
+
+                gsap.set(popUp, {
+                    display: 'block'
+                })
+                // set the content of the popUp
+                popUp.querySelector("#popUp_title").innerHTML = 'Land: ' + title
+                popUp.querySelector("#popUp_content").innerHTML = content
             }} 
-            onPointerOut={() => setHovered(false)} >
+            onPointerOut={() => {
+                setHovered(false)  
+                gsap.set(popUp, {
+                display: 'none'
+            })}} >
             <meshStandardMaterial 
                 color={hovered? 'red':color} 
                 side={THREE.FrontSide} 

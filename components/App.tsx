@@ -58,7 +58,8 @@ export default function App() {
                 <Landcover 
                     url='data/landcover.geojson'
                     scale={scale}
-                    origin={mapOrigin} 
+                    origin={mapOrigin}
+                    popUp={popUp}  
                 />
                 <Water_areas 
                     url='data/water_areas.geojson'

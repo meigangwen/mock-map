@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import maplibregl from 'maplibre-gl'
 import Landcell from '@/components/Landcell'
 
-export default function Landcover({url, scale, origin}) {
+export default function Landcover({url, scale, origin, popUp}) {
 
     const [landcoverData, setLandcoverData] = useState([])
 
@@ -47,6 +47,7 @@ export default function Landcover({url, scale, origin}) {
                     return <Landcell 
                                 key={index} 
                                 landData = { landData }
+                                popUp = { popUp } 
                             />
                 })
             }
