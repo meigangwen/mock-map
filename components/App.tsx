@@ -88,6 +88,7 @@ export default function App() {
                     shadow-camera-top={1000}
                     shadow-camera-bottom={-1000}
                     />
+                
                 <Environment preset="city" />
             </Suspense>
             <MapControls enableRotate={true} />

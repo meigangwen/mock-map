@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
-import { useControls } from 'leva'
+//import { useControls } from 'leva'
 
 export default function Landcell( { landData } ) {
 
@@ -9,17 +9,11 @@ export default function Landcell( { landData } ) {
     const [shape,setShape] = useState(new THREE.Shape())
     const [height, setHeight] = useState(0)
     const [renderOrder, setRenderOrder] = useState(2)
-    const [color, setColor] = useState(new THREE.Color('#808080'))
+    const [color, setColor] = useState(new THREE.Color("#909090"))
     //const [extrudeSettings,setExtrudeSettings] = useState({})
 
     //declare the UI parameters
     
-    /*
-    const { color } = useControls("Landcover", {
-        color: {value:"#808080"}
-    })*/
-    
-
     useEffect(() => {
          // get the land data
          const coordinates = landData.geometry.coordinates[0]

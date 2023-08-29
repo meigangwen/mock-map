@@ -97,7 +97,7 @@ export default function Building( { buildingData } ) {
                 //shadowSide={THREE.DoubleSide}
                 wireframe={wireframe} 
                 roughness={1.0}
-                envMapIntensity={1} 
+                //envMapIntensity={1} 
                 />
             <extrudeGeometry args={[shape, extrudeSettings]} />
         </mesh>
