@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import maplibregl from 'maplibre-gl'
 import Building from '@/components/Building'
 
-export default function Buildings({url, scale, origin}) {
+export default function Buildings({url, scale, origin, popUp}) {
 
     const [buildingsData, setBuildingsData] = useState([])
 
@@ -47,6 +47,7 @@ export default function Buildings({url, scale, origin}) {
                     return <Building 
                                 key={index} 
                                 buildingData = { buildingData }
+                                popUp={ popUp }
                             />
                 })
             }

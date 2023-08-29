@@ -1,13 +1,16 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 import { useControls } from 'leva'
+import gsap from 'gsap'
 
-export default function Building( { buildingData } ) {
+export default function Building( { buildingData, popUp } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
     const [shape,setShape] = useState(new THREE.Shape())
     const [extrudeSettings,setExtrudeSettings] = useState({})
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
 
     //declare the UI parameters
     const { visible, wireframe, color } = useControls("Buildings", {
@@ -29,6 +32,12 @@ export default function Building( { buildingData } ) {
          const levels = buildingData.properties["building:levels"]
          
          //console.log(housenumber, street, postcode, parking, residential, levels, amenity, building, name, power)
+         let content = ("<p> Type: " + residential + "</p>")
+         content += ("<p> Levels: " + levels + "</p>")
+         content += ("<p> Street: " + street + "</p>")
+         content += ("<p> Postcode: " + postcode + "</p>")
+         content += ("<p> Name: " + name + "</p>")
+         content += ("<p> Amenity: " + amenity + "</p>")
  
          const shape = new THREE.Shape()
         // move to the first point
@@ -79,6 +88,10 @@ export default function Building( { buildingData } ) {
          // maybe we need to useMemo to not let these shapes keep on redrawing 
          setShape(shape)
          setExtrudeSettings(extrudeSettings)
+
+         // set the popUp content
+         setTitle(housenumber)
+         setContent(content)
     },[])
     
     return (
@@ -89,8 +102,19 @@ export default function Building( { buildingData } ) {
             onPointerOver={(e) => {
                 setHovered(true)
                 e.stopPropagation()
+                gsap.set(popUp, {
+                    display: 'block'
+                })
+                // set the content of the popUp
+                popUp.querySelector("#popUp_title").innerHTML = 'Blk ' + title
+                popUp.querySelector("#popUp_content").innerHTML = content
             }} 
-            onPointerOut={() => setHovered(false)} >
+            onPointerOut={() => {
+                setHovered(false)
+                gsap.set(popUp, {
+                    display: 'none'
+                })
+            }} >
             <meshStandardMaterial 
                 color={hovered? 'red':color} 
                 side={THREE.FrontSide} 

@@ -68,7 +68,8 @@ export default function App() {
                 <Buildings 
                     url='data/buildings.geojson'
                     scale={scale}
-                    origin={mapOrigin} 
+                    origin={mapOrigin}
+                    popUp={popUp} 
                 />
                 <Roads 
                     url='data/roads.geojson'
