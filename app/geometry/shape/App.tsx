@@ -4,6 +4,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls } from '@react-three/drei'
 import ShapeWithHole from './ShapeWithHole'
+import ShapeACW from './ShapeACW'
 import MultipleShapes from './MultipleShapes'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
                       far: 10000 }}>
             
             <ShapeWithHole position={[-10,-10,0]}/>
+            <ShapeACW position={[-10,-25,0]}/>
             <MultipleShapes position={[10,10,0]}/>
             <MapControls enableRotate={true} />
             <Stats />
