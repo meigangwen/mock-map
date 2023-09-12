@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
+import { useControls } from 'leva'
 
 // import constants
 import {scale} from './Scale'
@@ -12,13 +13,28 @@ export default function Water_area( { waterData } ) {
     //const [height, setHeight] = useState(0)
     //const [renderOrder, setRenderOrder] = useState(2)
     
-    const [color, setColor] = useState(new THREE.Color("#909090"))
+    //const [color, setColor] = useState(new THREE.Color("#1eb4ff"))
     //const [extrudeSettings,setExtrudeSettings] = useState({})
     
-    //declare the UI parameters
+    //declare the UI parameters 
+     const { visible, depth, color } = useControls("Water", {
+        visible: true,
+        depth: { value:5, min:0, max:20, step: 0.1},
+        color: {value:"#1eb4ff"}
+    })
+
+    const extrudeSettings = {
+        steps: 1,
+        depth: -depth,
+        bevelEnabled: false,
+        bevelThickness: 1,
+        bevelSize: 1,
+        bevelOffset: 0,
+        bevelSegments: 1
+    }
     
     useEffect(() => {
-        console.log(waterData.properties.class)
+        //console.log(waterData.properties.class)
         let shapes = []
         for (let i = 0; i < waterData.loadGeometry().length; i++){
             const ring = waterData.loadGeometry()[i]
@@ -38,7 +54,8 @@ export default function Water_area( { waterData } ) {
     
     return (
         <mesh
-            renderOrder={1}
+            visible={visible}
+            renderOrder={4}
             receiveShadow
             onPointerOver={(e) => {
                 setHovered(true)
@@ -49,9 +66,11 @@ export default function Water_area( { waterData } ) {
             }} >
             <meshStandardMaterial 
                 color={hovered? 'red':color} 
-                side={THREE.FrontSide} 
+                side={THREE.FrontSide}
+                roughness={0.1} 
                 depthTest={false} />
-            <shapeGeometry args={[shapes]} />
+
+            <extrudeGeometry args={[shapes, extrudeSettings]} />
         </mesh>
     )
 }
