@@ -41,7 +41,7 @@ export default function App() {
         loadVectorTile(url)
         .then(loadedTile => {
             setTile(loadedTile)
-            console.log(loadedTile)
+            //console.log(loadedTile)
         })
     },[url])
    
@@ -58,9 +58,9 @@ export default function App() {
                     position={[- extent * scale / 2, extent * scale / 2, 0]} />
                 <Landcover
                     landcoverLayer={tile?.layers.landcover} />
-                <Buildings buildingLayer={tile?.layers.building} />
-                <Roads roadLayer={tile?.layers.transportation} />
                 <Water_areas waterLayer={tile?.layers.water} />
+                <Roads roadLayer={tile?.layers.transportation} />
+                <Buildings buildingLayer={tile?.layers.building} />
                 <directionalLight
                     visible 
                     position={[-extent * scale / 2, extent * scale / 2, 2000]} 

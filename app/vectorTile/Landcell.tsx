@@ -18,7 +18,7 @@ export default function Landcell( { landData } ) {
     //declare the UI parameters
     
     useEffect(() => {
-        console.log(landData.properties)
+        //console.log(landData.properties)
         let shapes = []
         for (let i = 0; i < landData.loadGeometry().length; i++){
             const ring = landData.loadGeometry()[i]

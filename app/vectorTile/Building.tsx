@@ -60,7 +60,7 @@ export default function Building( {buildingData} ) {
             position = {[0,0,height]}
             receiveShadow
             castShadow
-            renderOrder={5}
+            renderOrder={10}
             onPointerOver={(e) => {
                 setHovered(true)
                 e.stopPropagation()

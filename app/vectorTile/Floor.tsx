@@ -7,7 +7,7 @@ export default function Floor({...props}){
     //declare the UI parameters
     const { visible, color } = useControls("Floor", {
         visible: true,
-        color: {value:"#fff5b3"}
+        color: {value:"#a6a6a6"}
     })
 
     return (
