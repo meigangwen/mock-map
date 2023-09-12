@@ -12,6 +12,10 @@ import { useControls } from 'leva'
 import Floor from './Floor'
 import Landcover from './Landcover'
 import Buildings from './Buildings'
+import Roads from './Roads'
+
+// import constants
+import {scale, extent} from './Scale'
 
 async function loadVectorTile(url: string): Promise<VectorTile> {
     const response = await fetch(url);
@@ -23,12 +27,9 @@ export default function App() {
 
     // set the vector tile to be loaded
     const url = "https://tileserver.yilumi.com/data/singapore/14/12914/8132.pbf"
-
+   
     // set the state hook for loading the tile
     const [tile, setTile] = useState<VectorTile | null>(null)
-
-    // set the extent of our vector tile, which is 4096 in this case
-    const extent = 4096
 
     //declare the UI parameters
     const { castShadow } = useControls("Scene", {
@@ -39,7 +40,7 @@ export default function App() {
         loadVectorTile(url)
         .then(loadedTile => {
             setTile(loadedTile)
-            //console.log(loadedTile)
+            console.log(loadedTile)
         })
     },[url])
    
@@ -47,27 +48,30 @@ export default function App() {
         <Canvas
             shadows
             frameloop="demand"
-            camera={{ position: [extent/2, extent/2, 1000], 
+            camera={{ position: [extent * scale / 2, extent * scale / 2, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 20000 }}>
             <Suspense fallback={null}>
-                <Floor position={[extent/2, extent/2, 0]} />
-                <Landcover landcoverLayer={tile?.layers.landcover} />
+                <Floor 
+                    position={[extent * scale / 2, extent * scale / 2, 0]} />
+                <Landcover
+                    landcoverLayer={tile?.layers.landcover} />
                 <Buildings buildingLayer={tile?.layers.building} />
+                <Roads roadLayer={tile?.layers.transportation} />
                 <directionalLight
                     visible 
-                    position={[500, 500, 500]} 
+                    position={[extent * scale / 2, extent * scale / 2, 2000]} 
                     intensity={1.0} 
                     castShadow={castShadow}
                     shadow-mapSize-width={2048} 
                     shadow-mapSize-height={2048}
                     shadow-camera-near={1}
                     shadow-camera-far={10000}
-                    shadow-camera-left={-4096}
-                    shadow-camera-right={4096}
-                    shadow-camera-top={4096}
-                    shadow-camera-bottom={-4096}
+                    shadow-camera-left={-5000}
+                    shadow-camera-right={5000}
+                    shadow-camera-top={5000}
+                    shadow-camera-bottom={-5000}
                 />
                 <Environment preset='city' />
             </Suspense>

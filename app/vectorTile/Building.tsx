@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 
+// import constants
+import {scale} from './Scale'
+
 export default function Building( {buildingData} ) {
 
     //declare the state hooks
@@ -11,16 +14,16 @@ export default function Building( {buildingData} ) {
     const [extrudeSettings,setExtrudeSettings] = useState({})
      
     useEffect(() => {
-        console.log(buildingData.properties)
+        //console.log(buildingData.properties)
         let shapes = []
         for (let i = 0; i < buildingData.loadGeometry().length; i++){
             const ring = buildingData.loadGeometry()[i]
             const shape = new THREE.Shape()
             
             // move to the first point
-            shape.moveTo(ring[0].x, ring[0].y) 
+            shape.moveTo(ring[0].x * scale, ring[0].y * scale) 
             for (let j = 1; j < ring.length; j++) {
-                shape.lineTo(ring[j].x, ring[j].y)
+                shape.lineTo(ring[j].x * scale, ring[j].y * scale)
             }
             shapes.push(shape)
         }
@@ -55,6 +58,8 @@ export default function Building( {buildingData} ) {
     return (
         <mesh 
             position = {[0,0,height]}
+            receiveShadow
+            castShadow
             renderOrder={5}
             onPointerOver={(e) => {
                 setHovered(true)

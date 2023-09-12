@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 
+// import constants
+import {scale} from './Scale'
+
 export default function Landcell( { landData } ) {
 
     //declare the state hooks
@@ -15,16 +18,16 @@ export default function Landcell( { landData } ) {
     //declare the UI parameters
     
     useEffect(() => {
-        
+        //console.log(landData)
         let shapes = []
-        for (let i = 0; i < landData.length; i++){
-            const ring = landData[i]
+        for (let i = 0; i < landData.loadGeometry().length; i++){
+            const ring = landData.loadGeometry()[i]
             const shape = new THREE.Shape()
             
             // move to the first point
-            shape.moveTo(ring[0].x, ring[0].y) 
+            shape.moveTo(ring[0].x * scale, ring[0].y * scale) 
             for (let j = 1; j < ring.length; j++) {
-                shape.lineTo(ring[j].x, ring[j].y)
+                shape.lineTo(ring[j].x * scale, ring[j].y * scale)
             }
             shapes.push(shape)
         }

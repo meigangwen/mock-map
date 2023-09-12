@@ -13,7 +13,7 @@ export default function Landcover({landcoverLayer}) {
     useEffect(() => {
         let landcoverList:any[] = []
         for (let i=0; i<landcoverLayer.length; i++){
-            landcoverList.push(landcoverLayer.feature(i).loadGeometry())
+            landcoverList.push(landcoverLayer.feature(i))
         }
         setLandcoverList(landcoverList)
     }, [])
