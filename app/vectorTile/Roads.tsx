@@ -9,7 +9,7 @@ export default function Roads({ roadLayer }) {
     //declare the UI parameters
     const { service, path, minor, trunk, primary, secondary,motorway, transit, bridge,tertiary } = useControls("Roads", {
         service: true,    // carpark and HDB inner roads
-        path: false,       // foot path, shown as light dotted lines in maplibre
+        path: true,       // foot path, shown as light dotted lines in maplibre
         minor: true,      // Narrow roads, white color in maplibre
         trunk: true,      // Main roads, the yellow color one in maplibre
         primary: true,    // Main roads, the yellow color one in maplibre

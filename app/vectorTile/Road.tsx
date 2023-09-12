@@ -22,7 +22,7 @@ export default function Road( { roadData } ) {
 
         if (roadData.type === 2){
         
-            const resolution = 3
+            const resolution = 1
             const length = roadData.loadGeometry()[0].length
             console.log(roadData.properties)
 
@@ -45,6 +45,9 @@ export default function Road( { roadData } ) {
                 break
                 
                 case "path":
+                width = 2
+                setColor('#ffffff') 
+                setRenderOrder(7) 
                 break
                 
                 case 'minor': 
