@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 // import constants
 import {scale} from './Scale'
 
-export default function Landcell( { landData } ) {
+export default function Water_area( { waterData } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
@@ -18,10 +18,10 @@ export default function Landcell( { landData } ) {
     //declare the UI parameters
     
     useEffect(() => {
-        //console.log(landData)
+        console.log(waterData.properties.class)
         let shapes = []
-        for (let i = 0; i < landData.loadGeometry().length; i++){
-            const ring = landData.loadGeometry()[i]
+        for (let i = 0; i < waterData.loadGeometry().length; i++){
+            const ring = waterData.loadGeometry()[i]
             const shape = new THREE.Shape()
             
             // move to the first point

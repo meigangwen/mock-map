@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-//import Building from './Building'
+import Road from './Road'
 import { useControls } from 'leva'
 
 export default function Roads({ roadLayer }) {
@@ -14,7 +14,6 @@ export default function Roads({ roadLayer }) {
     useEffect(() => {
         let roadList:any[] = []
         for (let i=0; i<roadLayer.length; i++){
-            //console.log(buildingLayer.feature(i).loadGeometry())
             roadList.push(roadLayer.feature(i))
         }
         setRoadList(roadList)
@@ -23,10 +22,10 @@ export default function Roads({ roadLayer }) {
     return (
         <group visible={visible} >
             {
-                buildingList.map((buildingData, index) => {
-                return <Building 
+                roadList.map((roadData, index) => {
+                return <Road 
                             key={index} 
-                            buildingData = { buildingData }
+                            roadData = { roadData }
                         />
                 })
             }

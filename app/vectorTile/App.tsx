@@ -13,6 +13,7 @@ import Floor from './Floor'
 import Landcover from './Landcover'
 import Buildings from './Buildings'
 import Roads from './Roads'
+import Water_areas from './Water_areas'
 
 // import constants
 import {scale, extent} from './Scale'
@@ -48,20 +49,21 @@ export default function App() {
         <Canvas
             shadows
             frameloop="demand"
-            camera={{ position: [extent * scale / 2, extent * scale / 2, 1000], 
+            camera={{ position: [-extent * scale / 2, extent * scale / 2, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 20000 }}>
             <Suspense fallback={null}>
                 <Floor 
-                    position={[extent * scale / 2, extent * scale / 2, 0]} />
+                    position={[- extent * scale / 2, extent * scale / 2, 0]} />
                 <Landcover
                     landcoverLayer={tile?.layers.landcover} />
                 <Buildings buildingLayer={tile?.layers.building} />
                 <Roads roadLayer={tile?.layers.transportation} />
+                <Water_areas waterLayer={tile?.layers.water} />
                 <directionalLight
                     visible 
-                    position={[extent * scale / 2, extent * scale / 2, 2000]} 
+                    position={[-extent * scale / 2, extent * scale / 2, 2000]} 
                     intensity={1.0} 
                     castShadow={castShadow}
                     shadow-mapSize-width={2048} 

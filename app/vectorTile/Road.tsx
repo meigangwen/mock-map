@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react'
 // import constants
 import {scale} from './Scale'
 
-export default function Landcell( { landData } ) {
+export default function Road( { roadData } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
     const [shapes,setShapes] = useState([])
+    const [visible,setVisible] = useState(false)
     //const [height, setHeight] = useState(0)
     //const [renderOrder, setRenderOrder] = useState(2)
     
@@ -18,10 +19,10 @@ export default function Landcell( { landData } ) {
     //declare the UI parameters
     
     useEffect(() => {
-        //console.log(landData)
+        //console.log(roadData)
         let shapes = []
-        for (let i = 0; i < landData.loadGeometry().length; i++){
-            const ring = landData.loadGeometry()[i]
+        for (let i = 0; i < roadData.loadGeometry().length; i++){
+            const ring = roadData.loadGeometry()[i]
             const shape = new THREE.Shape()
             
             // move to the first point
@@ -32,6 +33,10 @@ export default function Landcell( { landData } ) {
             shapes.push(shape)
         }
         
+        if (roadData.type === 3){
+            setVisible(true)
+        }
+
          // maybe we need to useMemo to not let these shapes keep on redrawing 
          setShapes(shapes)
     },[])
@@ -39,6 +44,7 @@ export default function Landcell( { landData } ) {
     return (
         <mesh
             renderOrder={1}
+            visible = {visible}
             receiveShadow
             onPointerOver={(e) => {
                 setHovered(true)
