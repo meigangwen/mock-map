@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 
 // import constants
-import {scale} from './Scale'
+import {scale} from '../constants/Scale'
 
 export default function Landcell( { landData } ) {
 

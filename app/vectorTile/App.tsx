@@ -9,19 +9,19 @@ import { Stats, MapControls, Environment } from '@react-three/drei'
 import { useControls } from 'leva'
 
 // import components
-import Floor from './Floor'
-import Landcover from './Landcover'
-import Buildings from './Buildings'
-import Roads from './Roads'
-import Water_areas from './Water_areas'
+import Floor from './components/Floor'
+import Landcover from './components/Landcover'
+import Buildings from './components/Buildings'
+import Roads from './components/Roads'
+import Water_areas from './components/Water_areas'
 
 // import constants
-import {scale, extent} from './Scale'
+import {scale, extent} from './constants/Scale'
 
 async function loadVectorTile(url: string): Promise<VectorTile> {
-    const response = await fetch(url);
-    const buffer = await response.arrayBuffer();
-    return new VectorTile(new Protobuf(buffer));
+    const response = await fetch(url)
+    const buffer = await response.arrayBuffer()
+    return new VectorTile(new Protobuf(buffer))
 }
 
 export default function App() {

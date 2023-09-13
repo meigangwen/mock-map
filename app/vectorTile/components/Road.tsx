@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 //import { useControls } from 'leva'
 
 // import constants
-import {scale} from './Scale'
+import {scale} from '../constants/Scale'
 
 export default function Road( { roadData } ) {
 
@@ -24,7 +24,7 @@ export default function Road( { roadData } ) {
         
             const resolution = 1
             const length = roadData.loadGeometry()[0].length
-            console.log(roadData.properties)
+            //console.log(roadData.properties)
 
             
             const curvePoints = roadData.loadGeometry()[0].map((coordinate) => {

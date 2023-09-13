@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 
 // import constants
-import {scale} from './Scale'
+import {scale} from '../constants/Scale'
 
 export default function Building( {buildingData} ) {
 
@@ -14,7 +14,9 @@ export default function Building( {buildingData} ) {
     const [extrudeSettings,setExtrudeSettings] = useState({})
      
     useEffect(() => {
-        //console.log(buildingData)
+        console.log(buildingData.loadGeometry())
+        //console.log(buildingData.toGeoJSON())
+
         let shapes = []
         for (let i = 0; i < buildingData.loadGeometry().length; i++){
             const ring = buildingData.loadGeometry()[i]

@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react'
 import { useControls } from 'leva'
 
 // import constants
-import {scale} from './Scale'
+import {scale} from '../constants/Scale'
 
 export default function Water_area( { waterData } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
-    const [shapes,setShapes] = useState([])
+    const [shapes, setShapes] = useState([])
+    const [isSwimmingPool, setIsSwimmingPool] = useState(false)
     //const [height, setHeight] = useState(0)
     //const [renderOrder, setRenderOrder] = useState(2)
     
@@ -47,7 +48,11 @@ export default function Water_area( { waterData } ) {
             }
             shapes.push(shape)
         }
-        
+
+        // check if the water area is a swimming pool
+        if (waterData.properties.class === 'swimming_pool') {
+            setIsSwimmingPool(true)
+        }
          // maybe we need to useMemo to not let these shapes keep on redrawing 
          setShapes(shapes)
     },[])
@@ -70,7 +75,10 @@ export default function Water_area( { waterData } ) {
                 roughness={0.1} 
                 depthTest={false} />
 
-            <extrudeGeometry args={[shapes, extrudeSettings]} />
+            {
+                isSwimmingPool ? <shapeGeometry args={[shapes]} /> 
+                               : <extrudeGeometry args={[shapes, extrudeSettings]} />
+            }
         </mesh>
     )
 }

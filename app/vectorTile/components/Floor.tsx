@@ -1,7 +1,7 @@
 import { useControls } from 'leva'
 
 // import constants
-import {scale, extent} from './Scale'
+import {scale, extent} from '../constants/Scale'
 
 export default function Floor({...props}){
     //declare the UI parameters
