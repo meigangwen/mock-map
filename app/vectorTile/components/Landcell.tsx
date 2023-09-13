@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 // import constants
 import {scale} from '../constants/Scale'
 
+// import functions
+import {signedArea} from '../functions/Polygon'
+
 export default function Landcell( { landData } ) {
 
     //declare the state hooks
@@ -18,19 +21,37 @@ export default function Landcell( { landData } ) {
     //declare the UI parameters
     
     useEffect(() => {
-        //console.log(landData.properties)
-        let shapes = []
+        
+        let shapes = [],
+            shape
+        
         for (let i = 0; i < landData.loadGeometry().length; i++){
             const ring = landData.loadGeometry()[i]
-            const shape = new THREE.Shape()
-            
-            // move to the first point
-            shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
-            for (let j = 1; j < ring.length; j++) {
-                shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+            const area = signedArea(ring)
+
+            if  (area > 0 ){
+                // this area is a shape
+                shape = new THREE.Shape()
+                // move to the first point
+                shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shapes.push(shape)
             }
-            shapes.push(shape)
+            if ( area < 0 ){
+                // this area is a hole, which needs to be attached to the previous shape
+                const hole = new THREE.Path()
+                hole.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    hole.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shape?.holes.push(hole)
+                shapes.pop()
+                shapes.push(shape)
+            }
         }
+        setShapes(shapes)
         
          // maybe we need to useMemo to not let these shapes keep on redrawing
          switch(landData.properties.class) {
@@ -50,7 +71,7 @@ export default function Landcell( { landData } ) {
             default:
               // code block
           }
-         setShapes(shapes)
+         //setShapes(shapes)
     },[])
     
     return (

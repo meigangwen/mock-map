@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 // import constants
 import {scale} from '../constants/Scale'
 
+// import functions
+import {signedArea} from '../functions/Polygon'
+
 export default function Building( {buildingData} ) {
 
     //declare the state hooks
@@ -14,22 +17,36 @@ export default function Building( {buildingData} ) {
     const [extrudeSettings,setExtrudeSettings] = useState({})
      
     useEffect(() => {
-        console.log(buildingData.loadGeometry())
-        //console.log(buildingData.toGeoJSON())
+       
+        let shapes = [],
+            shape
 
-        let shapes = []
         for (let i = 0; i < buildingData.loadGeometry().length; i++){
             const ring = buildingData.loadGeometry()[i]
-            const shape = new THREE.Shape()
-            
-            // move to the first point
-            shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
-            for (let j = 1; j < ring.length; j++) {
-                shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+            const area = signedArea(ring)
+            if  (area > 0 ){
+
+                // this area is a shape
+                shape = new THREE.Shape()
+                // move to the first point
+                shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shapes.push(shape)
             }
-            shapes.push(shape)
+            if ( area < 0 ){
+                // this area is a hole, which needs to be attached to the previous shape
+                const hole = new THREE.Path()
+                hole.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    hole.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shape?.holes.push(hole)
+                shapes.pop()
+                shapes.push(shape)
+            }
         }
-        
         setShapes(shapes)
 
         // calculate the building height

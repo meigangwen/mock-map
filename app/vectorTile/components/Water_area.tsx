@@ -5,6 +5,9 @@ import { useControls } from 'leva'
 // import constants
 import {scale} from '../constants/Scale'
 
+// import functions
+import {signedArea} from '../functions/Polygon'
+
 export default function Water_area( { waterData } ) {
 
     //declare the state hooks
@@ -36,21 +39,38 @@ export default function Water_area( { waterData } ) {
     
     useEffect(() => {
         //console.log(waterData.properties.class)
-        let shapes = []
+        let shapes = [],
+            shape
+
         for (let i = 0; i < waterData.loadGeometry().length; i++){
             const ring = waterData.loadGeometry()[i]
-            const shape = new THREE.Shape()
-            
-            // move to the first point
-            shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
-            for (let j = 1; j < ring.length; j++) {
-                shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+            const area = signedArea(ring)
+            if  (area > 0 ){
+
+                // this area is a shape
+                shape = new THREE.Shape()
+                // move to the first point
+                shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shapes.push(shape)
             }
-            shapes.push(shape)
+            if ( area < 0 ){
+                // this area is a hole, which needs to be attached to the previous shape
+                const hole = new THREE.Path()
+                hole.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+                for (let j = 1; j < ring.length; j++) {
+                    hole.lineTo(-ring[j].x * scale, ring[j].y * scale)
+                }
+                shape?.holes.push(hole)
+                shapes.pop()
+                shapes.push(shape)
+            }
         }
 
         // check if the water area is a swimming pool
-        if (waterData.properties.class === 'swimming_pool') {
+        if (waterData.properties.class === 'swimming_pool' || waterData.properties.class === 'pond') {
             setIsSwimmingPool(true)
         }
          // maybe we need to useMemo to not let these shapes keep on redrawing 
