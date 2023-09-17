@@ -17,6 +17,14 @@ export default function App() {
             
             <Building />
             <Floor />
+            <mesh castShadow 
+                  position={[10.0,10.0,10.0]}
+            >
+                <meshStandardMaterial
+                    color='red' 
+                />
+                <sphereGeometry args={[5.0]} />
+            </mesh>
             <directionalLight
                     visible 
                     position={[5, 5, 10]} 

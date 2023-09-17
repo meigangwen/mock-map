@@ -25,9 +25,6 @@ void main() {
 
     z = step(1.5,mod(z,3.0));
     
-    
-
-
     gl_FragColor = vec4(vec3(z), 1.0);
     
 }

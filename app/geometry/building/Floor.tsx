@@ -7,7 +7,9 @@ export default function Floor(){
             renderOrder={0}
         >
             <planeGeometry args={[100, 100]}/>
-            <meshStandardMaterial color='white' depthTest={false} />
+            <meshStandardMaterial 
+                color='white' 
+                depthTest={false} />
         </mesh>
     )
 }
