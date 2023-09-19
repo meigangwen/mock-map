@@ -4,12 +4,11 @@ export default function Floor(){
     return (
         <mesh 
             receiveShadow
-            renderOrder={0}
         >
-            <planeGeometry args={[100, 100]}/>
+            <planeGeometry args={[200, 200]}/>
             <meshStandardMaterial 
                 color='white' 
-                depthTest={false} />
+             />
         </mesh>
     )
 }

@@ -5,31 +5,38 @@ import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls } from '@react-three/drei'
 import Building from './Building'
 import Floor from './Floor'
+import Sphere from './Sphere'
+import SphereCustom from './SphereCustom'
+import SphereRaw from './SphereRaw'
 
 export default function App() {
 
     return (
         <Canvas
+            shadows
             camera={{ position: [0, 0, 100], 
                       zoom: 2, 
                       up: [0, 0, 1], 
-                      far: 10000 }}>
+                      far: 1000 }}>
             
             <Building />
             <Floor />
-            <mesh castShadow 
-                  position={[10.0,10.0,10.0]}
-            >
-                <meshStandardMaterial
-                    color='red' 
-                />
-                <sphereGeometry args={[5.0]} />
-            </mesh>
+            <Sphere />
+            <SphereCustom />
+           
             <directionalLight
                     visible 
-                    position={[5, 5, 10]} 
-                    intensity={1.0} 
-                    castShadow
+                    position={[10, 5, 30]} 
+                    intensity={3.0} 
+                    castShadow={true}
+                    shadow-mapSize-width={1024} 
+                    shadow-mapSize-height={1024}
+                    shadow-camera-near={1}
+                    shadow-camera-far={100}
+                    shadow-camera-left={-100}
+                    shadow-camera-right={100}
+                    shadow-camera-top={100}
+                    shadow-camera-bottom={-100}
                 />
             <ambientLight
                     visible

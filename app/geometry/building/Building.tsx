@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import * as THREE from 'three'
-import vertexShader from './shaders/vertex.glsl'
-import fragmentShader from './shaders/fragment.glsl'
+import vertexShader from './shaders/building_vertex.glsl'
+import fragmentShader from './shaders/building_fragment.glsl'
 
 export default function Building() {
 
@@ -35,11 +35,12 @@ export default function Building() {
     },[])
 
     return (
-        <mesh renderOrder={1}>
+        <mesh
+            castShadow
+        >
             <shaderMaterial 
                 vertexShader={vertexShader}
                 fragmentShader={fragmentShader}
-                depthTest={false}
                 side={THREE.FrontSide}
             />  
             <extrudeGeometry args={[shapes, extrudeSettings]} />
