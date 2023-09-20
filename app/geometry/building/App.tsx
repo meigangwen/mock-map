@@ -7,7 +7,7 @@ import Building from './Building'
 import Floor from './Floor'
 import Sphere from './Sphere'
 import SphereCustom from './SphereCustom'
-import SphereRaw from './SphereRaw'
+import SphereStandard from './SphereStandard'
 
 export default function App() {
 
@@ -23,6 +23,7 @@ export default function App() {
             <Floor />
             <Sphere />
             <SphereCustom />
+            <SphereStandard />
            
             <directionalLight
                     visible 
