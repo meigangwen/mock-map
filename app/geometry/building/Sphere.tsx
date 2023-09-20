@@ -6,7 +6,7 @@ export default function Sphere(){
     const matRef = useRef()
 
     useEffect( () => {
-        //console.log(matRef.current)
+        console.log(matRef.current)
     })
 
     return (

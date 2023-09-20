@@ -2,7 +2,7 @@
 
 //import { useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Stats, MapControls } from '@react-three/drei'
+import { Stats, MapControls, Environment } from '@react-three/drei'
 import Building from './Building'
 import Floor from './Floor'
 import Sphere from './Sphere'
@@ -43,6 +43,7 @@ export default function App() {
                     visible
                     intensity={0.5}
                 />
+            
             <MapControls enableRotate={true} />
             <Stats />
         </Canvas>
