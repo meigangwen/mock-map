@@ -12,6 +12,8 @@ export default function SphereStandard(){
                 <shaderMaterial 
                     vertexShader={vertexShader}
                     fragmentShader={fragmentShader}
+
+                    /*
                     uniforms={{ 
                         diffuse:{value: new THREE.Color( 0xff0000 )},
                         emissive:{value: new THREE.Color( 0x000000 )},
@@ -19,6 +21,7 @@ export default function SphereStandard(){
                         ambientLightColor: { value: new THREE.Color( 0xffffff ) },
                         receiveShadow: {value: true },
                     }}
+                    */
                 /> 
                 <sphereGeometry args={[5.0]} />
         </mesh>

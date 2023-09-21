@@ -6,7 +6,7 @@ import { Stats, MapControls, Environment } from '@react-three/drei'
 import Building from './Building'
 import Floor from './Floor'
 import Sphere from './Sphere'
-import SphereCustom from './SphereCustom'
+import SphereLambert from './SphereLambert'
 import SphereStandard from './SphereStandard'
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
             <Building />
             <Floor />
             <Sphere />
-            <SphereCustom />
+            <SphereLambert />
             <SphereStandard />
            
             <directionalLight
