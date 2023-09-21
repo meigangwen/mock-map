@@ -1,3 +1,6 @@
+//this is an exact copy of the three.js MeshStandardMaterial's fragment shader
+//The code is for reference purposes
+
 #define STANDARD
 
 #ifdef PHYSICAL

@@ -1,14 +1,14 @@
 import * as THREE from 'three'
-import vertexShader from './shaders/lambert_vertex.glsl'
-import fragmentShader from './shaders/lambert_fragment.glsl'
+import vertexShader from './shaders/custom/lambert_vertex.glsl'
+import fragmentShader from './shaders/custom/lambert_fragment.glsl'
 
-export default function SphereLambert(){
+export default function SphereCustomLambert(){
     
     
     return (
         <mesh 
             castShadow 
-            position={[-20.0,-40.0,10.0]}
+            position={[40.0,-40.0,10.0]}
         >
                 <shaderMaterial
                     vertexShader={vertexShader}
@@ -20,7 +20,7 @@ export default function SphereLambert(){
                         THREE.UniformsLib['lights'],   // this is god damn important to have the bracket there, otherwise error
                         THREE.UniformsLib['fog'],
                         { 
-                            diffuse:{value: new THREE.Color( 0xff0000 )},
+                            diffuse:{value: new THREE.Color( 0x00ff00 )},
                             emissive:{value: new THREE.Color( 0x000000 )}
                         }
                         
@@ -28,12 +28,11 @@ export default function SphereLambert(){
                         //opacity: { value: 1.0 },
                         //ambientLightColor: { value: new THREE.Color( 0xffffff ) },
                         //receiveShadow: {value: true }
-                    
+                        
                     ])}
 
                     lights={true}
                     fog={true}
-                    
                 /> 
                 <sphereGeometry args={[5.0]} />
         </mesh>

@@ -1,19 +1,26 @@
-import { useState, useEffect,useRef } from 'react'
-//import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useThree } from "@react-three/fiber";
+import { useEffect, useRef } from "react"
 import vertexShader from './shaders/standard_vertex.glsl'
 import fragmentShader from './shaders/standard_fragment.glsl'
 
 export default function SphereStandard(){
-    //const matRef = useRef()
-   
+    const { scene } = useThree()
+    const matRef = useRef()
+
+    useEffect(() => {
+        if (matRef.current && scene.environment) {
+          matRef.current.uniforms.envMap.value = scene.environment;
+        }
+    }, [scene.environment])
+
     return (
         <mesh 
             castShadow 
             position={[-20.0,-60.0,10.0]}
         >
                 <shaderMaterial
-                    ref = {matRef} 
+                    ref={matRef}
                     vertexShader={vertexShader}
                     fragmentShader={fragmentShader}
 
@@ -35,8 +42,16 @@ export default function SphereStandard(){
                         //receiveShadow: {value: true }
                     
                     ])}
-                   
+
+                    defines={
+                        {
+                            PHYSICAL: true,
+                            USE_ENVMAP: true,
+                            //ENVMAP_TYPE_CUBE: true,
+                        }
+                    }
                     lights={true}
+                    fog={true}
                     
                     
 

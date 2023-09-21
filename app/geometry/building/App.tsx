@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls, Environment } from '@react-three/drei'
 import Building from './Building'
 import Floor from './Floor'
 import Sphere from './Sphere'
 import SphereLambert from './SphereLambert'
+import SphereCustomLambert from './SphereCustomLambert'
 import SphereStandard from './SphereStandard'
 
 export default function App() {
@@ -17,12 +17,14 @@ export default function App() {
             camera={{ position: [0, 0, 100], 
                       zoom: 2, 
                       up: [0, 0, 1], 
-                      far: 1000 }}>
-            
+                      far: 1000 }}                     
+        >
+            <fog attach="fog" args={['white', 50, 500]} />
             <Building />
             <Floor />
             <Sphere />
             <SphereLambert />
+            <SphereCustomLambert />
             <SphereStandard />
            
             <directionalLight
@@ -46,8 +48,9 @@ export default function App() {
             
             <Environment
                 preset='forest' 
-                background 
-                blur={0} />
+                //background 
+                //blur={0} 
+                />
          
             <MapControls enableRotate={true} />
             <Stats />

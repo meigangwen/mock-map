@@ -2,9 +2,10 @@ varying vec2 vertexUV;
 varying vec3 vertexNormal;
 varying vec3 vertexPosition;
 
-//#include <common>
+#include <common>
 #include <uv_pars_vertex>
 #include <color_pars_vertex>
+#include <fog_pars_vertex>
 #include <logdepthbuf_pars_vertex>
 #include <clipping_planes_pars_vertex>
 
@@ -23,6 +24,6 @@ void main() {
     #include <logdepthbuf_vertex> 
 	#include <clipping_planes_vertex>   //called only if > 0 clipping planes are defined
 	#include <worldpos_vertex>          //not sure what it does, seems to be related to instancing
-    
+    #include <fog_vertex>
     //gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 }

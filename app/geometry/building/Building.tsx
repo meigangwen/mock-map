@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import * as THREE from 'three'
-import vertexShader from './shaders/building_vertex.glsl'
-import fragmentShader from './shaders/building_fragment.glsl'
+import vertexShader from './shaders/custom/building_vertex.glsl'
+import fragmentShader from './shaders/custom/building_fragment.glsl'
 
 export default function Building() {
 
@@ -42,6 +42,12 @@ export default function Building() {
                 vertexShader={vertexShader}
                 fragmentShader={fragmentShader}
                 side={THREE.FrontSide}
+                uniforms={THREE.UniformsUtils.merge( [
+
+                    THREE.UniformsLib['lights'],   // this is god damn important to have the bracket there, otherwise error
+                    THREE.UniformsLib['fog'],
+                ])}
+                fog={true}
             />  
             <extrudeGeometry args={[shapes, extrudeSettings]} />
         </mesh>

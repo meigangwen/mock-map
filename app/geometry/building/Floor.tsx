@@ -1,3 +1,5 @@
+//import { useThree } from '@react-three/fiber'
+import { useState, useEffect, useRef } from 'react'
 
 export default function Floor(){
     

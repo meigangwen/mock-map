@@ -7,18 +7,13 @@ uniform vec3 diffuse;
 uniform vec3 emissive;
 uniform float opacity;
 
-#include <common>
-#include <packing>
-#include <dithering_pars_fragment>
+#include <common> //need
+#include <packing> //need
 #include <color_pars_fragment>
 #include <uv_pars_fragment>
-#include <map_pars_fragment>
-#include <alphamap_pars_fragment>
 #include <alphatest_pars_fragment>
 #include <alphahash_pars_fragment>
-#include <aomap_pars_fragment>
-#include <lightmap_pars_fragment>
-#include <emissivemap_pars_fragment>
+
 #include <envmap_common_pars_fragment>
 #include <envmap_pars_fragment>
 #include <fog_pars_fragment>
@@ -27,9 +22,7 @@ uniform float opacity;
 #include <normal_pars_fragment>
 #include <lights_lambert_pars_fragment>
 #include <shadowmap_pars_fragment>
-#include <bumpmap_pars_fragment>
-#include <normalmap_pars_fragment>
-#include <specularmap_pars_fragment>
+
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
@@ -42,15 +35,13 @@ void main() {
 	vec3 totalEmissiveRadiance = emissive;
 
 	#include <logdepthbuf_fragment>
-	#include <map_fragment>
 	#include <color_fragment>
-	#include <alphamap_fragment>
 	#include <alphatest_fragment>
 	#include <alphahash_fragment>
-	#include <specularmap_fragment>
+	#include <specularmap_fragment> //need
 	#include <normal_fragment_begin>
-	#include <normal_fragment_maps>
-	#include <emissivemap_fragment>
+	
+	
 
 	// accumulation
 	#include <lights_lambert_fragment>
@@ -59,8 +50,6 @@ void main() {
 	#include <lights_fragment_end>
 
 	// modulation
-	#include <aomap_fragment>
-
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;
 
 	#include <envmap_fragment>
@@ -69,6 +58,4 @@ void main() {
 	#include <colorspace_fragment>
 	#include <fog_fragment>
 	#include <premultiplied_alpha_fragment>
-	#include <dithering_fragment>
-
 }
