@@ -1,6 +1,6 @@
 'use client'
 
-//import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls, Environment } from '@react-three/drei'
 import Building from './Building'
@@ -44,6 +44,11 @@ export default function App() {
                     intensity={0.5}
                 />
             
+            <Environment
+                preset='forest' 
+                background 
+                blur={0} />
+         
             <MapControls enableRotate={true} />
             <Stats />
         </Canvas>

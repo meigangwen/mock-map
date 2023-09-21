@@ -1,5 +1,4 @@
 import { useState, useEffect,useRef } from 'react'
-import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import vertexShader from './shaders/lambert_vertex.glsl'
 import fragmentShader from './shaders/lambert_fragment.glsl'
@@ -14,7 +13,7 @@ export default function SphereLambert(){
         //const light = new THREE.DirectionalLight(0xffffff, 3.0)
         //light.position.set(10,5,30)
         //setDirectionalLight(light)
-        console.log(matRef.current.uniforms)
+        //console.log(matRef.current.uniforms)
         /*
         const uniform = THREE.ShaderLib.lambert.uniforms
         console.log(uniform)

@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
+import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 export default function Sphere(){
     
     const matRef = useRef()
+    const state = useThree()
 
     useEffect( () => {
-        //console.log(matRef.current)
-    })
+        //console.log(state.scene)
+        //console.log(matRef)
+    },[])
 
     return (
         <mesh 
