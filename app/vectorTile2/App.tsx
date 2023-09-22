@@ -48,7 +48,7 @@ export default function App() {
     return (
         <Canvas
             shadows
-            frameloop="demand"
+            //frameloop="demand"
             camera={{ position: [-extent * scale / 2, extent * scale / 2, 1000], 
                       zoom: 2, 
                       up: [0, 0, 1], 
@@ -57,11 +57,9 @@ export default function App() {
                 <Floor 
                     position={[- extent * scale / 2, extent * scale / 2, 0]} />
 
-                <Landcover
-                    landcoverLayer={tile?.layers.landcover} />
+                
                 <Water_areas waterLayer={tile?.layers.water} />
-                <Roads roadLayer={tile?.layers.transportation} />
-                <Buildings buildingLayer={tile?.layers.building} />
+               
                 <directionalLight
                     visible 
                     position={[-extent * scale / 2, extent * scale / 2, 2000]} 
