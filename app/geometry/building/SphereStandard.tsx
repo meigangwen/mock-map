@@ -9,9 +9,11 @@ export default function SphereStandard(){
     const matRef = useRef()
 
     useEffect(() => {
+        /*
         if (matRef.current && scene.environment) {
           matRef.current.uniforms.envMap.value = scene.environment;
-        }
+        }*/
+        console.log(matRef.current.uniforms)
     }, [scene.environment])
 
     return (
@@ -32,6 +34,8 @@ export default function SphereStandard(){
                         { 
                             diffuse:{value: new THREE.Color( 0xff0000 )},
                             emissive:{value: new THREE.Color( 0x000000 )},
+                            roughness:{value: 1},
+                            metalness:{value: 0}
                             //envMap:{value: envMap}
                             //reflectivity: { value: 0.6 },
                         }

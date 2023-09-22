@@ -7,26 +7,29 @@ import {scale} from '../constants/Scale'
 // import functions
 import {signedArea} from '../functions/Polygon'
 
-export default function Building( {buildingData} ) {
+export default function Landcell( { landData } ) {
 
     //declare the state hooks
     const [hovered, setHovered] = useState(false)
-    const [shapes, setShapes] = useState([])
-    const [color, setColor] = useState('#FFFFFF')
+    const [shapes,setShapes] = useState([])
     const [height, setHeight] = useState(0)
-    const [extrudeSettings,setExtrudeSettings] = useState({})
-     
+    const [renderOrder, setRenderOrder] = useState(2)
+    
+    const [color, setColor] = useState(new THREE.Color("#909090"))
+    //const [extrudeSettings,setExtrudeSettings] = useState({})
+    
+    //declare the UI parameters
+    
     useEffect(() => {
-       
-        console.log(buildingData.id)
+        
         let shapes = [],
             shape
-
-        for (let i = 0; i < buildingData.loadGeometry().length; i++){
-            const ring = buildingData.loadGeometry()[i]
+        
+        for (let i = 0; i < landData.loadGeometry().length; i++){
+            const ring = landData.loadGeometry()[i]
             const area = signedArea(ring)
-            if  (area > 0 ){
 
+            if  (area > 0 ){
                 // this area is a shape
                 shape = new THREE.Shape()
                 // move to the first point
@@ -49,47 +52,45 @@ export default function Building( {buildingData} ) {
             }
         }
         setShapes(shapes)
-
-        // calculate the building height
-        const depth = (buildingData.properties.render_height - buildingData.properties.render_min_height)
-        const height = buildingData.properties.render_min_height
-        setHeight(height)
         
-        // extrudeSettings
-        const extrudeSettings = {
-            steps: 1,
-            depth: depth,
-            bevelEnabled: false,
-            bevelThickness: 1,
-            bevelSize: 1,
-            bevelOffset: 0,
-            bevelSegments: 1
-        }
-        setExtrudeSettings(extrudeSettings)
-
-        // set the color
-
-        if ('colour' in buildingData.properties){
-            setColor(buildingData.properties.colour)
-        }
-
+         // maybe we need to useMemo to not let these shapes keep on redrawing
+         switch(landData.properties.class) {
+            case "grass":
+              setColor('#00ff00')
+              break;
+            case "wood":
+              setColor('#009900')
+              setHeight(0.1)
+              setRenderOrder(3)
+              break;
+            case 'sand':
+              setColor('#FFFF00')
+              setHeight(0.1)
+              setRenderOrder(2)
+              break;  
+            default:
+              // code block
+          }
+         //setShapes(shapes)
     },[])
     
     return (
-        <mesh 
+        <mesh
             position = {[0,0,height]}
+            renderOrder={renderOrder}
             receiveShadow
-            castShadow
-            renderOrder={10}
             onPointerOver={(e) => {
                 setHovered(true)
                 e.stopPropagation()
             }} 
             onPointerOut={() => {
-                setHovered(false)
+                setHovered(false)  
             }} >
-            <meshStandardMaterial color={hovered?'red':color} />
-            <extrudeGeometry args={[shapes, extrudeSettings]} />
+            <meshStandardMaterial 
+                color={hovered? 'red':color} 
+                side={THREE.FrontSide} 
+                depthTest={false} />
+            <shapeGeometry args={[shapes]} />
         </mesh>
     )
 }

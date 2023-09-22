@@ -44,14 +44,17 @@ export default function App() {
             <ambientLight
                     visible
                     intensity={0.5}
-                />
+            />
             
+            <hemisphereLight
+                    //color={'#ff0000'}
+                    //groundColor={'#0000ff'}
+                    intensity={1.0}       
+            />
             <Environment
-                preset='forest' 
-                //background 
-                //blur={0} 
-                />
-         
+                    preset='forest'
+            />
+            
             <MapControls enableRotate={true} />
             <Stats />
         </Canvas>
