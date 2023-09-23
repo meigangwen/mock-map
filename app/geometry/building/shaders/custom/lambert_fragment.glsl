@@ -58,4 +58,5 @@ void main() {
 	#include <colorspace_fragment>
 	#include <fog_fragment>
 	#include <premultiplied_alpha_fragment>
+	//gl_FragColor = vec4(vec3(1.0,1.0,1.0), 1.0);
 }

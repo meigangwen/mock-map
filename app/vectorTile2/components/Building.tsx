@@ -18,7 +18,7 @@ export default function Building( {buildingData} ) {
      
     useEffect(() => {
        
-        console.log(buildingData.id)
+        //console.log(buildingData.id)
         let shapes = [],
             shape
 

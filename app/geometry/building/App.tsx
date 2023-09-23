@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls, Environment } from '@react-three/drei'
 import Building from './Building'
 import Floor from './Floor'
+import FloorCustom from './FloorCustom'
 import Sphere from './Sphere'
 import SphereLambert from './SphereLambert'
 import SphereCustomLambert from './SphereCustomLambert'
@@ -21,7 +22,7 @@ export default function App() {
         >
             <fog attach="fog" args={['white', 50, 500]} />
             <Building />
-            <Floor />
+            <FloorCustom />
             <Sphere />
             <SphereLambert />
             <SphereCustomLambert />
