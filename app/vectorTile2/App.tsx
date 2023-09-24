@@ -56,8 +56,8 @@ export default function App() {
             <Suspense fallback={null}>
                 <Floor 
                     position={[- extent * scale / 2, extent * scale / 2, 0]} />
-
-                <Water waterLayer={tile?.layers.water} /> 
+                <Water waterLayer={tile?.layers.water} />
+                <Landcover landcoverLayer={tile?.layers.landcover} /> 
                 <directionalLight
                     visible 
                     position={[-extent * scale / 2, extent * scale / 2, 2000]} 
