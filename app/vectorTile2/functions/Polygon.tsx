@@ -2,14 +2,24 @@ import * as THREE from 'three'
 import {scale} from '../constants/Scale'
 
 //try to refractor this function later
-function ringToShape(ring, isHole: boolean) {
+function ringToShape(ring) {
     // set the shape to either shape or path depends on if it is a hole
-    const shape = isHole ? new THREE.Path() : new THREE.Shape() 
+    const shape = new THREE.Shape() 
     shape.moveTo(-ring[0].x * scale, ring[0].y * scale) 
     for (let j = 1; j < ring.length; j++) {
         shape.lineTo(-ring[j].x * scale, ring[j].y * scale)
     }
     return shape
+}
+
+function ringToHole(ring) {
+    // set the shape to either shape or path depends on if it is a hole
+    const hole = new THREE.Path() 
+    hole.moveTo(-ring[0].x * scale, ring[0].y * scale) 
+    for (let j = 1; j < ring.length; j++) {
+        hole.lineTo(-ring[j].x * scale, ring[j].y * scale)
+    }
+    return hole
 }
 
 function signedArea(ring) {
@@ -51,4 +61,4 @@ function classifyRings(rings) {
     return polygons;
 }
 
-export { ringToShape, classifyRings, signedArea }
+export { ringToShape, ringToHole, classifyRings, signedArea }

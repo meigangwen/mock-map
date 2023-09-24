@@ -14,7 +14,6 @@ import Water from './components/Water'
 import Landcover from './components/Landcover'
 import Buildings from './components/Buildings'
 import Roads from './components/Roads'
-import Water_areas from './components/Water_areas'
 
 // import constants
 import {scale, extent} from './constants/Scale'

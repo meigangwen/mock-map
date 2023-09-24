@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { useState, useEffect } from 'react'
 import { useControls } from 'leva'
-import {ringToShape, signedArea} from '../functions/Polygon'
+import { ringToShape, ringToHole, signedArea } from '../functions/Polygon'
 
 export default function Water({waterLayer}) {
 
@@ -40,7 +40,7 @@ export default function Water({waterLayer}) {
             if (geometry.length === 1) {
                 // there is no need to check for holes
                 const ring = geometry[0]
-                shape = ringToShape(ring, false)
+                shape = ringToShape(ring)
                 isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
             }
             
@@ -51,12 +51,12 @@ export default function Water({waterLayer}) {
                     const area = signedArea(ring)
                     if  (area > 0 ){
                         // this area is a shape
-                        shape = ringToShape(ring, false)
+                        shape = ringToShape(ring)
                         isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
                     }
                     if ( area < 0 ){
                         // this area is a hole, which needs to be attached to the previous shape
-                        const hole = ringToShape(ring, true)
+                        const hole = ringToHole(ring)
                         shape?.holes.push(hole)
                         if (!isDeep){
                             flatShapes.pop()
