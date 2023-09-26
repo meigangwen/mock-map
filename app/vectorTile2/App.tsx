@@ -3,7 +3,7 @@
 // import libs
 import Protobuf from 'pbf'
 import { VectorTile, VectorTileLayer, VectorTileFeature } from '@mapbox/vector-tile'
-import { Suspense, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Stats, MapControls, Environment } from '@react-three/drei'
 import { useControls } from 'leva'
@@ -24,14 +24,15 @@ async function loadVectorTile(url: string): Promise<VectorTile> {
     return new VectorTile(new Protobuf(buffer))
 }
 
+//<Landcover landcoverLayer={tile?.layers.landcover} /> 
+
 export default function App() {
 
+    console.log("Hello App")
     // set the vector tile to be loaded
     const url = "https://tileserver.yilumi.com/data/singapore/14/12914/8132.pbf"
-   
     // set the state hook for loading the tile
     const [tile, setTile] = useState<VectorTile | null>(null)
-
     //declare the UI parameters
     const { castShadow } = useControls("Scene", {
         castShadow: true,
@@ -41,9 +42,9 @@ export default function App() {
         loadVectorTile(url)
         .then(loadedTile => {
             setTile(loadedTile)
-            //console.log(loadedTile)
+            //tile = loadedTile?
         })
-    },[url])
+    },[])
    
     return (
         <Canvas
@@ -53,27 +54,24 @@ export default function App() {
                       zoom: 2, 
                       up: [0, 0, 1], 
                       far: 20000 }}>
-            <Suspense fallback={null}>
-                <Floor 
-                    position={[- extent * scale / 2, extent * scale / 2, 0]} />
-                <Water waterLayer={tile?.layers.water} />
-                <Landcover landcoverLayer={tile?.layers.landcover} /> 
-                <directionalLight
-                    visible 
-                    position={[-extent * scale / 2, extent * scale / 2, 2000]} 
-                    intensity={1.0} 
-                    castShadow={castShadow}
-                    shadow-mapSize-width={2048} 
-                    shadow-mapSize-height={2048}
-                    shadow-camera-near={1}
-                    shadow-camera-far={10000}
-                    shadow-camera-left={-5000}
-                    shadow-camera-right={5000}
-                    shadow-camera-top={5000}
-                    shadow-camera-bottom={-5000}
-                />
-                <Environment preset='city' />
-            </Suspense>
+            <Floor 
+                position={[- extent * scale / 2, extent * scale / 2, 0]} />
+            <Water waterLayer={tile?.layers.water} />
+            <directionalLight
+                visible 
+                position={[-extent * scale / 2, extent * scale / 2, 2000]} 
+                intensity={1.0} 
+                castShadow={castShadow}
+                shadow-mapSize-width={2048} 
+                shadow-mapSize-height={2048}
+                shadow-camera-near={1}
+                shadow-camera-far={10000}
+                shadow-camera-left={-5000}
+                shadow-camera-right={5000}
+                shadow-camera-top={5000}
+                shadow-camera-bottom={-5000}
+            />
+            <Environment preset='city' />
             <MapControls enableRotate={true} />
             <Stats />
         </Canvas>

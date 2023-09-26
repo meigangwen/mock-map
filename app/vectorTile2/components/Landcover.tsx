@@ -7,6 +7,8 @@ export default function Landcover({landcoverLayer}) {
 
     const [shapes, setShapes] = useState()
     const [hovered, setHovered] = useState()
+    //const [height, setHeight] = useState()
+    //const [renderOrder, setRenderOrder] = useState()
 
     const { visible } = useControls("Landcover", {
         visible: true,
@@ -21,10 +23,12 @@ export default function Landcover({landcoverLayer}) {
             shape
 
         for (let i=0; i<landcoverLayer.length; i++){
-            // looping through the features
-
             
+            // looping through the features
             const geometry = landcoverLayer.feature(i).loadGeometry()
+            const landClass = landcoverLayer.feature(i).properties.class
+
+
             
             if (geometry.length === 1) {
                 // there is no need to check for holes

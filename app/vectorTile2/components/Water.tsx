@@ -1,15 +1,11 @@
 import * as THREE from 'three'
-import { useState, useEffect } from 'react'
 import { useControls } from 'leva'
 import { ringToShape, ringToHole, signedArea } from '../functions/Polygon'
 
 export default function Water({waterLayer}) {
 
-    const [extrudeShapes, setExtrudeShapes] = useState([])
-    const [flatShapes, setFlatShapes] = useState([])
-    const [hovered1, setHovered1] = useState(false)
-    const [hovered2, setHovered2] = useState(false)
-    
+    console.log("water layer")
+ 
     //declare the UI parameters 
     const { visible, depth, color } = useControls("Water", {
         visible: true,
@@ -27,53 +23,48 @@ export default function Water({waterLayer}) {
         bevelSegments: 1
     }
     
-    useEffect(() => {
+    //loading the water layer data
+    let flatShapes = [],
+        extrudeShapes = [],
+        shape
 
-        let flatShapes = [],
-            extrudeShapes = [],
-            shape
+    for (let i=0; i<waterLayer.length; i++){
+        const geometry = waterLayer.feature(i).loadGeometry()
+        const isDeep = !(waterLayer.feature(i).properties.class === 'swimming_pool' || waterLayer.feature(i).properties.class === 'pond')
 
-        for (let i=0; i<waterLayer.length; i++){
-            const geometry = waterLayer.feature(i).loadGeometry()
-            const isDeep = !(waterLayer.feature(i).properties.class === 'swimming_pool' || waterLayer.feature(i).properties.class === 'pond')
-
-            if (geometry.length === 1) {
-                // there is no need to check for holes
-                const ring = geometry[0]
-                shape = ringToShape(ring)
-                isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
-            }
-            
-            else {
-                // need to run test to check for holes
-                for (let i = 0; i < geometry.length; i++){
-                    const ring = geometry[i]
-                    const area = signedArea(ring)
-                    if  (area > 0 ){
-                        // this area is a shape
-                        shape = ringToShape(ring)
-                        isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
-                    }
-                    if ( area < 0 ){
-                        // this area is a hole, which needs to be attached to the previous shape
-                        const hole = ringToHole(ring)
-                        shape?.holes.push(hole)
-                        if (!isDeep){
-                            flatShapes.pop()
-                            flatShapes.push(shape)
-                        } else {
-                            extrudeShapes.pop()
-                            extrudeShapes.push(shape)
-                        }
+        if (geometry.length === 1) {
+            // there is no need to check for holes
+            const ring = geometry[0]
+            shape = ringToShape(ring)
+            isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
+        }
+        
+        else {
+            // need to run test to check for holes
+            for (let i = 0; i < geometry.length; i++){
+                const ring = geometry[i]
+                const area = signedArea(ring)
+                if  (area > 0 ){
+                    // this area is a shape
+                    shape = ringToShape(ring)
+                    isDeep? extrudeShapes.push(shape) : flatShapes.push(shape)
+                }
+                if ( area < 0 ){
+                    // this area is a hole, which needs to be attached to the previous shape
+                    const hole = ringToHole(ring)
+                    shape?.holes.push(hole)
+                    if (!isDeep){
+                        flatShapes.pop()
+                        flatShapes.push(shape)
+                    } else {
+                        extrudeShapes.pop()
+                        extrudeShapes.push(shape)
                     }
                 }
-            
             }
+        
         }
-
-        setFlatShapes(flatShapes)
-        setExtrudeShapes(extrudeShapes)
-    }, [])
+    }
 
     return (
         <group>
@@ -81,15 +72,9 @@ export default function Water({waterLayer}) {
                 visible={visible}
                 renderOrder={4}
                 receiveShadow
-                onPointerOver={(e) => {
-                    setHovered1(true)
-                    e.stopPropagation()
-                }} 
-                onPointerOut={() => {
-                    setHovered1(false)  
-                }} >
+            >
                 <meshStandardMaterial 
-                    color={hovered1? 'red':color} 
+                    color={color} 
                     side={THREE.FrontSide}
                     roughness={0.1} 
                     depthTest={false} />
@@ -99,15 +84,9 @@ export default function Water({waterLayer}) {
                 visible={visible}
                 renderOrder={4}
                 receiveShadow
-                onPointerOver={(e) => {
-                    setHovered2(true)
-                    e.stopPropagation()
-                }} 
-                onPointerOut={() => {
-                    setHovered2(false)  
-                }} >
+            >
                 <meshStandardMaterial 
-                    color={hovered2? 'red':color} 
+                    color={color} 
                     side={THREE.FrontSide}
                     roughness={0.1} 
                     depthTest={false} />
