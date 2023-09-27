@@ -16,8 +16,8 @@ import { useControls } from "leva";
 import Floor from "./components/Floor";
 import Water from "./components/Water";
 import Landcover from "./components/Landcover";
-import Buildings from "./components/Buildings";
-import Roads from "./components/Roads";
+//import Buildings from "./components/Buildings";
+//import Roads from "./components/Roads";
 
 // import constants
 import { scale, extent } from "./constants/Scale";
@@ -28,17 +28,14 @@ async function loadVectorTile(url: string): Promise<VectorTile> {
   return new VectorTile(new Protobuf(buffer));
 }
 
-//<Landcover landcoverLayer={tile?.layers.landcover} />
-
 export default function App() {
-  console.log("Hello App");
   // set the vector tile to be loaded
   const url = "https://tileserver.yilumi.com/data/singapore/14/12914/8132.pbf";
   // set the state hook for loading the tile
   const [tile, setTile] = useState<VectorTile | null>(null);
   // declare the UI parameters
   const { castShadow } = useControls("Scene", {
-    castShadow: true,
+    castShadow: false,
   });
 
   useEffect(() => {

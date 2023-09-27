@@ -5,8 +5,6 @@ import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
 
 const Water: React.FC<{ waterLayer: VectorTileLayer }> = ({ waterLayer }) => {
-  console.log("water layer");
-
   //declare the UI parameters
   const { visible, depth, color } = useControls("Water", {
     visible: true,
