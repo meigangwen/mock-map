@@ -17,7 +17,7 @@ import Floor from "./components/Floor";
 import Water from "./components/Water";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
-//import Buildings from "./components/Buildings";
+import Building from "./components/Building";
 
 // import constants
 import { scale, extent } from "./constants/Scale";
@@ -64,6 +64,9 @@ export default function App() {
       )}
       {tile && tile.layers && tile.layers.transportation && (
         <Road roadLayer={tile.layers.transportation} />
+      )}
+      {tile && tile.layers && tile.layers.building && (
+        <Building buildingLayer={tile.layers.building} />
       )}
       <directionalLight
         visible

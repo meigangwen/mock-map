@@ -5,7 +5,6 @@ import { useControls } from "leva";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
 import { scale } from "../constants/Scale";
 
-//export default function Road({ roadData }) {
 const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
   const { visible } = useControls("Road", {
     visible: true,
