@@ -16,8 +16,8 @@ import { useControls } from "leva";
 import Floor from "./components/Floor";
 import Water from "./components/Water";
 import Landcover from "./components/Landcover";
+import Road from "./components/Road";
 //import Buildings from "./components/Buildings";
-//import Roads from "./components/Roads";
 
 // import constants
 import { scale, extent } from "./constants/Scale";
@@ -58,6 +58,12 @@ export default function App() {
       <Floor position={[(-extent * scale) / 2, (extent * scale) / 2, 0]} />
       {tile && tile.layers && tile.layers.water && (
         <Water waterLayer={tile.layers.water} />
+      )}
+      {tile && tile.layers && tile.layers.landcover && (
+        <Landcover landcoverLayer={tile.layers.landcover} />
+      )}
+      {tile && tile.layers && tile.layers.transportation && (
+        <Road roadLayer={tile.layers.transportation} />
       )}
       <directionalLight
         visible

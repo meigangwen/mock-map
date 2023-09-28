@@ -1,156 +1,163 @@
-import * as THREE from 'three'
-import { useState, useEffect } from 'react'
-//import { useControls } from 'leva'
+import * as React from "react";
+import * as THREE from "three";
+import { useControls } from "leva";
+//import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
+import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
+import { scale } from "../constants/Scale";
 
-// import constants
-import {scale} from '../constants/Scale'
+//export default function Road({ roadData }) {
+const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
+  const { visible } = useControls("Road", {
+    visible: true,
+  });
 
-export default function Road( { roadData } ) {
+  let roadList = [
+    {
+      class: "service",
+      width: 4.0,
+      color: "#ffffff",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "path",
+      width: 2.0,
+      color: "#ffffff",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "minor",
+      width: 6.0,
+      color: "#ffffff",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "trunk",
+      width: 12.0,
+      color: "#ffff00",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "primary",
+      width: 12.0,
+      color: "#ffff00",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "secondary",
+      width: 10.0,
+      color: "#ffff00",
+      renderOrder: 7,
+      shapes: [],
+    },
+    {
+      class: "motorway",
+      width: 15.0,
+      color: "#fda172",
+      renderOrder: 6,
+      shapes: [],
+    },
+  ];
 
-    //declare the state hooks
-    //const [visible,setVisible] = useState(false)
-    const [hovered, setHovered] = useState(false)
-    const [color, setColor] = useState(new THREE.Color("#ffffff"))
-    const [renderOrder, setRenderOrder] = useState(6)
-    const [shape, setShape] = useState(new THREE.Shape())
-    //const [geometry,setGeometry] = useState(new THREE.BufferGeometry())
-    //const [extrudeSettings,setExtrudeSettings] = useState({})
-    
-    useEffect(() => {
-        const shape = new THREE.Shape()
-        let width = 2.0
+  const resolution = 1;
 
-        if (roadData.type === 2){
-        
-            const resolution = 1
-            const length = roadData.loadGeometry()[0].length
-            //console.log(roadData.properties)
+  for (let i = 0; i < roadLayer.length; i++) {
+    // loop through all the roads
+    if (roadLayer.feature(i).type === 2) {
+      const geometry = roadLayer.feature(i).loadGeometry()[0];
+      const length = geometry.length;
+      const curvePoints = geometry.map((coordinate) => {
+        return new THREE.Vector3(
+          -coordinate.x * scale,
+          coordinate.y * scale,
+          0
+        );
+      });
+      const curve = new THREE.CatmullRomCurve3(curvePoints);
+      const points = curve.getPoints(length * resolution);
+      const roadClass = roadLayer.feature(i).properties.class;
+      //console.log(roadClass);
+      const roadObj = roadList.find((obj) => obj.class === roadClass);
 
-            
-            const curvePoints = roadData.loadGeometry()[0].map((coordinate) => {
-                return new THREE.Vector3( -coordinate.x * scale, coordinate.y * scale, 0 )
-            })
-            //console.log(curvePoints)
-            const curve = new THREE.CatmullRomCurve3(curvePoints)
-            
-            const points = curve.getPoints(length * resolution)
+      //roadObj may not be found
+      if (roadObj) {
+        const width = roadObj.width;
+        const shape = new THREE.Shape();
 
-            // create road shape
-             // if the road is a line
-             switch(roadData.properties.class) {
-                case "service":
-                width = 4.0
-                setColor('#ffffff') 
-                setRenderOrder(7)    
-                break
-                
-                case "path":
-                width = 2
-                setColor('#ffffff') 
-                setRenderOrder(7) 
-                break
-                
-                case 'minor': 
-                width = 6.0
-                setColor('#ffffff') 
-                setRenderOrder(7)
-                break
-                
-                case 'trunk':
-                width = 12.0
-                setColor('#ffff00') 
-                setRenderOrder(7)
-                break
-                
-                case 'primary': 
-                width = 12.0
-                setColor('#ffff00')
-                setRenderOrder(7) 
-                break
-                
-                case 'secondary':
-                width = 10.0
-                setColor('#ffff00')
-                setRenderOrder(7)
-                break
-                
-                case 'motorway':
-                width = 15.0
-                setColor('#fda172')
-                setRenderOrder(6)    
-                break
-                
-                case 'transit':
-                break
-                case 'bridge':
-                break
-                case 'tertiary':
-                break
-                default:
-                // code block
-                // service, path, minor, trunk, primary, secondary,motorway, transit, bridge,tertiary 
-            }
-            
-            //shape.moveTo(points[0].x, points[0].y)
-            for (let i = 0; i < points.length - 1; i++) {
-                let start = points[i]
-                let end = points[i + 1]
-            
-                let direction = new THREE.Vector3().subVectors(end, start).normalize()
-                let perpendicular = new THREE.Vector3(-direction.y, direction.x, 0).multiplyScalar(width * 0.5)
-            
-                if (i === 0) {
-                    shape.moveTo(start.x + perpendicular.x, start.y + perpendicular.y)
-                }
-            
-                shape.lineTo(end.x + perpendicular.x, end.y + perpendicular.y)
-            }
-            
-            for (let i = points.length - 2; i >= 0; i--) {
-                let start = points[i + 1]
-                let end = points[i]
-            
-                let direction = new THREE.Vector3().subVectors(end, start).normalize()
-                let perpendicular = new THREE.Vector3(-direction.y, direction.x, 0).multiplyScalar(width * 0.5)
+        for (let j = 0; j < points.length - 1; j++) {
+          let start = points[j];
+          let end = points[j + 1];
 
-                shape.lineTo(start.x + perpendicular.x, start.y + perpendicular.y)
+          let direction = new THREE.Vector3()
+            .subVectors(end, start)
+            .normalize();
+          let perpendicular = new THREE.Vector3(
+            -direction.y,
+            direction.x,
+            0
+          ).multiplyScalar(width * 0.5);
 
-                if(i === 0 ){
-                    shape.lineTo(end.x + perpendicular.x, end.y + perpendicular.y)
-                }
-            }
-            //shape.lineTo(points[0].x, points[0].y)
+          if (j === 0) {
+            shape.moveTo(start.x + perpendicular.x, start.y + perpendicular.y);
+          }
 
-            setShape(shape)
-            
-       
-
-        } else {
-            if (roadData.type === 3){
-            // if the road is a polygon
-            // not setting the geometry for now
-            }
+          shape.lineTo(end.x + perpendicular.x, end.y + perpendicular.y);
         }
 
-    },[])
-    
-    return (
-        <mesh
-            renderOrder={renderOrder}
+        for (let j = points.length - 2; j >= 0; j--) {
+          let start = points[j + 1];
+          let end = points[j];
+
+          let direction = new THREE.Vector3()
+            .subVectors(end, start)
+            .normalize();
+          let perpendicular = new THREE.Vector3(
+            -direction.y,
+            direction.x,
+            0
+          ).multiplyScalar(width * 0.5);
+
+          shape.lineTo(start.x + perpendicular.x, start.y + perpendicular.y);
+
+          if (j === 0) {
+            shape.lineTo(end.x + perpendicular.x, end.y + perpendicular.y);
+          }
+        }
+
+        roadObj.shapes.push(shape);
+      }
+    } else {
+      if (roadLayer.feature(i).type === 2) {
+        // if the road is a polygon
+        // not setting the geometry for now
+      }
+    }
+  }
+
+  return (
+    <group visible={visible}>
+      {roadList.map((roadObj) => {
+        return (
+          <mesh
+            renderOrder={roadObj.renderOrder}
             receiveShadow
-            onPointerOver={(e) => {
-                setHovered(true)
-                e.stopPropagation()
-            }} 
-            onPointerOut={() => {
-                setHovered(false)  
-            }}>
-            <meshStandardMaterial 
-                color={hovered? 'red':color} 
-                side={THREE.FrontSide} 
-                depthTest={false}
-                />
-            <shapeGeometry args={[shape]} />
-        </mesh>
-    )
-}
+            key={roadObj.class}
+          >
+            <meshStandardMaterial
+              color={roadObj.color}
+              side={THREE.FrontSide}
+              depthTest={false}
+            />
+            <shapeGeometry args={[roadObj.shapes]} />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+};
+
+export default Road;

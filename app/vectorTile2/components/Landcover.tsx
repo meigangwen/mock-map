@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as THREE from "three";
-//import { useState, useEffect } from "react";
 import { useControls } from "leva";
 import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
@@ -8,64 +7,87 @@ import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
 const Landcover: React.FC<{ landcoverLayer: VectorTileLayer }> = ({
   landcoverLayer,
 }) => {
-  //const [shapes, setShapes] = useState();
-  //const [hovered, setHovered] = useState();
-  //const [height, setHeight] = useState()
-  //const [renderOrder, setRenderOrder] = useState()
-
   const { visible } = useControls("Landcover", {
     visible: true,
   });
 
-  // defines the class name list
-  const landClass = ["grass", "wood", "sand"];
+  let landList = [
+    {
+      class: "grass",
+      color: "#00ff00",
+      renderOrder: 2,
+      height: 0.0,
+      shapes: [],
+    },
+    {
+      class: "wood",
+      color: "#009900",
+      renderOrder: 3,
+      height: 0.1,
+      shapes: [],
+    },
+    {
+      class: "sand",
+      color: "#FFFF00",
+      renderOrder: 2,
+      height: 0.1,
+      shapes: [],
+    },
+  ];
 
-  useEffect(() => {
-    let shapes, shape;
+  //let shape;
+  for (let i = 0; i < landcoverLayer.length; i++) {
+    // looping through the features
+    let shape;
+    const geometry = landcoverLayer.feature(i).loadGeometry();
+    const landClass = landcoverLayer.feature(i).properties.class;
+    const landObj = landList.find((obj) => obj.class === landClass);
 
-    for (let i = 0; i < landcoverLayer.length; i++) {
-      // looping through the features
-      const geometry = landcoverLayer.feature(i).loadGeometry();
-      const landClass = landcoverLayer.feature(i).properties.class;
-
-      if (geometry.length === 1) {
-        // there is no need to check for holes
-        const ring = geometry[0];
-        shape = ringToShape(ring);
-        grassShapes.push(shape);
-      } else {
-        // need to run test to check for holes
-        for (let i = 0; i < geometry.length; i++) {
-          const ring = geometry[i];
-          const area = signedArea(ring);
-          if (area > 0) {
-            // this area is a shape
-            shape = ringToShape(ring);
-            grassShapes.push(shape);
-          }
-          if (area < 0) {
-            // this area is a hole, which needs to be attached to the previous shape
-            const hole = ringToHole(ring);
-            shape?.holes.push(hole);
-            grassShapes.pop();
-            grassShapes.push(shape);
-          }
+    if (geometry.length === 1) {
+      // there is no need to check for holes
+      const ring = geometry[0];
+      shape = ringToShape(ring);
+      landObj.shapes.push(shape);
+    } else {
+      // need to run test to check for holes
+      for (let i = 0; i < geometry.length; i++) {
+        const ring = geometry[i];
+        const area = signedArea(ring);
+        if (area > 0) {
+          // this area is a shape
+          shape = ringToShape(ring);
+          landObj.shapes.push(shape);
+        }
+        if (area < 0) {
+          // this area is a hole, which needs to be attached to the previous shape
+          const hole = ringToHole(ring);
+          shape?.holes.push(hole);
+          landObj.shapes.pop();
+          landObj.shapes.push(shape);
         }
       }
     }
-    setShapes(grassShapes);
-  }, []);
+  }
 
   return (
     <group visible={visible}>
-      <mesh position={[0, 0, 0]} renderOrder={2} receiveShadow>
-        <meshStandardMaterial
-          color={"#ffffff"}
-          side={THREE.FrontSide}
-          depthTest={false}
-        />
-        <shapeGeometry args={[shapes]} />
-      </mesh>
+      {landList.map((landObj) => {
+        return (
+          <mesh
+            position={[0, 0, landObj.height]}
+            renderOrder={landObj.renderOrder}
+            receiveShadow
+            key={landObj.class}
+          >
+            <meshStandardMaterial
+              color={landObj.color}
+              side={THREE.FrontSide}
+              depthTest={false}
+            />
+            <shapeGeometry args={[landObj.shapes]} />
+          </mesh>
+        );
+      })}
     </group>
   );
 };

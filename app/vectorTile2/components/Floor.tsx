@@ -1,10 +1,9 @@
 import { useControls } from "leva";
 
 // import constants
-import { scale, extent } from "../constants/Scale";
+import { scale } from "../constants/Scale";
 
 export default function Floor({ ...props }) {
-  console.log("Floor");
   //declare the UI parameters
   const { visible, color } = useControls("Floor", {
     visible: true,
