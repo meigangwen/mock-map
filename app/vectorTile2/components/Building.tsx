@@ -7,82 +7,110 @@ import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
 const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   buildingLayer,
 }) => {
-  useEffect(() => {
-    //console.log(buildingData.id)
-    let shapes = [],
-      shape;
+  const { visible } = useControls("Building", {
+    visible: true,
+  });
 
-    for (let i = 0; i < buildingData.loadGeometry().length; i++) {
-      const ring = buildingData.loadGeometry()[i];
-      const area = signedArea(ring);
-      if (area > 0) {
-        // this area is a shape
-        shape = new THREE.Shape();
-        // move to the first point
-        shape.moveTo(-ring[0].x * scale, ring[0].y * scale);
-        for (let j = 1; j < ring.length; j++) {
-          shape.lineTo(-ring[j].x * scale, ring[j].y * scale);
+  // define a building struct
+  interface Building {
+    min_height: number; //the starting height of the building
+    height: number; //the actual height of the building, counting from the starting height
+    color: string;
+    shapes: [];
+  }
+  let buildingList = [];
+
+  for (let i = 0; i < buildingLayer.length; i++) {
+    //looping through all the buildings
+    let shapes = [];
+    let shape;
+    const geometry = buildingLayer.feature(i).loadGeometry();
+    if (geometry.length === 1) {
+      // there is no need to check for holes
+      const ring = geometry[0];
+      shape = ringToShape(ring);
+      shapes.push(shape);
+    } else {
+      // need to run test to check for holes
+      for (let j = 0; j < geometry.length; j++) {
+        const ring = geometry[j];
+        const area = signedArea(ring);
+        if (area > 0) {
+          // this area is a shape
+          shape = ringToShape(ring);
+          shapes.push(shape);
         }
-        shapes.push(shape);
-      }
-      if (area < 0) {
-        // this area is a hole, which needs to be attached to the previous shape
-        const hole = new THREE.Path();
-        hole.moveTo(-ring[0].x * scale, ring[0].y * scale);
-        for (let j = 1; j < ring.length; j++) {
-          hole.lineTo(-ring[j].x * scale, ring[j].y * scale);
+        if (area < 0) {
+          // this area is a hole, which needs to be attached to the previous shape
+          const hole = ringToHole(ring);
+          shape?.holes.push(hole);
+          shapes.pop();
+          shapes.push(shape);
         }
-        shape?.holes.push(hole);
-        shapes.pop();
-        shapes.push(shape);
       }
     }
-    setShapes(shapes);
+    const height =
+      buildingLayer.feature(i).properties.render_height -
+      buildingLayer.feature(i).properties.render_min_height;
+    const min_height = buildingLayer.feature(i).properties.render_min_height;
 
-    // calculate the building height
-    const depth =
-      buildingData.properties.render_height -
-      buildingData.properties.render_min_height;
-    const height = buildingData.properties.render_min_height;
-    setHeight(height);
-
-    // extrudeSettings
-    const extrudeSettings = {
-      steps: 1,
-      depth: depth,
-      bevelEnabled: false,
-      bevelThickness: 1,
-      bevelSize: 1,
-      bevelOffset: 0,
-      bevelSegments: 1,
+    const building: Building = {
+      min_height: min_height,
+      height: height,
+      color: "#ffffff",
+      shapes: shapes,
     };
-    setExtrudeSettings(extrudeSettings);
+    buildingList.push(building);
+  }
 
-    // set the color
+  // extrudeSettings
+  /*
+  const extrudeSettings = {
+    steps: 1,
+    depth: depth,
+    bevelEnabled: false,
+    bevelThickness: 1,
+    bevelSize: 1,
+    bevelOffset: 0,
+    bevelSegments: 1,
+  };
+  */
 
-    if ("colour" in buildingData.properties) {
-      setColor(buildingData.properties.colour);
-    }
-  }, []);
+  // set the color
+  /*
+  if ("colour" in buildingData.properties) {
+    setColor(buildingData.properties.colour);
+  }
+  */
 
   return (
-    <mesh
-      position={[0, 0, height]}
-      receiveShadow
-      castShadow
-      renderOrder={10}
-      onPointerOver={(e) => {
-        setHovered(true);
-        e.stopPropagation();
-      }}
-      onPointerOut={() => {
-        setHovered(false);
-      }}
-    >
-      <meshStandardMaterial color={hovered ? "red" : color} />
-      <extrudeGeometry args={[shapes, extrudeSettings]} />
-    </mesh>
+    <group visible={visible} renderOrder={10}>
+      {buildingList.map((buildingObj, index) => {
+        return (
+          <mesh
+            position={[0, 0, buildingObj.min_height]}
+            receiveShadow
+            key={index}
+          >
+            <meshStandardMaterial color={"#ffffff"} side={THREE.FrontSide} />
+            <extrudeGeometry
+              args={[
+                buildingObj.shapes,
+                {
+                  steps: 1,
+                  depth: buildingObj.height,
+                  bevelEnabled: false,
+                  bevelThickness: 1,
+                  bevelSize: 1,
+                  bevelOffset: 0,
+                  bevelSegments: 1,
+                },
+              ]}
+            />
+          </mesh>
+        );
+      })}
+    </group>
   );
 };
-
 export default Building;
