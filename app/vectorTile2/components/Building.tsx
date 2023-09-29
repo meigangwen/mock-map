@@ -63,26 +63,6 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     buildingList.push(building);
   }
 
-  // extrudeSettings
-  /*
-  const extrudeSettings = {
-    steps: 1,
-    depth: depth,
-    bevelEnabled: false,
-    bevelThickness: 1,
-    bevelSize: 1,
-    bevelOffset: 0,
-    bevelSegments: 1,
-  };
-  */
-
-  // set the color
-  /*
-  if ("colour" in buildingData.properties) {
-    setColor(buildingData.properties.colour);
-  }
-  */
-
   return (
     <group visible={visible} renderOrder={10}>
       {buildingList.map((buildingObj, index) => {

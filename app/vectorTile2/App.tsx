@@ -35,7 +35,7 @@ export default function App() {
   const [tile, setTile] = useState<VectorTile | null>(null);
   // declare the UI parameters
   const { castShadow } = useControls("Scene", {
-    castShadow: false,
+    castShadow: true,
   });
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function App() {
         shadow-camera-top={5000}
         shadow-camera-bottom={-5000}
       />
-      <Environment preset="city" />
+      <Environment preset="city" background />
       <MapControls enableRotate={true} />
       <Stats />
     </Canvas>
