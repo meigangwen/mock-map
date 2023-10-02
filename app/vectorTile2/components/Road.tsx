@@ -7,7 +7,7 @@ import { scale } from "../constants/Scale";
 
 const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
   const { visible } = useControls("Road", {
-    visible: true,
+    visible: false,
   });
 
   let roadList = [

@@ -49,9 +49,9 @@ export default function App() {
       shadows
       //frameloop="demand"
       camera={{
-        position: [(-extent * scale) / 2, (extent * scale) / 2, 1000],
+        position: [(-extent * scale) / 2, 1000, (extent * scale) / 2],
         zoom: 2,
-        up: [0, 0, 1],
+        up: [0, 1, 0],
         far: 20000,
       }}
     >
