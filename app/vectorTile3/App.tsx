@@ -91,20 +91,20 @@ export default function App() {
       </group>
       <directionalLight
         visible
-        position={[50, 300, 50]}
+        position={[50, 200, 50]}
         intensity={1.0}
         castShadow={castShadow}
-        //shadow-mapSize-width={2048}
-        //shadow-mapSize-height={2048}
-        //shadow-camera-near={1}
-        //shadow-camera-far={1000}
-        //shadow-camera-left={-1200}
-        //shadow-camera-right={1200}
-        //shadow-camera-top={1200}
-        //shadow-camera-bottom={-1200}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-near={1}
+        shadow-camera-far={1000}
+        shadow-camera-left={-1200}
+        shadow-camera-right={1200}
+        shadow-camera-top={1200}
+        shadow-camera-bottom={-1200}
       />
-
-      <Environment preset="forest" background />
+      <ambientLight intensity={0.2} />
+      <Environment preset="forest" />
       <MapControls enableRotate={true} />
       <Stats />
     </Canvas>

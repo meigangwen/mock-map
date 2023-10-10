@@ -72,6 +72,7 @@ const Water: React.FC<{ waterLayer: VectorTileLayer }> = ({ waterLayer }) => {
           color={color}
           side={THREE.FrontSide}
           roughness={0.1}
+          envMapIntensity={0.1}
           depthTest={false}
         />
         <extrudeGeometry args={[extrudeShapes, extrudeSettings]} />

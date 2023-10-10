@@ -149,6 +149,7 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
             <meshStandardMaterial
               color={roadObj.color}
               side={THREE.FrontSide}
+              envMapIntensity={0.2}
               depthTest={false}
             />
             <shapeGeometry args={[roadObj.shapes]} />

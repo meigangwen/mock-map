@@ -73,7 +73,11 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
             castShadow
             key={index}
           >
-            <meshStandardMaterial color={"#ffffff"} side={THREE.FrontSide} />
+            <meshStandardMaterial
+              color={"#ffffff"}
+              side={THREE.FrontSide}
+              envMapIntensity={0.75}
+            />
             <extrudeGeometry
               args={[
                 buildingObj.shapes,

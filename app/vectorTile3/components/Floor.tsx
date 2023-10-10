@@ -13,7 +13,11 @@ export default function Floor({ ...props }) {
   return (
     <mesh visible={visible} receiveShadow renderOrder={0} {...props}>
       <planeGeometry args={[featureScale * extent, featureScale * extent]} />
-      <meshStandardMaterial color={color} depthTest={false} />
+      <meshStandardMaterial
+        color={color}
+        depthTest={false}
+        envMapIntensity={0.1}
+      />
     </mesh>
   );
   // why is a tile as big as 4225
