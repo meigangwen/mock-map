@@ -6,7 +6,7 @@ import { scale } from "../constants/Scale";
 export default function Floor({ ...props }) {
   //declare the UI parameters
   const { visible, color } = useControls("Floor", {
-    visible: true,
+    visible: false,
     color: { value: "#a6a6a6" },
   });
 

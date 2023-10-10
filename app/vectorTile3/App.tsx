@@ -51,7 +51,7 @@ export default function App() {
       camera={{
         position: [(-extent * scale) / 2, 1000, (extent * scale) / 2],
         zoom: 2,
-        up: [0, 0, 1],
+        up: [0, 1, 0],
         far: 20000,
       }}
     >
@@ -82,7 +82,7 @@ export default function App() {
         shadow-camera-top={5000}
         shadow-camera-bottom={-5000}
       />
-      <Environment preset="city" />
+      <Environment preset="city" background />
       <MapControls enableRotate={true} />
       <Stats />
     </Canvas>
