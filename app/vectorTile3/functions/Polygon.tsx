@@ -1,13 +1,13 @@
 import * as THREE from "three";
-import { scale } from "../constants/Scale";
+import { featureScale } from "../constants/Scale";
 
 //try to refractor this function later
 function ringToShape(ring) {
   // set the shape to either shape or path depends on if it is a hole
   const shape = new THREE.Shape();
-  shape.moveTo(ring[0].x * scale, ring[0].y * scale);
+  shape.moveTo(-ring[0].x * featureScale, ring[0].y * featureScale);
   for (let j = 1; j < ring.length; j++) {
-    shape.lineTo(ring[j].x * scale, ring[j].y * scale);
+    shape.lineTo(-ring[j].x * featureScale, ring[j].y * featureScale);
   }
   return shape;
 }
@@ -15,9 +15,9 @@ function ringToShape(ring) {
 function ringToHole(ring) {
   // set the shape to either shape or path depends on if it is a hole
   const hole = new THREE.Path();
-  hole.moveTo(ring[0].x * scale, ring[0].y * scale);
+  hole.moveTo(-ring[0].x * featureScale, ring[0].y * featureScale);
   for (let j = 1; j < ring.length; j++) {
-    hole.lineTo(ring[j].x * scale, ring[j].y * scale);
+    hole.lineTo(-ring[j].x * featureScale, ring[j].y * featureScale);
   }
   return hole;
 }
@@ -31,33 +31,4 @@ function signedArea(ring) {
   }
   return sum;
 }
-
-// classifies an array of rings into polygons with outer rings and holes
-function classifyRings(rings) {
-  var len = rings.length;
-
-  if (len <= 1) return [rings];
-
-  var polygons = [],
-    polygon,
-    ccw;
-
-  for (var i = 0; i < len; i++) {
-    var area = signedArea(rings[i]);
-    if (area === 0) continue;
-
-    if (ccw === undefined) ccw = area < 0;
-
-    if (ccw === area < 0) {
-      if (polygon) polygons.push(polygon);
-      polygon = [rings[i]];
-    } else {
-      polygon.push(rings[i]);
-    }
-  }
-  if (polygon) polygons.push(polygon);
-
-  return polygons;
-}
-
-export { ringToShape, ringToHole, classifyRings, signedArea };
+export { ringToShape, ringToHole, signedArea };

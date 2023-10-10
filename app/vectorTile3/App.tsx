@@ -20,7 +20,7 @@ import Road from "./components/Road";
 import Building from "./components/Building";
 
 // import constants
-import { scale, extent } from "./constants/Scale";
+import { zoomScale, featureScale, extent } from "./constants/Scale";
 
 async function loadVectorTile(url: string): Promise<VectorTile> {
   const response = await fetch(url);
@@ -44,45 +44,67 @@ export default function App() {
     });
   }, []);
 
+  //<Environment preset="city" background />
+  //<hemisphereLight intensity={1} color="#ffffff" groundColor="#000000" />
   return (
     <Canvas
       shadows
       //frameloop="demand"
       camera={{
-        position: [(-extent * scale) / 2, 1000, (extent * scale) / 2],
+        position: [
+          (-extent * featureScale) / 2,
+          1000,
+          (extent * featureScale) / 2,
+        ],
         zoom: 2,
         up: [0, 1, 0],
         far: 20000,
       }}
     >
-      <Floor position={[(-extent * scale) / 2, (extent * scale) / 2, 0]} />
-      {tile && tile.layers && tile.layers.water && (
-        <Water waterLayer={tile.layers.water} />
-      )}
-      {tile && tile.layers && tile.layers.landcover && (
-        <Landcover landcoverLayer={tile.layers.landcover} />
-      )}
-      {tile && tile.layers && tile.layers.transportation && (
-        <Road roadLayer={tile.layers.transportation} />
-      )}
-      {tile && tile.layers && tile.layers.building && (
-        <Building buildingLayer={tile.layers.building} />
-      )}
+      <group
+        position={[
+          -(extent * featureScale) / 2,
+          0,
+          -(extent * featureScale) / 2,
+        ]}
+        rotation={[Math.PI / 2, Math.PI, 0]}
+      >
+        <Floor
+          position={[
+            (-extent * featureScale) / 2,
+            (extent * featureScale) / 2,
+            0,
+          ]}
+        />
+        {tile && tile.layers && tile.layers.water && (
+          <Water waterLayer={tile.layers.water} />
+        )}
+        {tile && tile.layers && tile.layers.landcover && (
+          <Landcover landcoverLayer={tile.layers.landcover} />
+        )}
+        {tile && tile.layers && tile.layers.transportation && (
+          <Road roadLayer={tile.layers.transportation} />
+        )}
+        {tile && tile.layers && tile.layers.building && (
+          <Building buildingLayer={tile.layers.building} />
+        )}
+      </group>
       <directionalLight
         visible
-        position={[(-extent * scale) / 2, (extent * scale) / 2, 2000]}
+        position={[50, 300, 50]}
         intensity={1.0}
         castShadow={castShadow}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-near={1}
-        shadow-camera-far={10000}
-        shadow-camera-left={-5000}
-        shadow-camera-right={5000}
-        shadow-camera-top={5000}
-        shadow-camera-bottom={-5000}
+        //shadow-mapSize-width={2048}
+        //shadow-mapSize-height={2048}
+        //shadow-camera-near={1}
+        //shadow-camera-far={1000}
+        //shadow-camera-left={-1200}
+        //shadow-camera-right={1200}
+        //shadow-camera-top={1200}
+        //shadow-camera-bottom={-1200}
       />
-      <Environment preset="city" background />
+
+      <Environment preset="forest" background />
       <MapControls enableRotate={true} />
       <Stats />
     </Canvas>

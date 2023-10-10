@@ -3,11 +3,11 @@ import * as THREE from "three";
 import { useControls } from "leva";
 //import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
-import { scale } from "../constants/Scale";
+import { featureScale } from "../constants/Scale";
 
 const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
   const { visible } = useControls("Road", {
-    visible: false,
+    visible: true,
   });
 
   let roadList = [
@@ -71,8 +71,8 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
       const length = geometry.length;
       const curvePoints = geometry.map((coordinate) => {
         return new THREE.Vector3(
-          -coordinate.x * scale,
-          coordinate.y * scale,
+          -coordinate.x * featureScale,
+          coordinate.y * featureScale,
           0
         );
       });

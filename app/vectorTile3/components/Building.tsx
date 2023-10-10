@@ -8,7 +8,7 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   buildingLayer,
 }) => {
   const { visible } = useControls("Building", {
-    visible: false,
+    visible: true,
   });
 
   // define a building struct
@@ -70,6 +70,7 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
           <mesh
             position={[0, 0, buildingObj.min_height]}
             receiveShadow
+            castShadow
             key={index}
           >
             <meshStandardMaterial color={"#ffffff"} side={THREE.FrontSide} />

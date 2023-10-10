@@ -8,7 +8,7 @@ const Landcover: React.FC<{ landcoverLayer: VectorTileLayer }> = ({
   landcoverLayer,
 }) => {
   const { visible } = useControls("Landcover", {
-    visible: false,
+    visible: true,
   });
 
   let landList = [
