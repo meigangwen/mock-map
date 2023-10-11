@@ -12,6 +12,7 @@ export default function SphereCustomLambert() {
         uniforms={THREE.UniformsUtils.merge([
           THREE.UniformsLib["lights"], // this is god damn important to have the bracket there, otherwise error
           THREE.UniformsLib["fog"],
+          THREE.UniformsLib["envmap"],
           {
             diffuse: { value: new THREE.Color(0x00ff00) },
             emissive: { value: new THREE.Color(0x000000) },
