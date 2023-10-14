@@ -90,10 +90,10 @@ export default function App() {
         {tile && tile.layers && tile.layers.building && (
           <Building buildingLayer={tile.layers.building} />
         )}
-        {tile && tile.layers && tile.layers.housenumber && (
-          <Housenumber housenumberLayer={tile.layers.housenumber} />
-        )}
       </group>
+      {tile && tile.layers && tile.layers.housenumber && (
+        <Housenumber housenumberLayer={tile.layers.housenumber} />
+      )}
       <directionalLight
         visible
         position={[50, 200, 50]}
