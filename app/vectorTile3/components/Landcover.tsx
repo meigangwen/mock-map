@@ -82,7 +82,7 @@ const Landcover: React.FC<{ landcoverLayer: VectorTileLayer }> = ({
             <meshStandardMaterial
               color={landObj.color}
               side={THREE.FrontSide}
-              envMapIntensity={0.1}
+              envMapIntensity={0.2}
               depthTest={false}
             />
             <shapeGeometry args={[landObj.shapes]} />

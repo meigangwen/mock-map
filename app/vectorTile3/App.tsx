@@ -18,6 +18,7 @@ import Water from "./components/Water";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
 import Building from "./components/Building";
+import Housenumber from "./components/Housenumber";
 
 // import constants
 import { zoomScale, featureScale, extent } from "./constants/Scale";
@@ -41,6 +42,7 @@ export default function App() {
   useEffect(() => {
     loadVectorTile(url).then((loadedTile) => {
       setTile(loadedTile);
+      console.log(loadedTile);
     });
   }, []);
 
@@ -87,6 +89,9 @@ export default function App() {
         )}
         {tile && tile.layers && tile.layers.building && (
           <Building buildingLayer={tile.layers.building} />
+        )}
+        {tile && tile.layers && tile.layers.housenumber && (
+          <Housenumber housenumberLayer={tile.layers.housenumber} />
         )}
       </group>
       <directionalLight

@@ -25,6 +25,7 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     let shapes = [];
     let shape;
     const geometry = buildingLayer.feature(i).loadGeometry();
+    //console.log(buildingLayer.feature(i));
     if (geometry.length === 1) {
       // there is no need to check for holes
       const ring = geometry[0];

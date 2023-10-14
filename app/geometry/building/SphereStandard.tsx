@@ -11,6 +11,7 @@ export default function SphereStandard() {
   useEffect(() => {
     if (matRef.current && scene.environment) {
       matRef.current.uniforms.envMap.value = scene.environment;
+      //matRef.current.envMap = scene.environment;
       console.log(matRef.current);
     }
     //console.log(matRef.current.uniforms)
@@ -36,7 +37,8 @@ export default function SphereStandard() {
             emissive: { value: new THREE.Color(0x000000) },
             roughness: { value: 1.0 },
             metalness: { value: 0.0 },
-            envMapIntensity: { value: 1 },
+            envMapIntensity: { value: 3 },
+            reflectivity: { value: 1.0 },
             //envMap: { value: envMap },
             //reflectivity: { value: 1.0 }, // basic, lambert, phong
             //ior: { value: 1.5 }, // physical
@@ -61,7 +63,11 @@ export default function SphereStandard() {
         defines={{
           PHYSICAL: true,
           USE_ENVMAP: true,
+          //ENV_WORLDPOS: true,
           //ENVMAP_TYPE_CUBE: true,
+          //ENVMAP_MODE_REFLECTION: true,
+          //USE_ANISOTROPY: true,
+          //ENVMAP_TYPE_CUBE_UV: true,
         }}
         lights={true}
         fog={true}

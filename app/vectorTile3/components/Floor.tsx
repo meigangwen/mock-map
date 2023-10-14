@@ -16,7 +16,7 @@ export default function Floor({ ...props }) {
       <meshStandardMaterial
         color={color}
         depthTest={false}
-        envMapIntensity={0.1}
+        envMapIntensity={0.2}
       />
     </mesh>
   );
