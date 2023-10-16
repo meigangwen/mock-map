@@ -30,14 +30,11 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
       housenumber: feature.properties.housenumber,
     };
     houseNumberList.push(housenumber);
-    //console.log(feature.properties.housenumber);
-    //console.log(feature.loadGeometry());
   }
-  console.log(houseNumberList);
+  //console.log(houseNumberList);
 
   return (
     <group visible={visible} renderOrder={10}>
-      {" "}
       {houseNumberList.map((housenumber, index) => {
         return (
           <Billboard

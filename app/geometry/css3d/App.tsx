@@ -17,15 +17,17 @@ export default function App() {
       <MapControls enableRotate={true} />
       <Floor />
       <Sphere />
-      <Billboard
-        position={[1.0, 1.0, 5.0]}
-        follow={true}
-        lockX={false}
-        lockY={false}
-        lockZ={false} // Lock the rotation on the z axis (default=false)
-      >
-        <Text fontSize={3}>I'm a billboard</Text>
-      </Billboard>
+      <group position={[1, 1, 1]}>
+        <Billboard
+          position={[1.0, 1.0, 5.0]}
+          follow={true}
+          lockX={false}
+          lockY={false}
+          lockZ={false} // Lock the rotation on the z axis (default=false)
+        >
+          <Text fontSize={3}>I'm a billboard</Text>
+        </Billboard>
+      </group>
       <Text position={[1.0, 1.0, 10.0]} fontSize={3}>
         I'm a Text
       </Text>

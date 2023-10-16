@@ -46,8 +46,9 @@ export default function App() {
     });
   }, []);
 
-  //<Environment preset="city" background />
-  //<hemisphereLight intensity={1} color="#ffffff" groundColor="#000000" />
+  // calculate the half length of tile side in meters
+  const offset = (extent * featureScale) / 2;
+
   return (
     <Canvas
       shadows
@@ -59,21 +60,8 @@ export default function App() {
         far: 20000,
       }}
     >
-      <group
-        position={[
-          -(extent * featureScale) / 2,
-          0,
-          -(extent * featureScale) / 2,
-        ]}
-        rotation={[-Math.PI / 2, 0, 0]}
-      >
-        <Floor
-          position={[
-            (extent * featureScale) / 2,
-            (-extent * featureScale) / 2,
-            0,
-          ]}
-        />
+      <group position={[-offset, 0, -offset]} rotation={[-Math.PI / 2, 0, 0]}>
+        <Floor position={[offset, -offset, 0]} />
         {tile && tile.layers && tile.layers.water && (
           <Water waterLayer={tile.layers.water} />
         )}
@@ -87,13 +75,8 @@ export default function App() {
           <Building buildingLayer={tile.layers.building} />
         )}
       </group>
-      <group
-        position={[
-          -(extent * featureScale) / 2,
-          0,
-          -(extent * featureScale) / 2,
-        ]}
-      >
+
+      <group position={[-offset, 0, -offset]}>
         {tile && tile.layers && tile.layers.housenumber && (
           <Housenumber housenumberLayer={tile.layers.housenumber} />
         )}
@@ -101,7 +84,7 @@ export default function App() {
 
       <directionalLight
         visible
-        position={[50, 200, 50]}
+        position={[100, 200, 100]}
         intensity={1.0}
         castShadow={castShadow}
         shadow-mapSize-width={2048}
