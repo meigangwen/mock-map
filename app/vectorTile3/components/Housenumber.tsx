@@ -25,8 +25,8 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
     const feature = housenumberLayer.feature(i);
     const location = feature.loadGeometry()[0][0];
     const housenumber: Housenumber = {
-      x: -location.x * featureScale,
-      y: location.y * featureScale,
+      x: location.x * featureScale,
+      y: -location.y * featureScale,
       housenumber: feature.properties.housenumber,
     };
     houseNumberList.push(housenumber);
@@ -42,13 +42,15 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
         return (
           <Billboard
             key={index}
-            position={[housenumber.x, housenumber.y, 30.0]}
+            position={[housenumber.x, 10, -housenumber.y]}
             follow={true}
             lockX={false}
             lockY={false}
             lockZ={false} // Lock the rotation on the z axis (default=false)
           >
-            <Text fontSize={3}>{housenumber.housenumber}</Text>
+            <Text fontSize={3} color="black">
+              {housenumber.housenumber}
+            </Text>
           </Billboard>
         );
       })}

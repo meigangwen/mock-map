@@ -5,9 +5,9 @@ import { featureScale } from "../constants/Scale";
 function ringToShape(ring) {
   // set the shape to either shape or path depends on if it is a hole
   const shape = new THREE.Shape();
-  shape.moveTo(-ring[0].x * featureScale, ring[0].y * featureScale);
+  shape.moveTo(ring[0].x * featureScale, -ring[0].y * featureScale);
   for (let j = 1; j < ring.length; j++) {
-    shape.lineTo(-ring[j].x * featureScale, ring[j].y * featureScale);
+    shape.lineTo(ring[j].x * featureScale, -ring[j].y * featureScale);
   }
   return shape;
 }
@@ -15,9 +15,9 @@ function ringToShape(ring) {
 function ringToHole(ring) {
   // set the shape to either shape or path depends on if it is a hole
   const hole = new THREE.Path();
-  hole.moveTo(-ring[0].x * featureScale, ring[0].y * featureScale);
+  hole.moveTo(ring[0].x * featureScale, -ring[0].y * featureScale);
   for (let j = 1; j < ring.length; j++) {
-    hole.lineTo(-ring[j].x * featureScale, ring[j].y * featureScale);
+    hole.lineTo(ring[j].x * featureScale, -ring[j].y * featureScale);
   }
   return hole;
 }

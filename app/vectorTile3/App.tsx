@@ -53,11 +53,7 @@ export default function App() {
       shadows
       //frameloop="demand"
       camera={{
-        position: [
-          (-extent * featureScale) / 2,
-          1000,
-          (extent * featureScale) / 2,
-        ],
+        position: [0, 1000, 0],
         zoom: 2,
         up: [0, 1, 0],
         far: 20000,
@@ -69,12 +65,12 @@ export default function App() {
           0,
           -(extent * featureScale) / 2,
         ]}
-        rotation={[Math.PI / 2, Math.PI, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
       >
         <Floor
           position={[
-            (-extent * featureScale) / 2,
             (extent * featureScale) / 2,
+            (-extent * featureScale) / 2,
             0,
           ]}
         />
@@ -91,9 +87,18 @@ export default function App() {
           <Building buildingLayer={tile.layers.building} />
         )}
       </group>
-      {tile && tile.layers && tile.layers.housenumber && (
-        <Housenumber housenumberLayer={tile.layers.housenumber} />
-      )}
+      <group
+        position={[
+          -(extent * featureScale) / 2,
+          0,
+          -(extent * featureScale) / 2,
+        ]}
+      >
+        {tile && tile.layers && tile.layers.housenumber && (
+          <Housenumber housenumberLayer={tile.layers.housenumber} />
+        )}
+      </group>
+
       <directionalLight
         visible
         position={[50, 200, 50]}

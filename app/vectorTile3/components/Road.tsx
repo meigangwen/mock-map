@@ -71,8 +71,8 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
       const length = geometry.length;
       const curvePoints = geometry.map((coordinate) => {
         return new THREE.Vector3(
-          -coordinate.x * featureScale,
-          coordinate.y * featureScale,
+          coordinate.x * featureScale,
+          -coordinate.y * featureScale,
           0
         );
       });
