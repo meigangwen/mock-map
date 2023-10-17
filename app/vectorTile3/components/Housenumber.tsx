@@ -17,7 +17,7 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
   interface Housenumber {
     x: number;
     y: number;
-    housenumber: string;
+    text: string;
   }
   let houseNumberList = [];
 
@@ -27,7 +27,7 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
     const housenumber: Housenumber = {
       x: location.x * featureScale,
       y: -location.y * featureScale,
-      housenumber: feature.properties.housenumber,
+      text: feature.properties.housenumber,
     };
     houseNumberList.push(housenumber);
   }
@@ -46,7 +46,7 @@ const Housenumber: React.FC<{ housenumberLayer: VectorTileLayer }> = ({
             lockZ={false} // Lock the rotation on the z axis (default=false)
           >
             <Text fontSize={3} color="black">
-              {housenumber.housenumber}
+              {housenumber.text}
             </Text>
           </Billboard>
         );

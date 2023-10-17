@@ -75,14 +75,14 @@ export default function App() {
         {tile && tile.layers && tile.layers.building && (
           <Building buildingLayer={tile.layers.building} />
         )}
-        {tile && tile.layers && tile.layers.transportation_name && (
-          <Roadname roadnameLayer={tile.layers.transportation_name} />
-        )}
       </group>
 
       <group position={[-offset, 0, -offset]}>
         {tile && tile.layers && tile.layers.housenumber && (
           <Housenumber housenumberLayer={tile.layers.housenumber} />
+        )}
+        {tile && tile.layers && tile.layers.transportation_name && (
+          <Roadname roadnameLayer={tile.layers.transportation_name} />
         )}
       </group>
 
