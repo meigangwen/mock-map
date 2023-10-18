@@ -24,6 +24,9 @@ import Roadname from "./components/Roadname";
 // import constants
 import { zoomScale, featureScale, extent } from "./constants/Scale";
 
+// import perf monitor
+import { Perf } from "r3f-perf";
+
 async function loadVectorTile(url: string): Promise<VectorTile> {
   const response = await fetch(url);
   const buffer = await response.arrayBuffer();
@@ -104,6 +107,7 @@ export default function App() {
       <Environment preset="forest" />
       <MapControls enableRotate={true} />
       <Stats />
+      <Perf />
     </Canvas>
   );
 }

@@ -3,8 +3,8 @@ import * as THREE from "three";
 import { useControls } from "leva";
 import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
-import { Html } from "@react-three/drei";
-import { FaMapMarkerAlt } from "react-icons/fa";
+//import { Html, Text, Billboard } from "@react-three/drei";
+//import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   buildingLayer,
@@ -70,34 +70,32 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     <group visible={visible} renderOrder={10}>
       {buildingList.map((buildingObj, index) => {
         return (
-          <>
-            <mesh
-              position={[0, 0, buildingObj.min_height]}
-              receiveShadow
-              castShadow
-              key={index}
-            >
-              <meshStandardMaterial
-                color={"#ffffff"}
-                side={THREE.FrontSide}
-                envMapIntensity={0.75}
-              />
-              <extrudeGeometry
-                args={[
-                  buildingObj.shapes,
-                  {
-                    steps: 1,
-                    depth: buildingObj.height,
-                    bevelEnabled: false,
-                    bevelThickness: 1,
-                    bevelSize: 1,
-                    bevelOffset: 0,
-                    bevelSegments: 1,
-                  },
-                ]}
-              />
-            </mesh>
-          </>
+          <mesh
+            position={[0, 0, buildingObj.min_height]}
+            receiveShadow
+            castShadow
+            key={index}
+          >
+            <meshStandardMaterial
+              color={"#ffffff"}
+              side={THREE.FrontSide}
+              envMapIntensity={0.75}
+            />
+            <extrudeGeometry
+              args={[
+                buildingObj.shapes,
+                {
+                  steps: 1,
+                  depth: buildingObj.height,
+                  bevelEnabled: false,
+                  bevelThickness: 1,
+                  bevelSize: 1,
+                  bevelOffset: 0,
+                  bevelSegments: 1,
+                },
+              ]}
+            />
+          </mesh>
         );
       })}
     </group>

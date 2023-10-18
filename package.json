@@ -23,6 +23,7 @@
     "maplibre-gl": "^3.3.0",
     "next": "13.4.13",
     "postcss": "8.4.27",
+    "r3f-perf": "^7.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0",
