@@ -75,8 +75,10 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     buildingGeometries.push(buildingGeometry);
   }
 
-  const mergedGeometry =
-    BufferGeometryUtils.mergeGeometries(buildingGeometries);
+  const mergedGeometry = BufferGeometryUtils.mergeGeometries(
+    buildingGeometries,
+    false
+  );
 
   return (
     <mesh
