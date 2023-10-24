@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <Canvas
-      shadows={false}
+      shadows
       //frameloop="demand"
       camera={{
         position: [0, 1000, 0],

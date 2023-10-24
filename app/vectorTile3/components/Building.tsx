@@ -3,8 +3,7 @@ import * as THREE from "three";
 import { useControls } from "leva";
 import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
-//import { Html, Text, Billboard } from "@react-three/drei";
-//import { FaMapMarkerAlt } from "react-icons/fa";
+import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
 const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   buildingLayer,
@@ -13,20 +12,15 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     visible: true,
   });
 
-  // define a building struct
-  interface Building {
-    min_height: number; //the starting height of the building
-    height: number; //the actual height of the building, counting from the starting height
-    color: string;
-    shapes: [];
-  }
-  let buildingList = [];
-
+  // define the building material
   const buildingMat = new THREE.MeshStandardMaterial({
     color: "#ffffff",
     envMapIntensity: 0.75,
     side: THREE.FrontSide,
   });
+
+  // define a list of building geometries
+  let buildingGeometries = [];
 
   for (let i = 0; i < buildingLayer.length; i++) {
     //looping through all the buildings
@@ -62,45 +56,37 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
       buildingLayer.feature(i).properties.render_height -
       buildingLayer.feature(i).properties.render_min_height;
     const min_height = buildingLayer.feature(i).properties.render_min_height;
+    //console.log(min_height);
 
-    const building: Building = {
-      min_height: min_height,
-      height: height,
-      color: "#ffffff",
-      shapes: shapes,
+    const extrudeSettings = {
+      steps: 1,
+      depth: height,
+      bevelEnabled: false,
+      bevelThickness: 1,
+      bevelSize: 1,
+      bevelOffset: 0,
+      bevelSegments: 1,
     };
-    buildingList.push(building);
+
+    const buildingGeometry = new THREE.ExtrudeGeometry(shapes, extrudeSettings);
+    if (min_height > 0) {
+      buildingGeometry.translate(0, 0, min_height);
+    }
+    buildingGeometries.push(buildingGeometry);
   }
 
+  const mergedGeometry =
+    BufferGeometryUtils.mergeGeometries(buildingGeometries);
+
   return (
-    <group visible={visible} renderOrder={10}>
-      {buildingList.map((buildingObj, index) => {
-        return (
-          <mesh
-            position={[0, 0, buildingObj.min_height]}
-            receiveShadow
-            castShadow
-            key={index}
-            material={buildingMat}
-          >
-            <extrudeGeometry
-              args={[
-                buildingObj.shapes,
-                {
-                  steps: 1,
-                  depth: buildingObj.height,
-                  bevelEnabled: false,
-                  bevelThickness: 1,
-                  bevelSize: 1,
-                  bevelOffset: 0,
-                  bevelSegments: 1,
-                },
-              ]}
-            />
-          </mesh>
-        );
-      })}
-    </group>
+    <mesh
+      receiveShadow
+      castShadow
+      visible={visible}
+      renderOrder={10}
+      material={buildingMat}
+      geometry={mergedGeometry}
+    ></mesh>
   );
 };
 
