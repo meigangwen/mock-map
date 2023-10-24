@@ -53,9 +53,20 @@ export default function App() {
   // calculate the half length of tile side in meters
   const offset = (extent * featureScale) / 2;
 
+  /*
+  <group position={[-offset, 0, -offset]}>
+    {tile && tile.layers && tile.layers.housenumber && (
+      <Housenumber housenumberLayer={tile.layers.housenumber} />
+    )}
+    {tile && tile.layers && tile.layers.transportation_name && (
+      <Roadname roadnameLayer={tile.layers.transportation_name} />
+    )}
+  </group>
+  */
+
   return (
     <Canvas
-      shadows
+      shadows={false}
       //frameloop="demand"
       camera={{
         position: [0, 1000, 0],
@@ -77,15 +88,6 @@ export default function App() {
         )}
         {tile && tile.layers && tile.layers.building && (
           <Building buildingLayer={tile.layers.building} />
-        )}
-      </group>
-
-      <group position={[-offset, 0, -offset]}>
-        {tile && tile.layers && tile.layers.housenumber && (
-          <Housenumber housenumberLayer={tile.layers.housenumber} />
-        )}
-        {tile && tile.layers && tile.layers.transportation_name && (
-          <Roadname roadnameLayer={tile.layers.transportation_name} />
         )}
       </group>
 

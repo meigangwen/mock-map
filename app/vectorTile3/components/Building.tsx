@@ -22,6 +22,12 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   }
   let buildingList = [];
 
+  const buildingMat = new THREE.MeshStandardMaterial({
+    color: "#ffffff",
+    envMapIntensity: 0.75,
+    side: THREE.FrontSide,
+  });
+
   for (let i = 0; i < buildingLayer.length; i++) {
     //looping through all the buildings
     let shapes = [];
@@ -75,12 +81,8 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
             receiveShadow
             castShadow
             key={index}
+            material={buildingMat}
           >
-            <meshStandardMaterial
-              color={"#ffffff"}
-              side={THREE.FrontSide}
-              envMapIntensity={0.75}
-            />
             <extrudeGeometry
               args={[
                 buildingObj.shapes,
