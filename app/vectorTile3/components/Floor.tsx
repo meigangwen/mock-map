@@ -9,10 +9,13 @@ export default function Floor({ ...props }) {
     visible: true,
     color: { value: "#a6a6a6" },
   });
+  const scale = 1.03;
 
   return (
     <mesh visible={visible} receiveShadow renderOrder={0} {...props}>
-      <planeGeometry args={[featureScale * extent, featureScale * extent]} />
+      <planeGeometry
+        args={[featureScale * extent * scale, featureScale * extent * scale]}
+      />
       <meshStandardMaterial
         color={color}
         depthTest={false}

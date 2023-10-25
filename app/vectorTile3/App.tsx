@@ -14,12 +14,16 @@ import { useControls } from "leva";
 
 // import components
 import Floor from "./components/Floor";
+import Shadow from "./components/Shadow";
 import Water from "./components/Water";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
 import Building from "./components/Building";
 import Housenumber from "./components/Housenumber";
 import Roadname from "./components/Roadname";
+
+// import lights
+import Sunlight from "./components/Sunlight";
 
 // import constants
 import { zoomScale, featureScale, extent } from "./constants/Scale";
@@ -64,6 +68,23 @@ export default function App() {
   </group>
   */
 
+  /*
+  <directionalLight
+      visible
+      position={[150, 750, 150]}
+      intensity={1.0}
+      castShadow={castShadow}
+      shadow-mapSize-width={2048}
+      shadow-mapSize-height={2048}
+      shadow-camera-near={1}
+      shadow-camera-far={1500}
+      shadow-camera-left={-2000}
+      shadow-camera-right={2000}
+      shadow-camera-top={2000}
+      shadow-camera-bottom={-2000}
+  />
+  */
+
   return (
     <Canvas
       shadows
@@ -91,20 +112,7 @@ export default function App() {
         )}
       </group>
 
-      <directionalLight
-        visible
-        position={[100, 200, 100]}
-        intensity={1.0}
-        castShadow={castShadow}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-near={1}
-        shadow-camera-far={1000}
-        shadow-camera-left={-1200}
-        shadow-camera-right={1200}
-        shadow-camera-top={1200}
-        shadow-camera-bottom={-1200}
-      />
+      <Sunlight />
       <ambientLight intensity={0.2} />
       <Environment preset="forest" />
       <MapControls enableRotate={true} />
