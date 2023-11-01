@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Stats, OrbitControls, Environment } from "@react-three/drei";
 import Box from "./Box";
 import Tree from "./Tree";
+import { Perf } from "r3f-perf";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <OrbitControls />
       <Environment preset="forest" />
       <Stats />
+      <Perf />
     </Canvas>
   );
 }
