@@ -13,6 +13,9 @@ export default function Ground() {
   ctx.fillStyle = "#2a5";
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
+  // try offset by half a pixel
+  ctx.translate(0.5, 0.5);
+
   // construct 4 points
   const p1 = new Point(200, 200);
   const p2 = new Point(500, 200);
