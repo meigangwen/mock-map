@@ -48,7 +48,7 @@ export default function App() {
   useEffect(() => {
     loadVectorTile(url).then((loadedTile) => {
       setTile(loadedTile);
-      console.log(loadedTile);
+      //console.log(loadedTile);
     });
   }, []);
 
@@ -71,7 +71,7 @@ export default function App() {
         {tile && tile.layers && tile.layers.water && (
           <Water waterLayer={tile.layers.water} />
         )}
-        {tile && <Canvas2d position={[offset, -offset, 0]} />}
+        {tile && <Canvas2d tile={tile} position={[offset, -offset, 0]} />}
         {tile && tile.layers && tile.layers.landcover && (
           <Landcover landcoverLayer={tile.layers.landcover} />
         )}

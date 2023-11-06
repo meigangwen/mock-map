@@ -1,4 +1,5 @@
 // stores the points and segments, data that represent the roads
+import { Point } from "../primitives/point.js";
 
 export class Graph {
   constructor(points = [], segments = []) {

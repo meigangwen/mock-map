@@ -95,10 +95,7 @@ export class Polygon {
     }
   }
 
-  draw(
-    ctx,
-    { stroke = "red", lineWidth = 2, fill = "rgba(0,0,255,0.3)" } = {}
-  ) {
+  draw(ctx, { stroke = "red", lineWidth = 2, fill = "rgba(0,0,255,1)" } = {}) {
     ctx.beginPath();
     ctx.fillStyle = fill;
     //ctx.strokeStyle = stroke;
