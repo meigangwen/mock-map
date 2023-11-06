@@ -12,6 +12,7 @@ import { featureScale, extent } from "../constants/Scale";
 
 // import classes
 import { Point } from "../js/primitives/point.js";
+import { Segment } from "../js/primitives/segment.js";
 import { Polygon } from "../js/primitives/polygon.js";
 import { Graph } from "../js/math/graph.js";
 
@@ -101,23 +102,31 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   }
 
   // draw the roads layer
+
   const roadLayer = tile.layers.transportation;
+  let graph = new Graph([], []);
   for (let i = 0; i < roadLayer.length; i++) {
     if (roadLayer.feature(i).type === 2) {
       const geometry = roadLayer.feature(i).loadGeometry()[0];
       const length = geometry.length;
       const roadClass = roadLayer.feature(i).properties.class;
-      if (roadClass === "motorway") {
-        //test loading all the points into a graph
 
-        //for (let j = 0; j < length; j++) {}
-        const graph = new Graph(geometry, []);
-        graph.draw(ctx);
-        //console.log(geometry);
+      if (roadClass === "motorway") {
+        const points = [];
+        for (let j = 0; j < length; j++) {
+          const p = new Point(geometry[j].x, geometry[j].y);
+          graph.tryAddPoint(p);
+          points.push(p);
+        }
+        for (let j = 0; j < length - 1; j++) {
+          const seg = new Segment(points[j], points[j + 1]);
+          graph.tryAddSegment(seg);
+        }
       }
     }
   }
 
+  graph.draw(ctx);
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);
 
