@@ -5,11 +5,13 @@ import * as THREE from "three";
 export default function Sunlight() {
   const sunlightRef = useRef();
   const { camera } = useThree();
+  /*
   useEffect(() => {
     if (sunlightRef.current) {
       console.log(camera.position);
     }
   }, [camera]);
+  */
   return (
     <directionalLight
       visible

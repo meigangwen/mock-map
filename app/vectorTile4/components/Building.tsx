@@ -9,7 +9,7 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   buildingLayer,
 }) => {
   const { visible } = useControls("Building", {
-    visible: true,
+    visible: false,
   });
 
   // define the building material

@@ -7,7 +7,7 @@ import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
 const Water: React.FC<{ waterLayer: VectorTileLayer }> = ({ waterLayer }) => {
   //declare the UI parameters
   const { visible, depth, color } = useControls("Water", {
-    visible: true,
+    visible: false,
     depth: { value: 5, min: 0, max: 20, step: 0.1 },
     color: { value: "#1eb4ff" },
   });

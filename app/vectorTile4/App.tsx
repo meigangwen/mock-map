@@ -12,15 +12,13 @@ import { Canvas } from "@react-three/fiber";
 import { Stats, MapControls, Environment } from "@react-three/drei";
 import { useControls } from "leva";
 
-// import components
-import Floor from "./components/Floor";
-import Shadow from "./components/Shadow";
+// import components, layers are in order
+import Background from "./components/Background";
 import Water from "./components/Water";
+import Canvas2d from "./components/Canvas2d";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
 import Building from "./components/Building";
-import Housenumber from "./components/Housenumber";
-import Roadname from "./components/Roadname";
 
 // import lights
 import Sunlight from "./components/Sunlight";
@@ -57,34 +55,6 @@ export default function App() {
   // calculate the half length of tile side in meters
   const offset = (extent * featureScale) / 2;
 
-  /*
-  <group position={[-offset, 0, -offset]}>
-    {tile && tile.layers && tile.layers.housenumber && (
-      <Housenumber housenumberLayer={tile.layers.housenumber} />
-    )}
-    {tile && tile.layers && tile.layers.transportation_name && (
-      <Roadname roadnameLayer={tile.layers.transportation_name} />
-    )}
-  </group>
-  */
-
-  /*
-  <directionalLight
-      visible
-      position={[150, 750, 150]}
-      intensity={1.0}
-      castShadow={castShadow}
-      shadow-mapSize-width={2048}
-      shadow-mapSize-height={2048}
-      shadow-camera-near={1}
-      shadow-camera-far={1500}
-      shadow-camera-left={-2000}
-      shadow-camera-right={2000}
-      shadow-camera-top={2000}
-      shadow-camera-bottom={-2000}
-  />
-  */
-
   return (
     <Canvas
       shadows
@@ -97,10 +67,11 @@ export default function App() {
       }}
     >
       <group position={[-offset, 0, -offset]} rotation={[-Math.PI / 2, 0, 0]}>
-        <Floor position={[offset, -offset, 0]} />
+        <Background position={[offset, -offset, 0]} />
         {tile && tile.layers && tile.layers.water && (
           <Water waterLayer={tile.layers.water} />
         )}
+        {tile && <Canvas2d position={[offset, -offset, 0]} />}
         {tile && tile.layers && tile.layers.landcover && (
           <Landcover landcoverLayer={tile.layers.landcover} />
         )}
