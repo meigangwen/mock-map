@@ -1,14 +1,20 @@
-export class Point {
-  constructor(x, y) {
+class Point {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
 
-  equals(point) {
+  equals(point: Point) {
     return this.x == point.x && this.y == point.y;
   }
 
-  draw(ctx, { size = 5, color = "red", outline = false, fill = false } = {}) {
+  draw(
+    ctx: CanvasRenderingContext2D,
+    { size = 18, color = "black", outline = false, fill = false } = {}
+  ) {
     const rad = size / 2;
     ctx.beginPath();
     ctx.fillStyle = color;
@@ -29,3 +35,5 @@ export class Point {
     }
   }
 }
+
+export { Point };

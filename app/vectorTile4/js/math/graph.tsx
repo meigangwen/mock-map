@@ -1,12 +1,16 @@
-// stores the points and segments, data that represent the roads
-//import { Point } from "../primitives/point.js";
+import { Point } from "../primitives/point";
+import { Segment } from "../primitives/segment";
 
-export class Graph {
+class Graph {
+  points: Point[];
+  segments: Segment[];
   constructor(points = [], segments = []) {
     this.points = points;
     this.segments = segments;
   }
 
+  //this loading function is not used currently
+  /*
   static load(info) {
     // a function to load points and segments stored in JSON file
     const points = info.points.map((i) => new Point(i.x, i.y));
@@ -19,16 +23,17 @@ export class Graph {
     );
     return new Graph(points, segments);
   }
+  */
 
-  addPoint(point) {
+  addPoint(point: Point) {
     this.points.push(point);
   }
 
-  containsPoint(point) {
+  containsPoint(point: Point) {
     return this.points.find((p) => p.equals(point));
   }
 
-  tryAddPoint(point) {
+  tryAddPoint(point: Point) {
     if (!this.containsPoint(point)) {
       this.addPoint(point);
       return true;
@@ -36,7 +41,7 @@ export class Graph {
     return false;
   }
 
-  removePoint(point) {
+  removePoint(point: Point) {
     const segs = this.getSegmentsWithPoint(point);
     for (const seg of segs) {
       this.removeSegment(seg);
@@ -44,15 +49,15 @@ export class Graph {
     this.points.splice(this.points.indexOf(point), 1);
   }
 
-  containsSegment(seg) {
+  containsSegment(seg: Segment) {
     return this.segments.find((s) => s.equals(seg));
   }
 
-  addSegment(seg) {
+  addSegment(seg: Segment) {
     this.segments.push(seg);
   }
 
-  tryAddSegment(seg) {
+  tryAddSegment(seg: Segment) {
     if (!this.containsSegment(seg) && !seg.p1.equals(seg.p2)) {
       this.addSegment(seg);
       return true;
@@ -60,11 +65,11 @@ export class Graph {
     return false;
   }
 
-  removeSegment(seg) {
+  removeSegment(seg: Segment) {
     this.segments.splice(this.segments.indexOf(seg), 1);
   }
 
-  getSegmentsWithPoint(point) {
+  getSegmentsWithPoint(point: Point) {
     const segs = [];
     for (const seg of this.segments) {
       if (seg.includes(point)) {
@@ -79,7 +84,7 @@ export class Graph {
     this.segments.length = 0;
   }
 
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     for (const seg of this.segments) {
       seg.draw(ctx);
     }
@@ -89,3 +94,5 @@ export class Graph {
     }
   }
 }
+
+export { Graph };

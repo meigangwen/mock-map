@@ -1,12 +1,17 @@
-import Polygon from "./polygon.js";
+import { angle, subtract, translate } from "../math/utils";
+import { Segment } from "./segment";
+import { Polygon } from "./polygon";
 
-export class Envelope {
-  constructor(skeleton, width, roundness = 1) {
+class Envelope {
+  skeleton: Segment;
+  poly: Polygon;
+
+  constructor(skeleton: Segment, width: number, roundness = 1) {
     this.skeleton = skeleton;
-    this.poly = this.#generatePolygon(width, roundness);
+    this.poly = this.generatePolygon(width, roundness);
   }
 
-  #generatePolygon(width, roundness) {
+  private generatePolygon(width: number, roundness: number) {
     const { p1, p2 } = this.skeleton;
 
     const radius = width / 2;
@@ -26,9 +31,11 @@ export class Envelope {
     return new Polygon(points);
   }
 
-  draw(ctx, options) {
+  draw(ctx: CanvasRenderingContext2D, options: Object) {
     this.poly.draw(ctx, options);
     //debug drawing of segments in random color
     //this.poly.drawSegments(ctx);
   }
 }
+
+export { Envelope };
