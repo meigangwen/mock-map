@@ -11,10 +11,10 @@ import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { featureScale, extent } from "../constants/Scale";
 
 // import classes
-import { Point } from "../js/primitives/point.js";
-import { Segment } from "../js/primitives/segment.js";
-import { Polygon } from "../js/primitives/polygon.js";
-import { Graph } from "../js/math/graph.js";
+import { Point } from "../js/primitives/point";
+import { Segment } from "../js/primitives/segment";
+import { Polygon } from "../js/primitives/polygon";
+import { Graph } from "../js/math/graph";
 
 // this layer is rendered using the html canvas 2d drawing system
 // currently includes the following features
@@ -51,31 +51,35 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
     sand: "#FFFF00",
   };
   const landcoverLayer = tile.layers.landcover;
+
   // to draw landcover better, we could separate the class, and draw by layer
   for (let i = 0; i < landcoverLayer.length; i++) {
     const geometry = landcoverLayer.feature(i).loadGeometry();
     const landclass = landcoverLayer.feature(i).properties.class;
     const color = landcoverDict[String(landclass)];
     if (geometry.length === 1) {
-      const polygon = new Polygon(geometry[0]);
+      const points = geometry[0].map((p) => new Point(p.x, p.y));
+      const polygon = new Polygon(points);
       polygon.draw(ctx, { fill: color });
     } else {
       // need to run test to check for holes
-      for (let i = 0; i < geometry.length; i++) {
-        const ring = geometry[i];
+      for (let j = 0; j < geometry.length; j++) {
+        const ring = geometry[j];
         const area = signedArea(ring);
+        const points = geometry[j].map((p) => new Point(p.x, p.y));
         if (area > 0) {
-          const polygon = new Polygon(geometry[i]);
+          const polygon = new Polygon(points);
           polygon.draw(ctx, { fill: color });
         }
         if (area < 0) {
-          const hole = new Polygon(geometry[i]);
+          const hole = new Polygon(points);
           hole.draw(ctx, { fill: "#a6a6a6" });
         }
       }
     }
   }
 
+  /*
   // draw the water layer
   const waterLayer = tile.layers.water;
   for (let i = 0; i < waterLayer.length; i++) {
@@ -100,9 +104,10 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       }
     }
   }
+  */
 
   // draw the roads layer
-
+  /*
   const roadLayer = tile.layers.transportation;
   let graph = new Graph([], []);
   for (let i = 0; i < roadLayer.length; i++) {
@@ -133,8 +138,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       }
     }
   }
-
   graph.draw(ctx);
+  */
+
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);
 
