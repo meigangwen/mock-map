@@ -8,10 +8,7 @@ export class Point {
     return this.x == point.x && this.y == point.y;
   }
 
-  draw(
-    ctx,
-    { size = 10, color = "black", outline = false, fill = false } = {}
-  ) {
+  draw(ctx, { size = 5, color = "red", outline = false, fill = false } = {}) {
     const rad = size / 2;
     ctx.beginPath();
     ctx.fillStyle = color;

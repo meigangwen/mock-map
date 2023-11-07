@@ -111,7 +111,15 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       const length = geometry.length;
       const roadClass = roadLayer.feature(i).properties.class;
 
-      if (roadClass === "motorway") {
+      if (
+        roadClass === "minor" ||
+        roadClass === "motorway" ||
+        roadClass === "primary" ||
+        roadClass === "secondary" ||
+        roadClass === "trunk"
+        //roadClass === "service"
+      ) {
+        console.log(roadLayer.feature(i).properties);
         const points = [];
         for (let j = 0; j < length; j++) {
           const p = new Point(geometry[j].x, geometry[j].y);

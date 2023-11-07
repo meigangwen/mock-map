@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { Point } from "./js/primitives/point.js";
 import { Segment } from "./js/primitives/segment.js";
 import { Graph } from "./js/math/graph.js";
+import { World } from "./js/world.js";
 
 export default function Ground() {
   // dynamically create an html canvas
@@ -16,10 +17,10 @@ export default function Ground() {
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
   // try offset by half a pixel
-  ctx.translate(0.5, 0.5);
+  //ctx.translate(0.5, 0.5);
 
   // construct 4 points
-  const p1 = new Point(200, 200);
+  const p1 = new Point(201, 200);
   const p2 = new Point(500, 200);
   const p3 = new Point(400, 400);
   const p4 = new Point(100, 300);
@@ -30,7 +31,10 @@ export default function Ground() {
   const s4 = new Segment(p2, p3);
 
   const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
-  graph.draw(ctx);
+  const world = new World(graph);
+  //graph.draw(ctx);
+  world.generate();
+  world.draw(ctx);
 
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);

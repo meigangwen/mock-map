@@ -12,6 +12,7 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
 
   let roadList = [
     {
+      // looks like roads within housing estate
       class: "service",
       width: 4.0,
       color: "#ffffff",
@@ -19,6 +20,7 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
       shapes: [],
     },
     {
+      // looks like walking path
       class: "path",
       width: 2.0,
       color: "#ffffff",
@@ -26,6 +28,7 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
       shapes: [],
     },
     {
+      // part of the road network
       class: "minor",
       width: 6.0,
       color: "#ffffff",
@@ -54,6 +57,7 @@ const Road: React.FC<{ roadLayer: VectorTileLayer }> = ({ roadLayer }) => {
       shapes: [],
     },
     {
+      // looks like the express way
       class: "motorway",
       width: 15.0,
       color: "#fda172",
