@@ -28,7 +28,6 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   const { visible } = useControls("Canvas2d", {
     visible: true,
   });
-  const scale = 1;
 
   // dynamically create an html canvas
   let myCanvas = document.createElement("canvas");
@@ -146,9 +145,7 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
   return (
     <mesh visible={visible} receiveShadow renderOrder={1} {...props}>
-      <planeGeometry
-        args={[featureScale * extent * scale, featureScale * extent * scale]}
-      />
+      <planeGeometry args={[featureScale * extent, featureScale * extent]} />
       <meshStandardMaterial
         //color={color}
         depthTest={false}
