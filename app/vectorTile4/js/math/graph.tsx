@@ -4,6 +4,7 @@ import { Segment } from "../primitives/segment";
 class Graph {
   points: Point[];
   segments: Segment[];
+
   constructor(points = [], segments = []) {
     this.points = points;
     this.segments = segments;
@@ -68,13 +69,27 @@ class Graph {
     this.segments.length = 0;
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
-    for (const seg of this.segments) {
-      seg.draw(ctx);
+  draw(
+    ctx: CanvasRenderingContext2D,
+    {
+      drawPoints = true,
+      drawSegments = true,
+      pointSize = 18,
+      pointColor = "black",
+      segWidth = 2,
+      segColor = "black",
+    }
+  ) {
+    if (drawSegments) {
+      for (const seg of this.segments) {
+        seg.draw(ctx, { width: segWidth, color: segColor });
+      }
     }
 
-    for (const point of this.points) {
-      point.draw(ctx);
+    if (drawPoints) {
+      for (const point of this.points) {
+        point.draw(ctx, { size: pointSize, color: pointColor });
+      }
     }
   }
 }

@@ -15,7 +15,7 @@ import { Point } from "../js/primitives/point";
 import { Segment } from "../js/primitives/segment";
 import { Polygon } from "../js/primitives/polygon";
 import { Graph } from "../js/math/graph";
-import { Road } from "../js/road";
+import { RoadNetwork } from "../js/roadNetwork";
 
 // this layer is rendered using the html canvas 2d drawing system
 // currently includes the following features
@@ -111,12 +111,17 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   // draw the roads layer
 
   const roadLayer = tile.layers.transportation;
-  let graph = new Graph([], []);
+
+  // creating the graphs that represent road networks
+  const roadGraph = new Graph([], []);
+  const pathGraph = new Graph([], []);
   for (let i = 0; i < roadLayer.length; i++) {
     if (roadLayer.feature(i).type === 2) {
       const geometry = roadLayer.feature(i).loadGeometry()[0];
       const length = geometry.length;
       const roadClass = roadLayer.feature(i).properties.class;
+      const layer = roadLayer.feature(i).properties.layer;
+      //console.log(layer);
 
       if (
         roadClass === "minor" ||
@@ -124,26 +129,62 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         roadClass === "primary" ||
         roadClass === "secondary" ||
         roadClass === "trunk"
-        //roadClass === "service"
       ) {
+        //roadClass === "service"
         const points = [];
         for (let j = 0; j < length; j++) {
           const p = new Point(geometry[j].x, geometry[j].y);
-          graph.tryAddPoint(p);
+
+          roadGraph.tryAddPoint(p);
           points.push(p);
         }
         for (let j = 0; j < length - 1; j++) {
           const seg = new Segment(points[j], points[j + 1]);
-          graph.tryAddSegment(seg);
+
+          roadGraph.tryAddSegment(seg);
+        }
+      }
+
+      if (roadClass === "path") {
+        const points = [];
+        for (let j = 0; j < length; j++) {
+          const p = new Point(geometry[j].x, geometry[j].y);
+
+          pathGraph.tryAddPoint(p);
+          points.push(p);
+        }
+        for (let j = 0; j < length - 1; j++) {
+          const seg = new Segment(points[j], points[j + 1]);
+
+          pathGraph.tryAddSegment(seg);
         }
       }
     }
   }
-  const trunk = new Road(graph, 20, 5, false);
+
+  const trunk = new RoadNetwork(roadGraph, 20, 5, false);
   trunk.generate();
   trunk.draw(ctx);
-  //console.log(graph.segments);
-  //graph.draw(ctx);
+
+  /*
+  roadGraph.draw(ctx, {
+    drawPoints: true,
+    pointSize: 10,
+    pointColor: "red",
+    drawSegments: true,
+    segWidth: 2,
+    segColor: "white",
+  });
+  */
+
+  /*
+  pathGraph.draw(ctx, {
+    drawPoints: false,
+    drawSegments: true,
+    segWidth: 2,
+    segColor: "white",
+  });
+  */
 
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);

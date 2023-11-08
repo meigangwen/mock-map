@@ -3,7 +3,7 @@ import { Polygon } from "./primitives/polygon";
 import { Segment } from "./primitives/segment";
 import { Graph } from "./math/graph";
 
-class Road {
+class RoadNetwork {
   graph: Graph;
   roadWidth: number;
   roadRoundness: number;
@@ -41,12 +41,7 @@ class Road {
 
   draw(ctx: CanvasRenderingContext2D) {
     for (const env of this.envelopes) {
-      env.draw(ctx, {
-        fill: "#BBB",
-        //outline: true,
-        //stroke: "#BBB",
-        //lineWidth: 10,
-      });
+      env.draw(ctx, { fill: "#BBB" });
     }
 
     for (const seg of this.graph.segments) {
@@ -60,4 +55,4 @@ class Road {
   }
 }
 
-export { Road };
+export { RoadNetwork };
