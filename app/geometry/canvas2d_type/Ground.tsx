@@ -20,7 +20,7 @@ export default function Ground() {
   //ctx.translate(0.5, 0.5);
 
   // construct 4 points
-  const p1 = new Point(200, 200);
+  const p1 = new Point(201, 200);
   const p2 = new Point(500, 200);
   const p3 = new Point(400, 400);
   const p4 = new Point(100, 300);

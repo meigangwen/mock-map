@@ -119,10 +119,10 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       const roadClass = roadLayer.feature(i).properties.class;
 
       if (
-        //roadClass === "minor" ||
+        roadClass === "minor" ||
         roadClass === "motorway" ||
-        //roadClass === "primary" ||
-        //roadClass === "secondary" ||
+        roadClass === "primary" ||
+        roadClass === "secondary" ||
         roadClass === "trunk"
         //roadClass === "service"
       ) {
@@ -139,11 +139,11 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       }
     }
   }
-  const trunk = new Road(graph, 20, 5);
-  //trunk.generate();
-  //trunk.draw(ctx);
-  console.log(graph.segments);
-  graph.draw(ctx);
+  const trunk = new Road(graph, 20, 5, false);
+  trunk.generate();
+  trunk.draw(ctx);
+  //console.log(graph.segments);
+  //graph.draw(ctx);
 
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);

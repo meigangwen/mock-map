@@ -9,14 +9,21 @@ class Road {
   roadRoundness: number;
   envelopes: Envelope[];
   roadBorders: Segment[];
+  drawRoadBorders: boolean;
 
-  constructor(graph: Graph, roadWidth = 100, roadRoundness = 10) {
+  constructor(
+    graph: Graph,
+    roadWidth = 100,
+    roadRoundness = 10,
+    drawRoadBorders = true
+  ) {
     this.graph = graph;
     this.roadWidth = roadWidth;
     this.roadRoundness = roadRoundness;
 
     this.envelopes = [];
     this.roadBorders = [];
+    this.drawRoadBorders = drawRoadBorders;
     this.generate();
   }
 
@@ -27,8 +34,9 @@ class Road {
         new Envelope(seg, this.roadWidth, this.roadRoundness)
       );
     }
-
-    this.roadBorders = Polygon.union(this.envelopes.map((e) => e.poly));
+    if (this.drawRoadBorders) {
+      this.roadBorders = Polygon.union(this.envelopes.map((e) => e.poly));
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -44,8 +52,10 @@ class Road {
     for (const seg of this.graph.segments) {
       seg.draw(ctx, { color: "white", width: 2, dash: [10, 10] });
     }
-    for (const seg of this.roadBorders) {
-      seg.draw(ctx, { color: "white", width: 2 });
+    if (this.drawRoadBorders) {
+      for (const seg of this.roadBorders) {
+        seg.draw(ctx, { color: "white", width: 2 });
+      }
     }
   }
 }
