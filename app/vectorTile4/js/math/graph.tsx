@@ -9,22 +9,6 @@ class Graph {
     this.segments = segments;
   }
 
-  //this loading function is not used currently
-  /*
-  static load(info) {
-    // a function to load points and segments stored in JSON file
-    const points = info.points.map((i) => new Point(i.x, i.y));
-    const segments = info.segments.map(
-      (i) =>
-        new Segment(
-          points.find((p) => p.equals(i.p1)),
-          points.find((p) => p.equals(i.p2))
-        )
-    );
-    return new Graph(points, segments);
-  }
-  */
-
   addPoint(point: Point) {
     this.points.push(point);
   }

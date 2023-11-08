@@ -24,7 +24,7 @@ class Polygon {
           if (i != j) {
             if (polys[j].containsSegment(seg)) {
               keep = false;
-              this.break;
+              break;
             }
           }
         }

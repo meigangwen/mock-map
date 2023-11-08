@@ -15,6 +15,7 @@ import { Point } from "../js/primitives/point";
 import { Segment } from "../js/primitives/segment";
 import { Polygon } from "../js/primitives/polygon";
 import { Graph } from "../js/math/graph";
+import { Road } from "../js/road";
 
 // this layer is rendered using the html canvas 2d drawing system
 // currently includes the following features
@@ -37,7 +38,8 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   const ctx = myCanvas.getContext("2d");
 
   // draw a background color
-  ctx.fillStyle = "#a6a6a6";
+  const bgColor = "#767676";
+  ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
 
   // try offset by half a pixel
@@ -56,6 +58,7 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
     const geometry = landcoverLayer.feature(i).loadGeometry();
     const landclass = landcoverLayer.feature(i).properties.class;
     const color = landcoverDict[String(landclass)];
+
     if (geometry.length === 1) {
       const points = geometry[0].map((p) => new Point(p.x, p.y));
       const polygon = new Polygon(points);
@@ -72,41 +75,41 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         }
         if (area < 0) {
           const hole = new Polygon(points);
-          hole.draw(ctx, { fill: "#a6a6a6" });
+          hole.draw(ctx, { fill: bgColor });
         }
       }
     }
   }
 
-  /*
   // draw the water layer
+  // there are some drawing errors here
   const waterLayer = tile.layers.water;
   for (let i = 0; i < waterLayer.length; i++) {
     const geometry = waterLayer.feature(i).loadGeometry();
     if (geometry.length === 1) {
-      const polygon = new Polygon(geometry[0]);
+      const points = geometry[0].map((p) => new Point(p.x, p.y));
+      const polygon = new Polygon(points);
       polygon.draw(ctx, { fill: "#1eb4ff" });
-      //console.log(geometry[0]);
     } else {
       // need to run test to check for holes
-      for (let i = 0; i < geometry.length; i++) {
-        const ring = geometry[i];
+      for (let j = 0; j < geometry.length; j++) {
+        const ring = geometry[j];
         const area = signedArea(ring);
+        const points = geometry[j].map((p) => new Point(p.x, p.y));
         if (area > 0) {
-          const polygon = new Polygon(geometry[i]);
+          const polygon = new Polygon(points);
           polygon.draw(ctx, { fill: "#1eb4ff" });
         }
         if (area < 0) {
-          const hole = new Polygon(geometry[i]);
-          hole.draw(ctx, { fill: "#a6a6a6" });
+          const hole = new Polygon(points);
+          hole.draw(ctx, { fill: bgColor });
         }
       }
     }
   }
-  */
 
   // draw the roads layer
-  /*
+
   const roadLayer = tile.layers.transportation;
   let graph = new Graph([], []);
   for (let i = 0; i < roadLayer.length; i++) {
@@ -116,14 +119,13 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       const roadClass = roadLayer.feature(i).properties.class;
 
       if (
-        roadClass === "minor" ||
+        //roadClass === "minor" ||
         roadClass === "motorway" ||
-        roadClass === "primary" ||
-        roadClass === "secondary" ||
+        //roadClass === "primary" ||
+        //roadClass === "secondary" ||
         roadClass === "trunk"
         //roadClass === "service"
       ) {
-        console.log(roadLayer.feature(i).properties);
         const points = [];
         for (let j = 0; j < length; j++) {
           const p = new Point(geometry[j].x, geometry[j].y);
@@ -137,8 +139,11 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       }
     }
   }
+  const trunk = new Road(graph, 20, 5);
+  //trunk.generate();
+  //trunk.draw(ctx);
+  console.log(graph.segments);
   graph.draw(ctx);
-  */
 
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);
