@@ -115,6 +115,45 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   // creating the graphs that represent road networks
   const roadGraph = new Graph([], []);
   const pathGraph = new Graph([], []);
+
+  const roadInfo = [
+    {
+      class: "service",
+      width: 4.0,
+      color: "#ffffff",
+    },
+    {
+      class: "path",
+      width: 2.0,
+      color: "#ffffff",
+    },
+    {
+      class: "minor",
+      width: 6.0,
+      color: "#ffffff",
+    },
+    {
+      class: "trunk",
+      width: 12.0,
+      color: "#ffff00",
+    },
+    {
+      class: "primary",
+      width: 12.0,
+      color: "#ffff00",
+    },
+    {
+      class: "secondary",
+      width: 10.0,
+      color: "#ffff00",
+    },
+    {
+      class: "motorway",
+      width: 15.0,
+      color: "#fda172",
+    },
+  ];
+
   for (let i = 0; i < roadLayer.length; i++) {
     if (roadLayer.feature(i).type === 2) {
       const geometry = roadLayer.feature(i).loadGeometry()[0];
@@ -129,8 +168,8 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         roadClass === "primary" ||
         roadClass === "secondary" ||
         roadClass === "trunk"
-      ) {
         //roadClass === "service"
+      ) {
         const points = [];
         for (let j = 0; j < length; j++) {
           const p = new Point(geometry[j].x, geometry[j].y);
@@ -140,11 +179,13 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         }
         for (let j = 0; j < length - 1; j++) {
           const seg = new Segment(points[j], points[j + 1]);
-
+          // bind road properties to the segment
+          seg.layer = layer === undefined ? 0 : Number(layer);
           roadGraph.tryAddSegment(seg);
         }
       }
 
+      /*
       if (roadClass === "path") {
         const points = [];
         for (let j = 0; j < length; j++) {
@@ -158,10 +199,10 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
           pathGraph.tryAddSegment(seg);
         }
-      }
+      }*/
     }
   }
-
+  console.log(roadGraph.segments);
   const trunk = new RoadNetwork(roadGraph, 20, 5, false);
   trunk.generate();
   trunk.draw(ctx);
