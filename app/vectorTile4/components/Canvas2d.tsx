@@ -37,6 +37,8 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   myCanvas.height = extent;
   const ctx = myCanvas.getContext("2d");
 
+  //const bgColor = "#767676";
+
   // draw a background color
   const bgColor = "#767676";
   ctx.fillStyle = bgColor;
@@ -114,44 +116,56 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
   // creating the graphs that represent road networks
   const roadGraph = new Graph([], []);
-  const pathGraph = new Graph([], []);
-
   const roadInfo = [
     {
       class: "service",
-      width: 4.0,
-      color: "#ffffff",
+      width: 8,
+      color: "#BBB",
+      drawDash: false,
     },
     {
       class: "path",
-      width: 2.0,
-      color: "#ffffff",
+      width: 2,
+      color: "#FFFFFF",
+      drawDash: false,
     },
     {
       class: "minor",
-      width: 6.0,
-      color: "#ffffff",
+      width: 12,
+      color: "#BBB",
+      drawDash: true,
+      dashWidth: 1,
     },
     {
       class: "trunk",
-      width: 12.0,
-      color: "#ffff00",
+      width: 24,
+      color: "#BBB",
+      drawDash: true,
+      dashWidth: 2,
     },
     {
       class: "primary",
-      width: 12.0,
-      color: "#ffff00",
+      width: 24,
+      color: "#BBB",
+      drawDash: true,
+      dashWidth: 2,
     },
     {
       class: "secondary",
-      width: 10.0,
-      color: "#ffff00",
+      width: 20,
+      color: "#BBB",
+      drawDash: true,
+      dashWidth: 2,
     },
     {
       class: "motorway",
-      width: 15.0,
-      color: "#fda172",
+      width: 24,
+      color: "#BBB",
+      drawDash: true,
+      dashWidth: 2,
     },
+    // class: "transit"
+    // class: "minor_contruction"
   ];
 
   for (let i = 0; i < roadLayer.length; i++) {
@@ -159,16 +173,16 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       const geometry = roadLayer.feature(i).loadGeometry()[0];
       const length = geometry.length;
       const roadClass = roadLayer.feature(i).properties.class;
-      const layer = roadLayer.feature(i).properties.layer;
-      //console.log(layer);
+      const layer = roadLayer.feature(i).properties.layer; //ranges -2, -1, undefined, 1, 2
 
       if (
         roadClass === "minor" ||
         roadClass === "motorway" ||
         roadClass === "primary" ||
         roadClass === "secondary" ||
-        roadClass === "trunk"
-        //roadClass === "service"
+        roadClass === "trunk" ||
+        roadClass === "service" ||
+        roadClass === "path"
       ) {
         const points = [];
         for (let j = 0; j < length; j++) {
@@ -179,53 +193,24 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         }
         for (let j = 0; j < length - 1; j++) {
           const seg = new Segment(points[j], points[j + 1]);
+
           // bind road properties to the segment
           seg.layer = layer === undefined ? 0 : Number(layer);
+          const roadObj = roadInfo.find((obj) => obj.class === roadClass);
+          seg.width = roadObj.width;
+          seg.color = roadObj.color;
+          seg.drawDash = roadObj.drawDash;
+          seg.dashWidth = roadObj.dashWidth;
           roadGraph.tryAddSegment(seg);
         }
       }
-
-      /*
-      if (roadClass === "path") {
-        const points = [];
-        for (let j = 0; j < length; j++) {
-          const p = new Point(geometry[j].x, geometry[j].y);
-
-          pathGraph.tryAddPoint(p);
-          points.push(p);
-        }
-        for (let j = 0; j < length - 1; j++) {
-          const seg = new Segment(points[j], points[j + 1]);
-
-          pathGraph.tryAddSegment(seg);
-        }
-      }*/
     }
   }
-  console.log(roadGraph.segments);
-  const trunk = new RoadNetwork(roadGraph, 20, 5, false);
-  trunk.generate();
-  trunk.draw(ctx);
 
-  /*
-  roadGraph.draw(ctx, {
-    drawPoints: true,
-    pointSize: 10,
-    pointColor: "red",
-    drawSegments: true,
-    segWidth: 2,
-    segColor: "white",
-  });
-  */
-
-  /*
-  pathGraph.draw(ctx, {
-    drawPoints: false,
-    drawSegments: true,
-    segWidth: 2,
-    segColor: "white",
-  });
-  */
+  //console.log(roadGraph.segments);
+  const roadNetwork = new RoadNetwork(roadGraph, 20, 5);
+  roadNetwork.generate();
+  roadNetwork.draw(ctx);
 
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);
@@ -234,7 +219,7 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
     <mesh visible={visible} receiveShadow renderOrder={1} {...props}>
       <planeGeometry args={[featureScale * extent, featureScale * extent]} />
       <meshStandardMaterial
-        //color={color}
+        //color={"white"}
         depthTest={false}
         envMapIntensity={0.2}
         map={texture}

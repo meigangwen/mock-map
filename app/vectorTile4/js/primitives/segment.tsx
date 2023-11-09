@@ -3,9 +3,14 @@ import { Point } from "./point";
 class Segment {
   p1: Point;
   p2: Point;
-  width?: Number;
-  layer?: Number;
-  //color?: String;
+
+  // add optional road properties to segment
+  // this may not be the best approach
+  width?: number;
+  layer?: number;
+  color?: string;
+  drawDash?: boolean;
+  dashWidth?: number;
 
   constructor(p1: Point, p2: Point) {
     this.p1 = p1;

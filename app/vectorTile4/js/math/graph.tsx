@@ -82,7 +82,10 @@ class Graph {
   ) {
     if (drawSegments) {
       for (const seg of this.segments) {
-        seg.draw(ctx, { width: segWidth, color: segColor });
+        //console.log(seg.layer);
+        if (seg.layer == 2) {
+          seg.draw(ctx, { width: segWidth, color: segColor });
+        }
       }
     }
 

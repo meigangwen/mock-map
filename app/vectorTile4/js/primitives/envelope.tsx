@@ -5,10 +5,13 @@ import { Polygon } from "./polygon";
 class Envelope {
   skeleton: Segment;
   poly: Polygon;
+  color: string;
+  //layer: number;
 
-  constructor(skeleton: Segment, width: number, roundness = 1) {
+  constructor(skeleton: Segment, width: number, roundness = 1, color: string) {
     this.skeleton = skeleton;
     this.poly = this.generatePolygon(width, roundness);
+    this.color = color;
   }
 
   private generatePolygon(width: number, roundness: number) {
@@ -31,10 +34,8 @@ class Envelope {
     return new Polygon(points);
   }
 
-  draw(ctx: CanvasRenderingContext2D, options: Object) {
-    this.poly.draw(ctx, options);
-    //debug drawing of segments in random color
-    //this.poly.drawSegments(ctx);
+  draw(ctx: CanvasRenderingContext2D) {
+    this.poly.draw(ctx, { fill: this.color });
   }
 }
 
