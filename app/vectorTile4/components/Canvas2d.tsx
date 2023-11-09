@@ -16,6 +16,7 @@ import { Segment } from "../js/primitives/segment";
 import { Polygon } from "../js/primitives/polygon";
 import { Graph } from "../js/math/graph";
 import { RoadNetwork } from "../js/roadNetwork";
+import { roadInfo } from "../js/data/roadInfo";
 
 // this layer is rendered using the html canvas 2d drawing system
 // currently includes the following features
@@ -32,9 +33,10 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
   // dynamically create an html canvas
   let myCanvas = document.createElement("canvas");
+  const upres = 1;
   myCanvas.id = "myCanvas";
-  myCanvas.width = extent;
-  myCanvas.height = extent;
+  myCanvas.width = extent * upres;
+  myCanvas.height = extent * upres;
   const ctx = myCanvas.getContext("2d");
 
   //const bgColor = "#767676";
@@ -62,7 +64,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
     const color = landcoverDict[String(landclass)];
 
     if (geometry.length === 1) {
-      const points = geometry[0].map((p) => new Point(p.x, p.y));
+      const points = geometry[0].map(
+        (p) => new Point(p.x * upres, p.y * upres)
+      );
       const polygon = new Polygon(points);
       polygon.draw(ctx, { fill: color });
     } else {
@@ -70,7 +74,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       for (let j = 0; j < geometry.length; j++) {
         const ring = geometry[j];
         const area = signedArea(ring);
-        const points = geometry[j].map((p) => new Point(p.x, p.y));
+        const points = geometry[j].map(
+          (p) => new Point(p.x * upres, p.y * upres)
+        );
         if (area > 0) {
           const polygon = new Polygon(points);
           polygon.draw(ctx, { fill: color });
@@ -89,7 +95,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   for (let i = 0; i < waterLayer.length; i++) {
     const geometry = waterLayer.feature(i).loadGeometry();
     if (geometry.length === 1) {
-      const points = geometry[0].map((p) => new Point(p.x, p.y));
+      const points = geometry[0].map(
+        (p) => new Point(p.x * upres, p.y * upres)
+      );
       const polygon = new Polygon(points);
       polygon.draw(ctx, { fill: "#1eb4ff" });
     } else {
@@ -97,7 +105,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       for (let j = 0; j < geometry.length; j++) {
         const ring = geometry[j];
         const area = signedArea(ring);
-        const points = geometry[j].map((p) => new Point(p.x, p.y));
+        const points = geometry[j].map(
+          (p) => new Point(p.x * upres, p.y * upres)
+        );
         if (area > 0) {
           const polygon = new Polygon(points);
           polygon.draw(ctx, { fill: "#1eb4ff" });
@@ -116,58 +126,6 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
   // creating the graphs that represent road networks
   const roadGraph = new Graph([], []);
-  const roadInfo = [
-    {
-      class: "service",
-      width: 8,
-      color: "#BBB",
-      drawDash: false,
-    },
-    {
-      class: "path",
-      width: 2,
-      color: "#FFFFFF",
-      drawDash: false,
-    },
-    {
-      class: "minor",
-      width: 12,
-      color: "#BBB",
-      drawDash: true,
-      dashWidth: 1,
-    },
-    {
-      class: "trunk",
-      width: 24,
-      color: "#BBB",
-      drawDash: true,
-      dashWidth: 2,
-    },
-    {
-      class: "primary",
-      width: 24,
-      color: "#BBB",
-      drawDash: true,
-      dashWidth: 2,
-    },
-    {
-      class: "secondary",
-      width: 20,
-      color: "#BBB",
-      drawDash: true,
-      dashWidth: 2,
-    },
-    {
-      class: "motorway",
-      width: 24,
-      color: "#BBB",
-      drawDash: true,
-      dashWidth: 2,
-    },
-    // class: "transit"
-    // class: "minor_contruction"
-  ];
-
   for (let i = 0; i < roadLayer.length; i++) {
     if (roadLayer.feature(i).type === 2) {
       const geometry = roadLayer.feature(i).loadGeometry()[0];
@@ -186,7 +144,7 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       ) {
         const points = [];
         for (let j = 0; j < length; j++) {
-          const p = new Point(geometry[j].x, geometry[j].y);
+          const p = new Point(geometry[j].x * upres, geometry[j].y * upres);
 
           roadGraph.tryAddPoint(p);
           points.push(p);
@@ -197,10 +155,10 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
           // bind road properties to the segment
           seg.layer = layer === undefined ? 0 : Number(layer);
           const roadObj = roadInfo.find((obj) => obj.class === roadClass);
-          seg.width = roadObj.width;
+          seg.width = roadObj.width * upres;
           seg.color = roadObj.color;
           seg.drawDash = roadObj.drawDash;
-          seg.dashWidth = roadObj.dashWidth;
+          seg.dashWidth = roadObj.dashWidth * upres;
           roadGraph.tryAddSegment(seg);
         }
       }
