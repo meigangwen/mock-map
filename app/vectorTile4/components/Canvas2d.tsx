@@ -173,6 +173,9 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   // create a canvas texture from myCanvas
   let texture = new THREE.CanvasTexture(myCanvas);
 
+  // Disable mipmapping, it caused too much blur
+  texture.minFilter = THREE.LinearFilter;
+
   return (
     <mesh visible={visible} receiveShadow renderOrder={1} {...props}>
       <planeGeometry args={[featureScale * extent, featureScale * extent]} />

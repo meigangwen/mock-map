@@ -48,7 +48,7 @@ export default function App() {
   useEffect(() => {
     loadVectorTile(url).then((loadedTile) => {
       setTile(loadedTile);
-      //console.log(loadedTile);
+      console.log(loadedTile);
     });
   }, []);
 
