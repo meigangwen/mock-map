@@ -7,8 +7,10 @@ export default function Background({ ...props }) {
   //declare the UI parameters
   const { visible, color } = useControls("Background", {
     visible: true,
-    color: { value: "#a6a6a6" },
+    color: { value: "#767676" },
   });
+
+  // this scale is set to cover the out of boundary data of vector tile
   const scale = 1.03;
 
   return (
@@ -23,5 +25,5 @@ export default function Background({ ...props }) {
       />
     </mesh>
   );
-  // why is a tile as big as 4225
+  // the tile size in pixel is 4096, with margin the size is 4225
 }

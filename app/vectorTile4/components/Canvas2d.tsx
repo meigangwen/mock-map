@@ -39,15 +39,11 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   myCanvas.height = extent * upres;
   const ctx = myCanvas.getContext("2d");
 
-  //const bgColor = "#767676";
-
-  // draw a background color
   const bgColor = "#767676";
+
+  // approach 1, draw a background color
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-
-  // try offset by half a pixel
-  //ctx.translate(0.5, 0.5);
 
   // draw the landcover layer
   const landcoverDict = {
@@ -91,6 +87,7 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
 
   // draw the water layer
   // there are some drawing errors here
+
   const waterLayer = tile.layers.water;
   for (let i = 0; i < waterLayer.length; i++) {
     const geometry = waterLayer.feature(i).loadGeometry();
@@ -119,7 +116,6 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
       }
     }
   }
-
   // draw the roads layer
 
   const roadLayer = tile.layers.transportation;
@@ -180,16 +176,19 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
     <mesh visible={visible} receiveShadow renderOrder={1} {...props}>
       <planeGeometry args={[featureScale * extent, featureScale * extent]} />
       <meshStandardMaterial
-        //color={"white"}
-        depthTest={false}
         envMapIntensity={0.2}
         map={texture}
-        //making this layer transparent would mess up the depth sorting
+        //approach 1
+        depthTest={false}
+
+        //approach 2, the following code makes this layer transparent
+        //depthTest={true}
+        //depthWrite={false}
         //transparent
+        //blending={THREE.NormalBlending}
       />
     </mesh>
   );
-  // why is a tile as big as 4225
 };
 
 export default Canvas2d;

@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { useControls } from "leva";
 import { ringToShape, ringToHole, signedArea } from "../functions/Polygon";
 import { VectorTileLayer, VectorTileFeature } from "@mapbox/vector-tile";
+import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
 const Water: React.FC<{ waterLayer: VectorTileLayer }> = ({ waterLayer }) => {
   //declare the UI parameters
