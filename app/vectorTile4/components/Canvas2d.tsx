@@ -124,7 +124,8 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   const roadGraph = new Graph([], []);
   for (let i = 0; i < roadLayer.length; i++) {
     if (roadLayer.feature(i).type === 2) {
-      const geometry = roadLayer.feature(i).loadGeometry()[0];
+      // modify code to run through all the arrays
+      const geometry = roadLayer.feature(i).loadGeometry();
       const length = geometry.length;
       const roadClass = roadLayer.feature(i).properties.class;
       const layer = roadLayer.feature(i).properties.layer; //ranges -2, -1, undefined, 1, 2
@@ -138,24 +139,29 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
         roadClass === "service" ||
         roadClass === "path"
       ) {
-        const points = [];
-        for (let j = 0; j < length; j++) {
-          const p = new Point(geometry[j].x * upres, geometry[j].y * upres);
+        for (let k = 0; k < length; k++) {
+          const len = geometry[k].length;
+          const points = [];
+          for (let j = 0; j < len; j++) {
+            const p = new Point(
+              geometry[k][j].x * upres,
+              geometry[k][j].y * upres
+            );
 
-          roadGraph.tryAddPoint(p);
-          points.push(p);
-        }
-        for (let j = 0; j < length - 1; j++) {
-          const seg = new Segment(points[j], points[j + 1]);
-
-          // bind road properties to the segment
-          seg.layer = layer === undefined ? 0 : Number(layer);
-          const roadObj = roadInfo.find((obj) => obj.class === roadClass);
-          seg.width = roadObj.width * upres;
-          seg.color = roadObj.color;
-          seg.drawDash = roadObj.drawDash;
-          seg.dashWidth = roadObj.dashWidth * upres;
-          roadGraph.tryAddSegment(seg);
+            roadGraph.tryAddPoint(p);
+            points.push(p);
+          }
+          for (let j = 0; j < len - 1; j++) {
+            const seg = new Segment(points[j], points[j + 1]);
+            // bind road properties to the segment
+            seg.layer = layer === undefined ? 0 : Number(layer);
+            const roadObj = roadInfo.find((obj) => obj.class === roadClass);
+            seg.width = roadObj.width * upres;
+            seg.color = roadObj.color;
+            seg.drawDash = roadObj.drawDash;
+            seg.dashWidth = roadObj.dashWidth * upres;
+            roadGraph.tryAddSegment(seg);
+          }
         }
       }
     }
