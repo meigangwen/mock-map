@@ -3,10 +3,8 @@
 //import { useState, useEffect } from 'react'
 import { Canvas } from "@react-three/fiber";
 import { Stats, OrbitControls, Environment } from "@react-three/drei";
-//import BufferGeometry from "./BufferGeometry";
-//import SimpleBuilding from "./SimpleBuilding";
-import Boxes from "./Boxes";
 import Box from "./Box";
+import { Perf } from "r3f-perf";
 
 export default function App() {
   return (
@@ -16,6 +14,7 @@ export default function App() {
       <OrbitControls />
       <Environment preset="forest" />
       <Stats />
+      <Perf />
     </Canvas>
   );
 }

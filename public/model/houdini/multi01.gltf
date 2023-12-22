@@ -6,42 +6,42 @@
 	"accessors":[
 		{
 			"bufferView":0,
-			"componentType":5121,
-			"count":36,
+			"componentType":5123,
+			"count":3348,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[7
+			"max":[561
 			]
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":8,
+			"count":562,
 			"type":"VEC3",
-			"min":[-0.5,-0.5,-0.5
+			"min":[-3.5,-0.5,-0.75
 			],
-			"max":[0.5,0.5,0.5
+			"max":[3.75,0.5,0.75
 			]
 		}
 	],
 	"buffers":[
 		{
-			"uri":"box_data.bin",
-			"byteLength":132,
+			"uri":"multi01_data.bin",
+			"byteLength":13440,
 			"name":"main_buffer"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":36,
+			"byteLength":6696,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":36,
-			"byteLength":96,
+			"byteOffset":6696,
+			"byteLength":6744,
 			"target":34962
 		}
 	],
@@ -61,7 +61,7 @@
 					"indices":0
 				}
 			],
-			"name":"box1"
+			"name":"merge1"
 		}
 	],
 	"scenes":[

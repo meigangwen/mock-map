@@ -6,48 +6,64 @@
 	"accessors":[
 		{
 			"bufferView":0,
-			"componentType":5121,
-			"count":36,
+			"componentType":5123,
+			"count":1728,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[7
+			"max":[575
 			]
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":8,
+			"count":576,
 			"type":"VEC3",
-			"min":[-0.5,-0.5,-0.5
+			"min":[-0.75,-0.25,-0.75
 			],
-			"max":[0.5,0.5,0.5
+			"max":[0.75,0.25,0.75
+			]
+		},
+		{
+			"bufferView":2,
+			"componentType":5126,
+			"count":576,
+			"type":"VEC3",
+			"min":[0,0,0
+			],
+			"max":[1,1,0
 			]
 		}
 	],
 	"buffers":[
 		{
-			"uri":"box_data.bin",
-			"byteLength":132,
+			"uri":"torus_color_data.bin",
+			"byteLength":17280,
 			"name":"main_buffer"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":36,
+			"byteLength":3456,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":36,
-			"byteLength":96,
+			"byteOffset":3456,
+			"byteLength":6912,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteOffset":10368,
+			"byteLength":6912,
 			"target":34962
 		}
 	],
 	"nodes":[
 		{
-			"name":"tree",
+			"name":"export_vertex_color",
 			"mesh":0
 		}
 	],
@@ -56,12 +72,13 @@
 			"primitives":[
 				{
 					"attributes":{
+						"COLOR_0":2,
 						"POSITION":1
 					},
 					"indices":0
 				}
 			],
-			"name":"box1"
+			"name":"color1"
 		}
 	],
 	"scenes":[

@@ -6,18 +6,18 @@
 	"accessors":[
 		{
 			"bufferView":0,
-			"componentType":5121,
-			"count":36,
+			"componentType":5123,
+			"count":1584,
 			"type":"SCALAR",
 			"min":[0
 			],
-			"max":[7
+			"max":[265
 			]
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":8,
+			"count":266,
 			"type":"VEC3",
 			"min":[-0.5,-0.5,-0.5
 			],
@@ -27,21 +27,21 @@
 	],
 	"buffers":[
 		{
-			"uri":"box_data.bin",
-			"byteLength":132,
+			"uri":"sphere_data.bin",
+			"byteLength":6360,
 			"name":"main_buffer"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":36,
+			"byteLength":3168,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteOffset":36,
-			"byteLength":96,
+			"byteOffset":3168,
+			"byteLength":3192,
 			"target":34962
 		}
 	],
@@ -61,7 +61,7 @@
 					"indices":0
 				}
 			],
-			"name":"box1"
+			"name":"sphere1"
 		}
 	],
 	"scenes":[
