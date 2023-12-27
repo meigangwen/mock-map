@@ -22,6 +22,7 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   // define a list of building geometries
   let buildingGeometries = [];
 
+  console.log(buildingLayer.length);
   for (let i = 0; i < buildingLayer.length; i++) {
     //looping through all the buildings
     let shapes = [];
