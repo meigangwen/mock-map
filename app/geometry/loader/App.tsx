@@ -9,7 +9,7 @@ import { Perf } from "r3f-perf";
 export default function App() {
   return (
     <Canvas camera={{ position: [0, 0, 10], up: [0, 1, 0], far: 1000 }}>
-      <Tree />
+      <Houdini />
       <directionalLight intensity={1.0} position={[100, 100, 100]} />
       <OrbitControls />
       <Environment preset="forest" />

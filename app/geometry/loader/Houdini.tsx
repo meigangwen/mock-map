@@ -5,7 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 //import { perf}
 
 export default function Houdini() {
-  const gltf = useLoader(GLTFLoader, "/model/houdini/torus_color.gltf");
+  const gltf = useLoader(GLTFLoader, "/model/houdini/HDB_01.gltf");
 
   //<primitive object={gltf.scene} position={[0, 0, 0]} />
   return <primitive object={gltf.scene} position={[0, 0, 0]} />;
