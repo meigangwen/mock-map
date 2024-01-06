@@ -29,7 +29,9 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     let shape;
     const geometry = buildingLayer.feature(i).loadGeometry();
     if (buildingLayer.feature(i).properties.is_HDB) {
-      console.log(buildingLayer.feature(i).properties);
+      if (buildingLayer.feature(i).properties.model3d == "batched") {
+        console.log(buildingLayer.feature(i).properties);
+      }
     }
 
     if (geometry.length === 1) {
