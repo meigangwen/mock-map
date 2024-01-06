@@ -22,13 +22,14 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
   // define a list of building geometries
   let buildingGeometries = [];
 
-  console.log(buildingLayer.length);
+  //console.log(buildingLayer.length);
   for (let i = 0; i < buildingLayer.length; i++) {
     //looping through all the buildings
     let shapes = [];
     let shape;
     const geometry = buildingLayer.feature(i).loadGeometry();
-    //console.log(buildingLayer.feature(i));
+    console.log(buildingLayer.feature(i).properties);
+
     if (geometry.length === 1) {
       // there is no need to check for holes
       const ring = geometry[0];
