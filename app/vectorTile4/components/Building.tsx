@@ -28,7 +28,9 @@ const Building: React.FC<{ buildingLayer: VectorTileLayer }> = ({
     let shapes = [];
     let shape;
     const geometry = buildingLayer.feature(i).loadGeometry();
-    console.log(buildingLayer.feature(i).properties);
+    if (buildingLayer.feature(i).properties.is_HDB) {
+      console.log(buildingLayer.feature(i).properties);
+    }
 
     if (geometry.length === 1) {
       // there is no need to check for holes
