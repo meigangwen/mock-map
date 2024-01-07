@@ -39,6 +39,7 @@ const Water: React.FC<{ waterLayer: VectorTileLayer }> = ({ waterLayer }) => {
       // there is no need to check for holes
       const ring = geometry[0];
       //console.log(ring);
+
       shape = ringToShape(ring);
       isDeep ? extrudeShapes.push(shape) : flatShapes.push(shape);
     } else {

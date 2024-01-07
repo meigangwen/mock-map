@@ -2,7 +2,35 @@ import { useState, useEffect } from "react";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-//import { perf}
+
+/*
+function InstancedThing() {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current.setMatrixAt(0, new THREE.Matrix4())
+  }, [])
+  return (
+    <instancedMesh ref={ref} args={[null, null, 1]}>
+      <boxBufferGeometry args={[1, 1, 1]} />
+      <meshNormalMaterial />
+    </instancedMesh>
+  )
+}
+*/
+
+/*
+function InstancedThing() {
+  const ref = useUpdate(imesh => {
+    imesh.setMatrixAt(0, new THREE.Matrix4())
+  }, [])
+  return (
+    <instancedMesh ref={ref} args={[null, null, 1]}>
+      <boxBufferGeometry args={[1, 1, 1]} />
+      <meshNormalMaterial />
+    </instancedMesh>
+  )
+}
+*/
 
 export default function Houdini() {
   const gltf = useLoader(GLTFLoader, "/model/houdini/tree_01.glb");
@@ -12,7 +40,6 @@ export default function Houdini() {
 
   gltf.scene.traverse(function (child) {
     if (child.isMesh) {
-      //retrieve geometry/map/skeleton or whatsoever here...
       //if there is not vertex normals, compute it
       if (!child.geometry.attributes.normal) {
         child.geometry.computeVertexNormals();
@@ -20,7 +47,6 @@ export default function Houdini() {
 
       geometry = child.geometry;
       material = child.material;
-      console.log(material);
 
       const instanceCount = 10;
       instancedMesh = new THREE.InstancedMesh(
@@ -38,7 +64,6 @@ export default function Houdini() {
         );
         instancedMesh.setMatrixAt(i, matrix);
       }
-      //console.log(child);
     }
   });
 
