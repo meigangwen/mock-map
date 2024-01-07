@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -33,7 +33,13 @@ function InstancedThing() {
 */
 
 export default function Houdini() {
+  const ref = useRef();
   const gltf = useLoader(GLTFLoader, "/model/houdini/tree_01.glb");
+
+  useEffect(() => {
+    //ref.current.setMatrixAt(0, new THREE.Matrix4());
+  }, []);
+
   let geometry = new THREE.BufferGeometry();
   let instancedMesh;
   let material;
