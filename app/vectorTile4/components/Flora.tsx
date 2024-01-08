@@ -9,7 +9,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 const Flora: React.FC<{ floraLayer: VectorTileLayer }> = ({ floraLayer }) => {
   // create a UI control
   const { visible } = useControls("Flora", {
-    visible: false,
+    visible: true,
   });
 
   // load a single three geometry from glb file

@@ -9,7 +9,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 function Batched({ ...props }) {
   // create a UI control
   const { visible } = useControls("Batched", {
-    visible: false,
+    visible: true,
   });
 
   // load a single three geometry from glb file
