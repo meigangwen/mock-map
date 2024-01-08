@@ -18,6 +18,7 @@ import Water from "./components/Water";
 import Canvas2d from "./components/Canvas2d";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
+import Flora from "./components/Flora";
 import Building from "./components/Building";
 
 // import lights
@@ -80,6 +81,11 @@ export default function App() {
         )}
         {tile && tile.layers && tile.layers.building && (
           <Building buildingLayer={tile.layers.building} />
+        )}
+      </group>
+      <group position={[-offset, 0, -offset]}>
+        {tile && tile.layers && tile.layers.flora && (
+          <Flora floraLayer={tile.layers.flora} />
         )}
       </group>
 
