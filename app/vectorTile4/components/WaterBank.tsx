@@ -9,15 +9,15 @@ import {
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-function Water({ ...props }) {
+function WaterBank({ ...props }) {
   //declare the UI parameters
-  const { visible } = useControls("Water", {
+  const { visible } = useControls("WaterBank", {
     visible: true,
   });
 
   // load the ground mesh
   // load a single three geometry from glb file
-  const gltf = useLoader(GLTFLoader, "/model/water/14_12914_8132.glb");
+  const gltf = useLoader(GLTFLoader, "/model/ground/14_12914_8132_side.glb");
 
   let geometry = new THREE.BufferGeometry();
   //let material;
@@ -35,22 +35,15 @@ function Water({ ...props }) {
   });
 
   return (
-    <mesh
-      visible={visible}
-      geometry={geometry}
-      receiveShadow
-      renderOrder={1}
-      {...props}
-    >
+    <mesh visible={visible} geometry={geometry} renderOrder={2} {...props}>
       <meshStandardMaterial
-        color={"#1eb4ff"}
-        side={THREE.FrontSide}
-        roughness={0.1}
-        envMapIntensity={0.2}
+        color={"#767676"}
+        side={THREE.BackSide}
+        envMapIntensity={0.5}
         depthTest={false}
       />
     </mesh>
   );
 }
 
-export default Water;
+export default WaterBank;

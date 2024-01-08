@@ -15,6 +15,8 @@ import { useControls } from "leva";
 // import components, layers are in order
 import Background from "./components/Background";
 import Water from "./components/Water";
+import WaterBank from "./components/WaterBank";
+import Ground from "./components/Ground";
 import Canvas2d from "./components/Canvas2d";
 import Landcover from "./components/Landcover";
 import Road from "./components/Road";
@@ -70,9 +72,6 @@ export default function App() {
     >
       <group position={[-offset, 0, -offset]} rotation={[-Math.PI / 2, 0, 0]}>
         <Background position={[offset, -offset, 0]} />
-        {tile && tile.layers && tile.layers.water && (
-          <Water waterLayer={tile.layers.water} />
-        )}
         {tile && <Canvas2d tile={tile} position={[offset, -offset, 0]} />}
         {tile && tile.layers && tile.layers.landcover && (
           <Landcover landcoverLayer={tile.layers.landcover} />
@@ -88,8 +87,12 @@ export default function App() {
         {tile && tile.layers && tile.layers.flora && (
           <Flora floraLayer={tile.layers.flora} />
         )}
-        <Batched position={[offset, 0, offset]} />
       </group>
+
+      <Batched />
+      {tile && tile.layers && <Ground tile={tile} />}
+      <Water position={[0, -5.0, 0]} />
+      <WaterBank position={[0, 0, 0]} />
 
       <Sunlight />
       <ambientLight intensity={0.2} />

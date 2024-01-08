@@ -18,6 +18,9 @@ import { Graph } from "../js/math/graph";
 import { RoadNetwork } from "../js/roadNetwork";
 import { roadInfo } from "../js/data/roadInfo";
 
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
 // this layer is rendered using the html canvas 2d drawing system
 // currently includes the following features
 // background
@@ -25,10 +28,10 @@ import { roadInfo } from "../js/data/roadInfo";
 // water
 // roads
 
-const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
+const Ground: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   //declare the UI parameters
-  const { visible } = useControls("Canvas2d", {
-    visible: false,
+  const { visible } = useControls("Ground", {
+    visible: true,
   });
 
   // dynamically create an html canvas
@@ -178,23 +181,41 @@ const Canvas2d: React.FC<{ tile: VectorTile }> = ({ tile, ...props }) => {
   // Disable mipmapping, it caused too much blur
   texture.minFilter = THREE.LinearFilter;
 
+  // load the ground mesh
+  // load a single three geometry from glb file
+  const gltf = useLoader(GLTFLoader, "/model/ground/14_12914_8132.glb");
+
+  let geometry = new THREE.BufferGeometry();
+  //let material;
+
+  gltf.scene.traverse(function (child) {
+    if (child.isMesh) {
+      //if there is not vertex normals, compute it
+      if (!child.geometry.attributes.normal) {
+        child.geometry.computeVertexNormals();
+      }
+
+      geometry = child.geometry;
+      //material = child.material;
+    }
+  });
+
   return (
-    <mesh visible={visible} receiveShadow renderOrder={1} {...props}>
-      <planeGeometry args={[featureScale * extent, featureScale * extent]} />
+    <mesh
+      visible={visible}
+      geometry={geometry}
+      castShadow
+      receiveShadow
+      renderOrder={3}
+      {...props}
+    >
       <meshStandardMaterial
         envMapIntensity={0.2}
         map={texture}
-        //approach 1
         depthTest={false}
-
-        //approach 2, the following code makes this layer transparent
-        //depthTest={true}
-        //depthWrite={false}
-        //transparent
-        //blending={THREE.NormalBlending}
       />
     </mesh>
   );
 };
 
-export default Canvas2d;
+export default Ground;

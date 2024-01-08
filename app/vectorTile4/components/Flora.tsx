@@ -51,6 +51,7 @@ const Flora: React.FC<{ floraLayer: VectorTileLayer }> = ({ floraLayer }) => {
       geometry={geometry}
       renderOrder={10}
       castShadow
+      visible={visible}
     ></instancedMesh>
   );
 };

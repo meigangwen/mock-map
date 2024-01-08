@@ -33,6 +33,7 @@ function Batched({ ...props }) {
   return (
     <mesh
       material={material}
+      visible={visible}
       geometry={geometry}
       renderOrder={10}
       castShadow

@@ -6,7 +6,7 @@ import { featureScale, extent } from "../constants/Scale";
 export default function Background({ ...props }) {
   //declare the UI parameters
   const { visible, color } = useControls("Background", {
-    visible: true,
+    visible: false,
     color: { value: "#767676" },
   });
 
