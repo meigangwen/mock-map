@@ -20,6 +20,7 @@ import Landcover from "./components/Landcover";
 import Road from "./components/Road";
 import Flora from "./components/Flora";
 import Building from "./components/Building";
+import Batched from "./components/Batched";
 
 // import lights
 import Sunlight from "./components/Sunlight";
@@ -87,6 +88,7 @@ export default function App() {
         {tile && tile.layers && tile.layers.flora && (
           <Flora floraLayer={tile.layers.flora} />
         )}
+        <Batched position={[offset, 0, offset]} />
       </group>
 
       <Sunlight />
